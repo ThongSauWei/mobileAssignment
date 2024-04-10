@@ -3,11 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/signInFragment">
+    app:startDestination="@id/profile">
 
     <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.example.h.SignInFragment"
+        android:id="@+id/signIn"
+        android:name="com.example.h.SignIn"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
+    <fragment
+        android:id="@+id/register"
+        android:name="com.example.h.Register"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/passwordRecovery"
+        android:name="com.example.h.PasswordRecovery"
+        android:label="fragment_password_recovery"
+        tools:layout="@layout/fragment_password_recovery" />
+    <fragment
+        android:id="@+id/newPassword"
+        android:name="com.example.h.NewPassword"
+        android:label="fragment_new_password"
+        tools:layout="@layout/fragment_new_password" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.h.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
