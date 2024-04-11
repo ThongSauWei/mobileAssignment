@@ -7,13 +7,13 @@
     android:layout_height="150dp">
 
     <TextView
-        android:id="@+id/lblHeader"
+        android:id="@+id/tvHeaderHeaderMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat_brush"
         android:text="FPF"
-        android:textColor="#AC9B87"
+        android:textColor="@color/link"
         android:textSize="96sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -21,12 +21,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:background="#E9E5E5"
+        android:background="@color/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lblHeader" />
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderHeaderMenu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,26 +5,21 @@
     android:id="@+id/signInPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FEFEFE"
+    android:background="@color/background"
     tools:context=".SignIn">
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="15dp"
-        android:backgroundTint="#F0D7B9"
-        android:fontFamily="@font/caveat"
-        android:text="Sign In"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:cornerRadius="10dp"
+    <ImageView
+        android:id="@+id/btnExitSignIn"
+        android:layout_width="57dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/cross"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtConfirmPassword" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lblTitle"
+        android:id="@+id/tvTitleSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -36,28 +31,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/imgBtnExit"
-        android:layout_width="57dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/cross"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
-        android:id="@+id/imgLogo"
+        android:id="@+id/imgLogoSignIn"
         android:layout_width="157dp"
         android:layout_height="147dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleSignIn"
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/lblNewPswTitle"
+        android:id="@+id/tvSignInSignIn"
         android:layout_width="80dp"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
@@ -67,50 +52,65 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoSignIn" />
 
     <TextView
-        android:id="@+id/lblNewPassword"
+        android:id="@+id/lblEmailSignIn"
         android:layout_width="42dp"
         android:layout_height="24dp"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/caveat"
         android:text="Email"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/lblNewPswTitle"
-        app:layout_constraintTop_toBottomOf="@+id/lblNewPswTitle" />
+        app:layout_constraintStart_toStartOf="@+id/tvSignInSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/tvSignInSignIn" />
 
     <EditText
-        android:id="@+id/txtNewPassword"
+        android:id="@+id/txtEmailSignIn"
         android:layout_width="330dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="text|textEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/lblNewPassword"
-        app:layout_constraintTop_toBottomOf="@+id/lblNewPassword" />
+        app:layout_constraintStart_toStartOf="@+id/lblEmailSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailSignIn" />
 
     <TextView
-        android:id="@+id/lblConfirmPassword"
+        android:id="@+id/lblPasswordSignIn"
         android:layout_width="64dp"
         android:layout_height="24dp"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/caveat"
         android:text="Password"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/lblNewPswTitle"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewPassword" />
+        app:layout_constraintStart_toStartOf="@+id/tvSignInSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailSignIn" />
 
     <EditText
-        android:id="@+id/txtConfirmPassword"
+        android:id="@+id/txtPasswordSignIn"
         android:layout_width="330dp"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="text|textPassword"
-        app:layout_constraintStart_toStartOf="@+id/lblConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/lblConfirmPassword" />
+        app:layout_constraintStart_toStartOf="@+id/lblPasswordSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/lblPasswordSignIn" />
+
+    <Button
+        android:id="@+id/btnSignInSignIn"
+        android:layout_width="330dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/button"
+        android:fontFamily="@font/caveat"
+        android:text="Sign In"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPasswordSignIn" />
 
     <TextView
-        android:id="@+id/lblHelp"
+        android:id="@+id/tvOptionSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -120,10 +120,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignInSignIn" />
+
+    <ImageButton
+        android:id="@+id/imgBtnGoogleSignIn"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/google"
+        app:layout_constraintStart_toStartOf="@+id/btnSignInSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/tvOptionSignIn" />
 
     <Button
-        android:id="@+id/btnFacebook"
+        android:id="@+id/btnFacebookSignIn"
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
@@ -131,20 +140,11 @@
         android:text="FaceBook"
         android:textSize="16sp"
         app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/btnSubmit"
-        app:layout_constraintTop_toBottomOf="@+id/lblHelp" />
-
-    <ImageButton
-        android:id="@+id/imgBtnGoogle"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/google"
-        app:layout_constraintStart_toStartOf="@+id/btnSubmit"
-        app:layout_constraintTop_toBottomOf="@+id/lblHelp" />
+        app:layout_constraintEnd_toEndOf="@+id/btnSignInSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/tvOptionSignIn" />
 
     <Button
-        android:id="@+id/btnContactUs"
+        android:id="@+id/btnRegisterSignIn"
         android:layout_width="122dp"
         android:layout_height="42dp"
         android:layout_marginStart="56dp"
@@ -152,22 +152,22 @@
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/caveat"
         android:text="@string/underlined_sign_up"
-        android:textColor="#AC9B87"
+        android:textColor="@color/link"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtnGoogle" />
+        app:layout_constraintTop_toBottomOf="@+id/imgBtnGoogleSignIn" />
 
     <Button
-        android:id="@+id/btnForget"
+        android:id="@+id/btnForgetSignIn"
         android:layout_width="168dp"
         android:layout_height="42dp"
         android:layout_marginStart="36dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/caveat"
         android:text="@string/underlined_forget_password"
-        android:textColor="#AC9B87"
+        android:textColor="@color/link"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnContactUs"
-        app:layout_constraintStart_toEndOf="@+id/btnContactUs" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnRegisterSignIn"
+        app:layout_constraintStart_toEndOf="@+id/btnRegisterSignIn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

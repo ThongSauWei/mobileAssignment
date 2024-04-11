@@ -15,8 +15,7 @@ class SignIn : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_sign_in, container, false)
 
-        val tv : TextView = view.findViewById(R.id.lblName)
-        tv.
+
 
         return view
     }

@@ -27,4 +27,16 @@
             android:icon="@drawable/outline_account_circle_24"
             android:title="Profile" />
     </group>
+    <group android:checkableBehavior="single">
+        <item android:title="">
+            <menu>
+                <group>
+                    <item
+                        android:id="@+id/nav_logout"
+                        android:icon="@drawable/baseline_exit_to_app_24"
+                        android:title="Sign Out" />
+                </group>
+            </menu>
+        </item>
+    </group>
 </menu>

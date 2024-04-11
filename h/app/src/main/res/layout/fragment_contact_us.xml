@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ContactUs">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewContactUs"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgProfileContactUs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/profile_pic" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvContactUsContactUs"
+        android:layout_width="140dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/caveat"
+        android:text="Contact Us"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnExitContactUs"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/cross"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblNameContactUs"
+        android:layout_width="41dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/caveat"
+        android:text="Name"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtNameContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/tvContactUsContactUs" />
+
+    <EditText
+        android:id="@+id/txtNameContactUs"
+        android:layout_width="313dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="text|textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblNameContactUs" />
+
+    <TextView
+        android:id="@+id/lblEmailContactUs"
+        android:layout_width="41dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Email"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtNameContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/txtNameContactUs" />
+
+    <EditText
+        android:id="@+id/txtEmailContactUs"
+        android:layout_width="313dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="text|textEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/lblEmailContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/lblEmailContactUs" />
+
+    <TextView
+        android:id="@+id/lblPhoneNoContactUs"
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Mobile Phone"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtEmailContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailContactUs" />
+
+    <EditText
+        android:id="@+id/txtPhoneNoContactUs"
+        android:layout_width="313dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="phone"
+        app:layout_constraintStart_toStartOf="@+id/lblPhoneNoContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/lblPhoneNoContactUs" />
+
+    <TextView
+        android:id="@+id/lblProblemTypeContactUs"
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Problem Type"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtPhoneNoContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/txtPhoneNoContactUs" />
+
+    <Spinner
+        android:id="@+id/ddlProblemTypeContactUs"
+        android:layout_width="313dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_bg_2"
+        android:entries="@array/problem_type"
+        android:paddingStart="10dp"
+        android:popupBackground="@drawable/spinner_dropdown_bg_2"
+        app:layout_constraintStart_toStartOf="@+id/lblProblemTypeContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/lblProblemTypeContactUs" />
+
+    <TextView
+        android:id="@+id/lblDescriptionContactUs"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/caveat"
+        android:text="Description"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/ddlProblemTypeContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/ddlProblemTypeContactUs" />
+
+    <EditText
+        android:id="@+id/txtDescriptionContactUs"
+        android:layout_width="313dp"
+        android:layout_height="121dp"
+        android:ems="10"
+        android:inputType="text|textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/lblDescriptionContactUs"
+        app:layout_constraintTop_toBottomOf="@+id/lblDescriptionContactUs" />
+
+    <Button
+        android:id="@+id/btnSubmitContactUs"
+        android:layout_width="313dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/button"
+        android:fontFamily="@font/caveat"
+        android:text="Submit"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtDescriptionContactUs"
+        app:layout_constraintStart_toStartOf="@+id/txtDescriptionContactUs" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

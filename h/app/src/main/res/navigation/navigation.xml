@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/profile">
+    app:startDestination="@id/contactUs">
 
     <fragment
         android:id="@+id/signIn"
@@ -30,4 +30,24 @@
         android:name="com.example.h.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.h.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.h.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/contactUs"
+        android:name="com.example.h.ContactUs"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
+    <fragment
+        android:id="@+id/aboutUs"
+        android:name="com.example.h.AboutUs"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
 </navigation>
