@@ -17,4 +17,22 @@
         <item>Can\'t Upload Post</item>
         <item>Others</item>
     </array>
+    <array name="category">
+        <item>Assignment</item>
+        <item>Business</item>
+        <item>Computer Science</item>
+        <item>Account</item>
+        <item>Graphic Design</item>
+        <item>Degree</item>
+        <item>Finance</item>
+        <item>Medicine</item>
+    </array>
+    <array name="learning_style">
+        <item>Visual Learning</item>
+        <item>Auditory Learning</item>
+        <item>Kinesthetic Learning</item>
+        <item>Reading / Writing Learning</item>
+        <item>Social Learning</item>
+        <item>Solitary / Individual Learning</item>
+    </array>
 </resources>

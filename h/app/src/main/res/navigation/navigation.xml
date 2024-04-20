@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/contactUs">
+    app:startDestination="@id/joinGroup">
 
     <fragment
         android:id="@+id/signIn"
@@ -50,4 +50,29 @@
         android:name="com.example.h.AboutUs"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.h.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/createPost"
+        android:name="com.example.h.CreatePost"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" />
+    <fragment
+        android:id="@+id/searchPost"
+        android:name="com.example.h.SearchPost"
+        android:label="fragment_search_post"
+        tools:layout="@layout/fragment_search_post" />
+    <fragment
+        android:id="@+id/filterPost"
+        android:name="com.example.h.FilterPost"
+        android:label="fragment_filter_post"
+        tools:layout="@layout/fragment_filter_post" />
+    <fragment
+        android:id="@+id/joinGroup"
+        android:name="com.example.h.JoinGroup"
+        android:label="fragment_join_group"
+        tools:layout="@layout/fragment_join_group" />
 </navigation>

@@ -4,7 +4,26 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="48415e67-de5b-485e-851c-e6f1cf26a72c" name="Changes" comment="" />
+    <list default="true" id="48415e67-de5b-485e-851c-e6f1cf26a72c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/Home.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/data/Post.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/dataAdapter/PostAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/baseline_add_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/baseline_search_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/baseline_tune_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/post.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/profile_pic_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/post_holder.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar_with_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar_with_title.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/layout/footer_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/footer_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/navigation/navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/navigation/navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/values/colors.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,9 +35,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2dltsc7CcHA4a7MfkmrgUsnC0Yp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />

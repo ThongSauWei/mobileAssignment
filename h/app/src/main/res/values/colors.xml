@@ -8,4 +8,7 @@
     <color name="link">#AC9B87</color>
     <color name="icon">#F4E4D1</color>
     <color name="sub_text">#827E7E</color>
+    <color name="post">#EFE7DE</color>
+    <color name="search_box">#E8E5E5</color>
+    <color name="search_text">#867E7E</color>
 </resources>
