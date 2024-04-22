@@ -21,10 +21,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewCreatePost"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             app:cardBackgroundColor="@color/post"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,8 +32,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2CreatePost"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginStart="24dp"
             app:cardBackgroundColor="@color/post"
             app:cardCornerRadius="10dp"
@@ -51,14 +51,15 @@
         <EditText
             android:id="@+id/txtTitleCreatePost"
             android:layout_width="330dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="@android:color/transparent"
             android:ems="10"
             android:fontFamily="@font/caveat"
             android:gravity="start|top"
+            android:hint="Add a Title..."
             android:inputType="text|textMultiLine"
-            android:text="Add a Title..."
+            android:textColorHint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewCreatePost" />
@@ -83,8 +84,9 @@
             android:ems="10"
             android:fontFamily="@font/caveat"
             android:gravity="start|top"
+            android:hint="Type something to describe..."
             android:inputType="text|textMultiLine"
-            android:text="Type something to describe..."
+            android:textColorHint="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/txtTitleCreatePost"
             app:layout_constraintStart_toStartOf="@+id/txtTitleCreatePost"
             app:layout_constraintTop_toBottomOf="@+id/separatorCreatePost" />
@@ -101,6 +103,41 @@
             app:layout_constraintTop_toBottomOf="@+id/txtDescriptionCreatePost" />
 
         <TextView
+            android:id="@+id/lblLinkCreatePost"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/caveat"
+            android:text="Google Meet Link"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
+            app:layout_constraintTop_toBottomOf="@+id/separator2CreatePost" />
+
+        <EditText
+            android:id="@+id/txtLinkCreatePost"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:ems="10"
+            android:fontFamily="@font/caveat"
+            android:gravity="start|top"
+            android:inputType="text|textUri"
+            app:layout_constraintEnd_toEndOf="@+id/txtDescriptionCreatePost"
+            app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
+            app:layout_constraintTop_toBottomOf="@+id/lblLinkCreatePost" />
+
+        <View
+            android:id="@+id/separator3CreatePost"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@color/separator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtLinkCreatePost" />
+
+        <TextView
             android:id="@+id/lblCategoryCreatePost"
             android:layout_width="115dp"
             android:layout_height="wrap_content"
@@ -109,7 +146,7 @@
             android:text="Select a Category"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/separator2CreatePost" />
+            app:layout_constraintTop_toBottomOf="@+id/separator3CreatePost" />
 
         <Spinner
             android:id="@+id/ddlCategoryCreatePost"
@@ -125,7 +162,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lblCategoryCreatePost" />
 
         <View
-            android:id="@+id/separator3CreatePost"
+            android:id="@+id/separator4CreatePost"
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_marginStart="40dp"
@@ -145,7 +182,7 @@
             android:text="Select a Learning Style"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/ddlCategoryCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/separator3CreatePost" />
+            app:layout_constraintTop_toBottomOf="@+id/separator4CreatePost" />
 
         <Spinner
             android:id="@+id/ddlLearningStyleCreatePost"
@@ -161,13 +198,13 @@
             app:layout_constraintTop_toBottomOf="@+id/lblLearningStyleCreatePost" />
 
         <Button
-            android:id="@+id/btnDoneCreatePost"
+            android:id="@+id/btnNextCreatePost"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="@color/button"
             android:fontFamily="@font/caveat"
-            android:text="Done"
+            android:text="Next"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="24sp"

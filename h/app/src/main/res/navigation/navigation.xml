@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/joinGroup">
+    app:startDestination="@id/groups">
 
     <fragment
         android:id="@+id/signIn"
@@ -75,4 +75,44 @@
         android:name="com.example.h.JoinGroup"
         android:label="fragment_join_group"
         tools:layout="@layout/fragment_join_group" />
+    <fragment
+        android:id="@+id/friends"
+        android:name="com.example.h.Friends"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
+    <fragment
+        android:id="@+id/friendProfile"
+        android:name="com.example.h.FriendProfile"
+        android:label="fragment_friend_profile"
+        tools:layout="@layout/fragment_friend_profile" />
+    <fragment
+        android:id="@+id/searchFriend"
+        android:name="com.example.h.SearchFriend"
+        android:label="fragment_search_friend"
+        tools:layout="@layout/fragment_search_friend" />
+    <fragment
+        android:id="@+id/outerChat"
+        android:name="com.example.h.OuterChat"
+        android:label="fragment_outer_chat"
+        tools:layout="@layout/fragment_outer_chat" />
+    <fragment
+        android:id="@+id/innerChat"
+        android:name="com.example.h.InnerChat"
+        android:label="fragment_inner_chat"
+        tools:layout="@layout/fragment_inner_chat" />
+    <fragment
+        android:id="@+id/groups"
+        android:name="com.example.h.Groups"
+        android:label="fragment_groups"
+        tools:layout="@layout/fragment_groups" />
+    <fragment
+        android:id="@+id/groupChat"
+        android:name="com.example.h.GroupChat"
+        android:label="fragment_group_chat"
+        tools:layout="@layout/fragment_group_chat" />
+    <fragment
+        android:id="@+id/inviteFriend"
+        android:name="com.example.h.InviteFriend"
+        android:label="fragment_invite_friend"
+        tools:layout="@layout/fragment_invite_friend" />
 </navigation>

@@ -8,168 +8,232 @@
     android:background="@color/background"
     tools:context=".Register">
 
-    <ImageView
-        android:id="@+id/btnExitRegister"
-        android:layout_width="57dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/cross"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTitleRegister"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/caveat_brush"
-        android:text="FPF"
-        android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgLogoRegister"
-        android:layout_width="157dp"
-        android:layout_height="147dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleRegister"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvSignUpRegister"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/caveat"
-        android:text="Sign UP"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogoRegister" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/lblNameRegister"
-        android:layout_width="39dp"
-        android:layout_height="23dp"
-        android:fontFamily="@font/caveat"
-        android:text="Name"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/tvSignUpRegister"
-        app:layout_constraintTop_toBottomOf="@+id/tvSignUpRegister" />
+            <ImageView
+                android:id="@+id/btnExitRegister"
+                android:layout_width="57dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/cross"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/txtNameRegister"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="text|textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/lblNameRegister"
-        app:layout_constraintTop_toBottomOf="@+id/lblNameRegister" />
+            <TextView
+                android:id="@+id/tvTitleRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/caveat_brush"
+                android:text="FPF"
+                android:textSize="60sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lblEmailRegister"
-        android:layout_width="42dp"
-        android:layout_height="24dp"
-        android:fontFamily="@font/caveat"
-        android:text="Email"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/txtNameRegister"
-        app:layout_constraintTop_toBottomOf="@+id/txtNameRegister" />
+            <ImageView
+                android:id="@+id/imgLogoRegister"
+                android:layout_width="157dp"
+                android:layout_height="147dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleRegister"
+                app:srcCompat="@drawable/logo" />
 
-    <EditText
-        android:id="@+id/txtEmailRegister"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="text|textEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/lblEmailRegister"
-        app:layout_constraintTop_toBottomOf="@+id/lblEmailRegister" />
+            <TextView
+                android:id="@+id/tvSignUpRegister"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/caveat"
+                android:text="Sign UP"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgLogoRegister" />
 
-    <TextView
-        android:id="@+id/lblPhoneNoRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/caveat"
-        android:text="Mobile Number"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/lblEmailRegister"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmailRegister" />
+            <TextView
+                android:id="@+id/lblNameRegister"
+                android:layout_width="39dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/caveat"
+                android:text="Name"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvSignUpRegister"
+                app:layout_constraintTop_toBottomOf="@+id/tvSignUpRegister" />
 
-    <EditText
-        android:id="@+id/txtPhoneNoRegister"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="phone"
-        app:layout_constraintStart_toStartOf="@+id/lblPhoneNoRegister"
-        app:layout_constraintTop_toBottomOf="@+id/lblPhoneNoRegister" />
+            <EditText
+                android:id="@+id/txtNameRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="text|textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/lblNameRegister"
+                app:layout_constraintTop_toBottomOf="@+id/lblNameRegister" />
 
-    <TextView
-        android:id="@+id/lblPasswordRegister"
-        android:layout_width="64dp"
-        android:layout_height="24dp"
-        android:fontFamily="@font/caveat"
-        android:text="Password"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/lblPhoneNoRegister"
-        app:layout_constraintTop_toBottomOf="@+id/txtPhoneNoRegister" />
+            <TextView
+                android:id="@+id/lblEmailRegister"
+                android:layout_width="42dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/caveat"
+                android:text="Email"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/txtNameRegister"
+                app:layout_constraintTop_toBottomOf="@+id/txtNameRegister" />
 
-    <EditText
-        android:id="@+id/txtPasswordRegister"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="text|textPassword"
-        app:layout_constraintStart_toStartOf="@+id/lblPasswordRegister"
-        app:layout_constraintTop_toBottomOf="@+id/lblPasswordRegister" />
+            <EditText
+                android:id="@+id/txtEmailRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="text|textEmailAddress"
+                app:layout_constraintStart_toStartOf="@+id/lblEmailRegister"
+                app:layout_constraintTop_toBottomOf="@+id/lblEmailRegister" />
 
-    <Button
-        android:id="@+id/btnSignUpRegister"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/button"
-        android:fontFamily="@font/caveat"
-        android:text="Sign Up"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPasswordRegister" />
+            <TextView
+                android:id="@+id/lblPhoneNoRegister"
+                android:layout_width="98dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/caveat"
+                android:text="Mobile Number"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/lblEmailRegister"
+                app:layout_constraintTop_toBottomOf="@+id/txtEmailRegister" />
 
-    <TextView
-        android:id="@+id/tvNoteRegister"
-        android:layout_width="167dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/caveat"
-        android:text="Already have an account?"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUpRegister" />
+            <EditText
+                android:id="@+id/txtPhoneNoRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="phone"
+                app:layout_constraintStart_toStartOf="@+id/lblPhoneNoRegister"
+                app:layout_constraintTop_toBottomOf="@+id/lblPhoneNoRegister" />
 
-    <Button
-        android:id="@+id/btnSignInRegister"
-        android:layout_width="111dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="172dp"
-        android:backgroundTint="@android:color/transparent"
-        android:fontFamily="@font/caveat"
-        android:text="@string/underlined_sign_in"
-        android:textColor="@color/link"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvNoteRegister"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/lblBirthdayRegister"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/caveat"
+                android:text="Birthday"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/lblPhoneNoRegister"
+                app:layout_constraintTop_toBottomOf="@+id/txtPhoneNoRegister" />
+
+            <EditText
+                android:id="@+id/txtBirthdayRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:editable="false"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@+id/lblBirthdayRegister"
+                app:layout_constraintTop_toBottomOf="@+id/lblBirthdayRegister" />
+
+            <ImageView
+                android:id="@+id/btnCalendarRegister"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/calendar"
+                app:layout_constraintEnd_toEndOf="@+id/txtBirthdayRegister"
+                app:layout_constraintTop_toTopOf="@+id/txtBirthdayRegister" />
+
+            <TextView
+                android:id="@+id/lblPasswordRegister"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/caveat"
+                android:text="Password"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/lblBirthdayRegister"
+                app:layout_constraintTop_toBottomOf="@+id/txtBirthdayRegister" />
+
+            <EditText
+                android:id="@+id/txtPasswordRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="text|textPassword"
+                app:layout_constraintStart_toStartOf="@+id/lblPasswordRegister"
+                app:layout_constraintTop_toBottomOf="@+id/lblPasswordRegister" />
+
+            <TextView
+                android:id="@+id/lblSecurityQuestionRegister"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/caveat"
+                android:text="Security Question"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/lblPasswordRegister"
+                app:layout_constraintTop_toBottomOf="@+id/txtPasswordRegister" />
+
+            <EditText
+                android:id="@+id/txtSecurityQuestionRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@+id/lblSecurityQuestionRegister"
+                app:layout_constraintTop_toBottomOf="@+id/lblSecurityQuestionRegister" />
+
+            <TextView
+                android:id="@+id/tvNoteRegister"
+                android:layout_width="167dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/caveat"
+                android:text="Already have an account?"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.155"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSignUpRegister" />
+
+            <Button
+                android:id="@+id/btnSignInRegister"
+                android:layout_width="111dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="172dp"
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/caveat"
+                android:text="@string/underlined_sign_in"
+                android:textColor="@color/link"
+                android:textSize="18sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvNoteRegister"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btnSignUpRegister"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="@color/button"
+                android:fontFamily="@font/caveat"
+                android:text="Sign Up"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtSecurityQuestionRegister" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

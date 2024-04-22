@@ -10,126 +10,144 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/toolbarHome"
-            layout="@layout/toolbar_with_title"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/btnFilterHome"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/baseline_tune_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarHome" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewCriteriaHome"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            app:cardBackgroundColor="@color/post"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnFilterHome"
-            app:layout_constraintStart_toEndOf="@+id/btnFilterHome"
-            app:layout_constraintTop_toTopOf="@+id/btnFilterHome">
-
-            <TextView
-                android:id="@+id/tvCriteriaHome"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/caveat"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="ALL"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
-
-        <!--<androidx.cardview.widget.CardView
-            android:layout_width="350dp"
-            android:layout_height="400dp"
-            android:layout_marginTop="40dp"
-            app:cardBackgroundColor="@color/post"
-            app:cardCornerRadius="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewCriteriaHome" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/imgProfile2Home"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/profile_pic_2"
+                <include
+                    android:id="@+id/toolbarHome"
+                    layout="@layout/toolbar_with_title"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvNameHome"
-                    android:layout_width="44dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:fontFamily="@font/caveat"
-                    android:text="Erika"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/imgProfile2Home"
-                    app:layout_constraintStart_toEndOf="@+id/imgProfile2Home"
-                    app:layout_constraintTop_toTopOf="@+id/imgProfile2Home" />
-
-                <TextView
-                    android:id="@+id/tvDateTimeHome"
-                    android:layout_width="109dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/caveat"
-                    android:text="24/3/2024  2:02PM"
-                    android:textColor="@color/sub_text"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvNameHome"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <View
-                    android:id="@+id/separatorHome"
-                    android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/separator"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imgProfile2Home" />
-
                 <ImageView
-                    android:id="@+id/imgPostHome"
-                    android:layout_width="258dp"
-                    android:layout_height="214dp"
-                    android:src="@drawable/post"
+                    android:id="@+id/btnFilterHome"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/baseline_tune_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbarHome" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewCriteriaHome"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="@color/post"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnFilterHome"
+                    app:layout_constraintStart_toEndOf="@+id/btnFilterHome"
+                    app:layout_constraintTop_toTopOf="@+id/btnFilterHome">
+
+                    <TextView
+                        android:id="@+id/tvCriteriaHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/caveat"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="ALL"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+
+                <!--<androidx.cardview.widget.CardView
+                    android:layout_width="350dp"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="40dp"
+                    app:cardBackgroundColor="@color/post"
+                    app:cardCornerRadius="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/separatorHome" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewCriteriaHome" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imgProfile2Home"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="48dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/profile_pic_2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvNameHome"
+                            android:layout_width="44dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:fontFamily="@font/caveat"
+                            android:text="Erika"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/imgProfile2Home"
+                            app:layout_constraintStart_toEndOf="@+id/imgProfile2Home"
+                            app:layout_constraintTop_toTopOf="@+id/imgProfile2Home" />
+
+                        <TextView
+                            android:id="@+id/tvDateTimeHome"
+                            android:layout_width="109dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/caveat"
+                            android:text="24/3/2024  2:02PM"
+                            android:textColor="@color/sub_text"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/tvNameHome"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <View
+                            android:id="@+id/separatorHome"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/separator"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/imgProfile2Home" />
+
+                        <ImageView
+                            android:id="@+id/imgPostHome"
+                            android:layout_width="258dp"
+                            android:layout_height="214dp"
+                            android:src="@drawable/post"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/separatorHome" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewPostHome"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="32dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewCriteriaHome"
+                    tools:listitem="@layout/post_holder" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewPostHome"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewCriteriaHome"
-            tools:listitem="@layout/post_holder" />
+        </ScrollView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
@@ -139,6 +157,7 @@
             app:cardBackgroundColor="@color/button"
             app:cardCornerRadius="25dp"
             app:cardElevation="10dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" >
 
@@ -148,7 +167,6 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/baseline_add_24" />
         </androidx.cardview.widget.CardView>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

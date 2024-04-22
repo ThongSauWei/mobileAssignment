@@ -7,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.h.dataAdapter.PostAdapter
+import com.example.h.dataAdapter.GroupAdapter
 
-class SearchPost : Fragment() {
+class Groups : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_search_post, container, false)
+        val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
-        val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewPostSearchPost)
-        recyclerView.adapter = PostAdapter()
+        val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewGroupGroups)
+        recyclerView.adapter = GroupAdapter()
         recyclerView.layoutManager = LinearLayoutManager(activity?.application)
         recyclerView.setHasFixedSize(true)
 

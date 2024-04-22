@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".OuterChat">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include android:id="@+id/toolbarOuterChat"
+                layout="@layout/toolbar_with_profile" />
+
+            <TextView
+                android:id="@+id/tvTitleOuterChat"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/caveat"
+                android:text="Chat"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/txtSearchOuterChat"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarOuterChat" />
+
+            <EditText
+                android:id="@+id/txtSearchOuterChat"
+                android:layout_width="350dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/search_box_bg"
+                android:drawableStart="@drawable/baseline_search_light_24"
+                android:drawablePadding="10dp"
+                android:elevation="10dp"
+                android:ems="10"
+                android:fontFamily="@font/caveat"
+                android:inputType="text"
+                android:paddingStart="15dp"
+                android:text="search your buddies"
+                android:textColor="@color/search_text"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleOuterChat" />
+
+            <Button
+                android:id="@+id/btnSearchOuterChat"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/button"
+                android:fontFamily="@font/caveat"
+                android:text="Chat with Buddies"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/txtSearchOuterChat"
+                app:layout_constraintStart_toStartOf="@+id/txtSearchOuterChat"
+                app:layout_constraintTop_toBottomOf="@+id/txtSearchOuterChat" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewFriendOuterChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSearchOuterChat"
+                tools:listitem="@layout/friend_holder" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</androidx.drawerlayout.widget.DrawerLayout>
