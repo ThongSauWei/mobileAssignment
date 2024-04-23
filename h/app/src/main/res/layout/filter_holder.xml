@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnFilterFilterHolder"
         android:layout_width="160dp"
-        android:layout_height="60dp"
+        android:layout_height="45dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/button"
+        android:background="@drawable/button_bg"
         android:fontFamily="@font/caveat"
         android:text="Button"
+        android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

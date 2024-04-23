@@ -61,18 +61,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubtitleSearchFriend" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSearchSearchFriend"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/button"
+                android:background="@drawable/button_bg"
                 android:fontFamily="@font/caveat"
                 android:text="Add Buddies"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/txtSearchSearchFriend"
                 app:layout_constraintStart_toStartOf="@+id/txtSearchSearchFriend"
                 app:layout_constraintTop_toBottomOf="@+id/txtSearchSearchFriend" />

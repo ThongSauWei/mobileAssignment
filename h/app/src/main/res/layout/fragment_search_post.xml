@@ -65,19 +65,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubtitleSearchPost" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSearchSearchPost"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/button"
+                android:background="@drawable/button_bg"
                 android:fontFamily="@font/caveat"
                 android:text="Search"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/txtSearchSearchPost"
                 app:layout_constraintStart_toStartOf="@+id/txtSearchSearchPost"
                 app:layout_constraintTop_toBottomOf="@+id/txtSearchSearchPost" />

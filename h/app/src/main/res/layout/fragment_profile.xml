@@ -174,17 +174,17 @@
             app:layout_constraintStart_toStartOf="@+id/tvCoursesProfile"
             app:layout_constraintTop_toBottomOf="@+id/tvCoursesProfile" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEditProfile"
             android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/button"
+            android:background="@drawable/button_bg"
             android:fontFamily="@font/caveat"
             android:text="Edit Profile"
+            android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:cornerRadius="15dp"
             app:layout_constraintEnd_toEndOf="@+id/tvBioProfile"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/tvBioProfile"

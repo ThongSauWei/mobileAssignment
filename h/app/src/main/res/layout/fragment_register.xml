@@ -218,17 +218,17 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvNoteRegister"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSignUpRegister"
                 android:layout_width="330dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="32dp"
-                android:backgroundTint="@color/button"
+                android:background="@drawable/button_bg"
                 android:fontFamily="@font/caveat"
                 android:text="Sign Up"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSecurityQuestionRegister" />

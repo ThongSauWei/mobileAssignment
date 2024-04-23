@@ -197,19 +197,18 @@
             app:layout_constraintStart_toStartOf="@+id/lblLearningStyleCreatePost"
             app:layout_constraintTop_toBottomOf="@+id/lblLearningStyleCreatePost" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnNextCreatePost"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/button"
+            android:background="@drawable/button_bg"
             android:fontFamily="@font/caveat"
             android:text="Next"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

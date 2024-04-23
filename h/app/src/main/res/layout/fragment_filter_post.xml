@@ -104,20 +104,19 @@
                 app:spanCount="2"
                 tools:listitem="@layout/filter_holder" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnFilterFilterPost"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
-                android:backgroundTint="@color/button"
+                android:background="@drawable/button_bg"
                 android:fontFamily="@font/caveat"
                 android:text="Filter"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:cornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

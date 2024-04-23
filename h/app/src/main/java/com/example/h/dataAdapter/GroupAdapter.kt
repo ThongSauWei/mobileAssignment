@@ -23,6 +23,7 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
         val constraintLayout : ConstraintLayout = itemView.findViewById(R.id.constraintLayoutFriendHolder)
         val constraintSet = ConstraintSet()
 
+        val imgProfile : ImageView = itemView.findViewById(R.id.imgProfileFriendHolder)
         val tvName : TextView = itemView.findViewById(R.id.tvNameFriendHolder)
         val tvText : TextView = itemView.findViewById(R.id.tvTextFriendHolder)
         val dynamicContainer : CardView = itemView.findViewById(R.id.dynamicFriendHolder)
@@ -103,7 +104,7 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
         holder.dynamicContainer.layoutParams = layoutParamsCardView
         holder.dynamicContainer.setCardBackgroundColor(Color.rgb(229, 75, 35))
         holder.dynamicContainer.cardElevation = (5 * density)
-        holder.dynamicContainer.radius = (15 * density)
+        holder.dynamicContainer.radius = (10 * density)
 
         holder.dynamicContainer.removeAllViews()
         holder.dynamicContainer.addView(holder.notification)

@@ -138,19 +138,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnViewPostInnerChat"
-                    android:layout_width="114dp"
-                    android:layout_height="49dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:backgroundTint="@color/button"
+                    android:layout_width="87dp"
+                    android:layout_height="31dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_bg"
                     android:fontFamily="@font/caveat"
                     android:text="View Post"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    app:cornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvTime2InnerChat"
                     app:layout_constraintTop_toBottomOf="@+id/tvChat2InnerChat" />

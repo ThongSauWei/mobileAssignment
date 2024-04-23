@@ -178,17 +178,17 @@
         app:layout_constraintStart_toStartOf="@+id/lblDescriptionEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/lblDescriptionEditProfile" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSaveEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:backgroundTint="@color/button"
+        android:background="@drawable/button_bg"
         android:fontFamily="@font/caveat"
         android:text="Save"
+        android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDescriptionEditProfile" />

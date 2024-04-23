@@ -145,30 +145,32 @@
                 app:layout_constraintStart_toStartOf="@+id/tvCoursesFriendProfile"
                 app:layout_constraintTop_toBottomOf="@+id/tvCoursesFriendProfile" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddFriendFriendProfile"
                 android:layout_width="152dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/button"
+                android:background="@drawable/button_bg"
                 android:fontFamily="@font/caveat"
                 android:text="Add Buddy"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:cornerRadius="10dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/tvBioFriendProfile"
                 app:layout_constraintTop_toBottomOf="@+id/tvBioFriendProfile" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnMessageFriendProfile"
                 android:layout_width="152dp"
                 android:layout_height="45dp"
-                android:backgroundTint="@color/button"
+                android:background="@drawable/button_bg"
                 android:fontFamily="@font/caveat"
                 android:text="Message"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:cornerRadius="10dp"
+                android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@+id/btnAddFriendFriendProfile"
                 app:layout_constraintEnd_toEndOf="@+id/tvBioFriendProfile" />
 
