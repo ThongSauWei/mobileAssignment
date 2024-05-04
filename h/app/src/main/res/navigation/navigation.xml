@@ -3,11 +3,116 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/signInFragment">
+    app:startDestination="@id/filterPost">
 
     <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.example.h.SignInFragment"
+        android:id="@+id/signIn"
+        android:name="com.example.h.SignIn"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
+    <fragment
+        android:id="@+id/register"
+        android:name="com.example.h.Register"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/passwordRecovery"
+        android:name="com.example.h.PasswordRecovery"
+        android:label="fragment_password_recovery"
+        tools:layout="@layout/fragment_password_recovery" />
+    <fragment
+        android:id="@+id/newPassword"
+        android:name="com.example.h.NewPassword"
+        android:label="fragment_new_password"
+        tools:layout="@layout/fragment_new_password" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.h.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.h.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.h.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/contactUs"
+        android:name="com.example.h.ContactUs"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
+    <fragment
+        android:id="@+id/aboutUs"
+        android:name="com.example.h.AboutUs"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.h.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/createPost"
+        android:name="com.example.h.CreatePost"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" />
+    <fragment
+        android:id="@+id/searchPost"
+        android:name="com.example.h.SearchPost"
+        android:label="fragment_search_post"
+        tools:layout="@layout/fragment_search_post" />
+    <fragment
+        android:id="@+id/filterPost"
+        android:name="com.example.h.FilterPost"
+        android:label="fragment_filter_post"
+        tools:layout="@layout/fragment_filter_post" />
+    <fragment
+        android:id="@+id/joinGroup"
+        android:name="com.example.h.JoinGroup"
+        android:label="fragment_join_group"
+        tools:layout="@layout/fragment_join_group" />
+    <fragment
+        android:id="@+id/friends"
+        android:name="com.example.h.Friends"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" />
+    <fragment
+        android:id="@+id/friendProfile"
+        android:name="com.example.h.FriendProfile"
+        android:label="fragment_friend_profile"
+        tools:layout="@layout/fragment_friend_profile" />
+    <fragment
+        android:id="@+id/searchFriend"
+        android:name="com.example.h.SearchFriend"
+        android:label="fragment_search_friend"
+        tools:layout="@layout/fragment_search_friend" />
+    <fragment
+        android:id="@+id/outerChat"
+        android:name="com.example.h.OuterChat"
+        android:label="fragment_outer_chat"
+        tools:layout="@layout/fragment_outer_chat" />
+    <fragment
+        android:id="@+id/innerChat"
+        android:name="com.example.h.InnerChat"
+        android:label="fragment_inner_chat"
+        tools:layout="@layout/fragment_inner_chat" />
+    <fragment
+        android:id="@+id/groups"
+        android:name="com.example.h.Groups"
+        android:label="fragment_groups"
+        tools:layout="@layout/fragment_groups" />
+    <fragment
+        android:id="@+id/groupChat"
+        android:name="com.example.h.GroupChat"
+        android:label="fragment_group_chat"
+        tools:layout="@layout/fragment_group_chat" />
+    <fragment
+        android:id="@+id/inviteFriend"
+        android:name="com.example.h.InviteFriend"
+        android:label="fragment_invite_friend"
+        tools:layout="@layout/fragment_invite_friend" />
 </navigation>

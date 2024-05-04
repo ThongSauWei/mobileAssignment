@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".FriendProfile">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutFriendProfile"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:background="#919A9898"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <include
+                    android:id="@+id/toolbarFriendProfile"
+                    layout="@layout/toolbar_with_profile" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewFriendProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="176dp"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.11"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgProfileFriendProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:src="@drawable/profile_pic_3" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvNameFriendProfile"
+                android:layout_width="50dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/caveat"
+                android:text="Erika"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/cardViewFriendProfile"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewFriendProfile" />
+
+            <TextView
+                android:id="@+id/tvGroupsFriendProfile"
+                android:layout_width="11dp"
+                android:layout_height="27dp"
+                android:fontFamily="@font/caveat"
+                android:text="6"
+                android:textSize="20sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvNameFriendProfile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFriendsFriendProfile"
+                android:layout_width="22dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="56dp"
+                android:fontFamily="@font/caveat"
+                android:text="20"
+                android:textSize="20sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvGroupsFriendProfile"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDOBFriendProfile"
+                android:layout_width="64dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/caveat"
+                android:text="2003-11-21"
+                android:textColor="@color/sub_text"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/tvNameFriendProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvNameFriendProfile" />
+
+            <TextView
+                android:id="@+id/lblGroupsFriendProfile"
+                android:layout_width="38dp"
+                android:layout_height="17dp"
+                android:fontFamily="@font/caveat"
+                android:text="Groups"
+                android:textColor="@color/sub_text"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvDOBFriendProfile"
+                app:layout_constraintEnd_toEndOf="@+id/tvGroupsFriendProfile"
+                app:layout_constraintStart_toStartOf="@+id/tvGroupsFriendProfile" />
+
+            <TextView
+                android:id="@+id/lblFriendsFriendProfile"
+                android:layout_width="41dp"
+                android:layout_height="19dp"
+                android:fontFamily="@font/caveat"
+                android:text="Friends"
+                android:textColor="@color/sub_text"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/lblGroupsFriendProfile"
+                app:layout_constraintEnd_toEndOf="@+id/tvFriendsFriendProfile"
+                app:layout_constraintStart_toStartOf="@+id/tvFriendsFriendProfile" />
+
+            <TextView
+                android:id="@+id/tvCoursesFriendProfile"
+                android:layout_width="98dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/caveat"
+                android:text="Business, TARUMT"
+                android:textColor="@color/sub_text"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/tvDOBFriendProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvDOBFriendProfile" />
+
+            <TextView
+                android:id="@+id/tvBioFriendProfile"
+                android:layout_width="340dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/caveat"
+                android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah auf uca schasuc   asjncabca  bcasjca"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tvCoursesFriendProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvCoursesFriendProfile" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddFriendFriendProfile"
+                android:layout_width="152dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/caveat"
+                android:text="Add Buddy"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tvBioFriendProfile"
+                app:layout_constraintTop_toBottomOf="@+id/tvBioFriendProfile" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMessageFriendProfile"
+                android:layout_width="152dp"
+                android:layout_height="45dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/caveat"
+                android:text="Message"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/btnAddFriendFriendProfile"
+                app:layout_constraintEnd_toEndOf="@+id/tvBioFriendProfile" />
+
+            <View
+                android:id="@+id/separatorFriendProfile"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/separator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddFriendFriendProfile" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPostFriendProfile"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separatorFriendProfile"
+                tools:listitem="@layout/post_holder" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</androidx.drawerlayout.widget.DrawerLayout>

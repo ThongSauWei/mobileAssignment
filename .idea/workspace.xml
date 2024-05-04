@@ -5,15 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="48415e67-de5b-485e-851c-e6f1cf26a72c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/AboutUsFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/fragment_about_us.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/values/arrays.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/Home.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/data/Post.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/java/com/example/h/dataAdapter/PostAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/baseline_add_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/baseline_search_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/baseline_tune_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/post.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/drawable/profile_pic_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/post_holder.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar_with_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar_with_title.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/h/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/layout/footer_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/footer_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/layout/toolbar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/h/app/src/main/res/navigation/navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/navigation/navigation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/h/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/h/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/h/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,20 +35,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "CodeOfTerminator"
-  }
-}]]></component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="1b733cae-5066-4b50-94f3-ceacef88ab90" />
-        <option name="url" value="https://github.com/ThongSauWei/mobileAssignment" />
-      </UrlAndAccount>
-    </option>
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -48,17 +43,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/AndroidStudioProjects/mobileAssignment/h&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/User/AndroidStudioProjects/mobileAssignment/h"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

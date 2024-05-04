@@ -2,20 +2,37 @@
     <string name="app_name">h</string>
     <string name="underlined_sign_up"><u>Sign Up</u></string>
     <string name="underlined_forget_password"><u>Forget Password?</u></string>
+    <string name="underlined_sign_in"><u>Sign In</u></string>
+    <string name="underlined_contact_us"><u>Contact Us</u></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <array name="language_array">
+        <item>English</item>
+        <item>中文</item>
+    </array>
+    <array name="problem_type">
+        <item>Can\'t Add Friends</item>
+        <item>Can\'t Join Group</item>
+        <item>Can\'t Upload Post</item>
+        <item>Others</item>
+    </array>
+    <array name="category">
+        <item>Assignment</item>
+        <item>Business</item>
+        <item>Computer Science</item>
+        <item>Account</item>
+        <item>Graphic Design</item>
+        <item>Degree</item>
+        <item>Finance</item>
+        <item>Medicine</item>
+    </array>
+    <array name="learning_style">
+        <item>Visual Learning</item>
+        <item>Auditory Learning</item>
+        <item>Kinesthetic Learning</item>
+        <item>Reading / Writing Learning</item>
+        <item>Social Learning</item>
+        <item>Solitary / Individual Learning</item>
+    </array>
 </resources>
