@@ -50,21 +50,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleGroups" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSearchGroups"
-                android:layout_width="350dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewBtnSearchGroups"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg"
-                android:fontFamily="@font/caveat"
-                android:text="Chat with Groups"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/txtSearchGroups"
                 app:layout_constraintStart_toStartOf="@+id/txtSearchGroups"
-                app:layout_constraintTop_toBottomOf="@+id/txtSearchGroups" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSearchGroups">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSearchGroups"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="@font/caveat"
+                    android:text="Chat with Groups"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewGroupGroups"
@@ -75,7 +84,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSearchGroups"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewBtnSearchGroups"
                 tools:listitem="@layout/friend_holder" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

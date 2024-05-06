@@ -65,21 +65,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubtitleSearchPost" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSearchSearchPost"
-                android:layout_width="350dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewBtnSearchSearchPost"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg"
-                android:fontFamily="@font/caveat"
-                android:text="Search"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/txtSearchSearchPost"
                 app:layout_constraintStart_toStartOf="@+id/txtSearchSearchPost"
-                app:layout_constraintTop_toBottomOf="@+id/txtSearchSearchPost" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSearchSearchPost">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSearchSearchPost"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="@font/caveat"
+                    android:text="Search"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tvSuggestPostSearchPost"
@@ -90,8 +99,8 @@
                 android:text="Suggest Post"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/btnSearchSearchPost"
-                app:layout_constraintTop_toBottomOf="@+id/btnSearchSearchPost" />
+                app:layout_constraintStart_toStartOf="@+id/cardViewBtnSearchSearchPost"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewBtnSearchSearchPost" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewPostSearchPost"
