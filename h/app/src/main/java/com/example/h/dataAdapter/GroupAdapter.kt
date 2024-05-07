@@ -44,12 +44,12 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
     }
 
     override fun onBindViewHolder(holder: GroupHolder, position: Int) {
-        holder.tvName.text = "Group " + (position + 1)
-        holder.tvText.text = "Helooooooooooooooooooooooo byebyeeeeeeeeeee"
+        holder.tvName.text = "Group " + (position + 1) // dynamic
+        holder.tvText.text = "Helooooooooooooooooooooooo byebyeeeeeeeeeee" // dynamic
 
         // initialise the textview for time
         holder.time.id = View.generateViewId()
-        holder.time.text = "11:50 PM"
+        holder.time.text = "11:50 PM" // dynamic
         holder.time.typeface = ResourcesCompat.getFont(holder.time.context, R.font.caveat)
         holder.time.textSize = 14f
 
@@ -92,7 +92,7 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
         val layoutParamsTextView = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         layoutParamsTextView.marginStart = (5 * density).toInt()
         holder.notification.layoutParams = layoutParamsTextView
-        holder.notification.text = "2"
+        holder.notification.text = "2" // dynamic
         holder.notification.typeface = ResourcesCompat.getFont(holder.notification.context, R.font.caveat)
         holder.notification.textSize = 14f
         holder.notification.setTextColor(Color.WHITE)
