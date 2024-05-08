@@ -15,23 +15,13 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.h.R
 import com.example.h.data.Friend
-import com.example.h.data.User
-import com.example.h.saveSharedPreference.SaveSharedPreference
-import com.example.h.viewModel.UserViewModel
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 
-class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
+class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
 
-    private lateinit var storageRef : StorageReference
     private var friendList = emptyList<Friend>()
-    private lateinit var userID : String
 
     object Mode {
         const val ADD = 1
@@ -63,10 +53,6 @@ class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.friend_holder, parent, false)
 
-        storageRef = FirebaseStorage.getInstance().getReference()
-
-        userID = SaveSharedPreference.getUserID(parent.context)
-
         return FriendHolder(itemView)
     }
 
@@ -75,20 +61,7 @@ class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : Recycl
     }
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
-        val currentItem = friendList[position]
-
-        // get the friend information
-        val friendID = if (currentItem.requestUserID == userID) currentItem.receiveUserID else currentItem.requestUserID
-        val friend = userViewModel.getUserByID(friendID)
-
-        // get the image of the friend
-        val ref = storageRef.child("imageProfile").child(friend?.userID + ".png")
-        ref.downloadUrl
-            .addOnCompleteListener {
-                Glide.with(holder.imgProfile).load(it.result.toString()).into(holder.imgProfile)
-            }
-        
-        holder.tvName.text = friend?.username
+        holder.tvName.text = "Name " + (position + 1) // dynamic
         holder.tvText.text = "Business, TARUMT" // dynamic
 
         // convert dp to px
@@ -102,7 +75,7 @@ class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : Recycl
                 holder.dynamicContainer.radius = (10 * density)
 
                 // initialise the button settings
-                holder.btnAdd.text = "Add Buddies"
+                holder.btnAdd.text = "Add Buddies" // dynamic
                 holder.btnAdd.typeface = ResourcesCompat.getFont(holder.btnAdd.context, R.font.caveat)
                 holder.btnAdd.textSize = 14f
                 holder.btnAdd.setTextColor(Color.BLACK)
