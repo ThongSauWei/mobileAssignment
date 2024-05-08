@@ -50,21 +50,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleOuterChat" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSearchOuterChat"
-                android:layout_width="350dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewBtnSearchOuterChat"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg"
-                android:fontFamily="@font/caveat"
-                android:text="Chat with Buddies"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/txtSearchOuterChat"
                 app:layout_constraintStart_toStartOf="@+id/txtSearchOuterChat"
-                app:layout_constraintTop_toBottomOf="@+id/txtSearchOuterChat" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSearchOuterChat">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSearchOuterChat"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="@font/caveat"
+                    android:text="Chat with Buddies"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFriendOuterChat"
@@ -75,7 +84,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSearchOuterChat"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewBtnSearchOuterChat"
                 tools:listitem="@layout/friend_holder" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

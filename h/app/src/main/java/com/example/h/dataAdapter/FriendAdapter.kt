@@ -17,8 +17,11 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.R
+import com.example.h.data.Friend
 
 class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
+
+    private var friendList = emptyList<Friend>()
 
     object Mode {
         const val ADD = 1
@@ -58,8 +61,8 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     }
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
-        holder.tvName.text = "Name " + (position + 1)
-        holder.tvText.text = "Business, TARUMT"
+        holder.tvName.text = "Name " + (position + 1) // dynamic
+        holder.tvText.text = "Business, TARUMT" // dynamic
 
         // convert dp to px
         val density = holder.dynamicContainer.context.resources.displayMetrics.density
@@ -72,7 +75,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 holder.dynamicContainer.radius = (10 * density)
 
                 // initialise the button settings
-                holder.btnAdd.text = "Add Buddies"
+                holder.btnAdd.text = "Add Buddies" // dynamic
                 holder.btnAdd.typeface = ResourcesCompat.getFont(holder.btnAdd.context, R.font.caveat)
                 holder.btnAdd.textSize = 14f
                 holder.btnAdd.setTextColor(Color.BLACK)
@@ -110,7 +113,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
             Mode.CHAT -> {
                 // initialise the textview for time
                 holder.time.id = View.generateViewId()
-                holder.time.text = "11:50 PM"
+                holder.time.text = "11:50 PM" // dynamic
                 holder.time.typeface = ResourcesCompat.getFont(holder.time.context, R.font.caveat)
                 holder.time.textSize = 14f
 
@@ -153,7 +156,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 )
                 layoutParamsTextView.marginStart = (5 * density).toInt()
                 holder.notification.layoutParams = layoutParamsTextView
-                holder.notification.text = "2"
+                holder.notification.text = "2" // dynamic
                 holder.notification.typeface = ResourcesCompat.getFont(holder.notification.context, R.font.caveat)
                 holder.notification.textSize = 14f
                 holder.notification.setTextColor(Color.WHITE)
@@ -190,5 +193,11 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
             }
         }
+    }
+
+    fun initData(friendList : List<Friend>) {
+        this.friendList = friendList
+
+        notifyDataSetChanged()
     }
 }

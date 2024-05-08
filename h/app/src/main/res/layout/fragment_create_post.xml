@@ -197,21 +197,30 @@
             app:layout_constraintStart_toStartOf="@+id/lblLearningStyleCreatePost"
             app:layout_constraintTop_toBottomOf="@+id/lblLearningStyleCreatePost" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnNextCreatePost"
-            android:layout_width="330dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewBtnNextCreatePost"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/button_bg"
-            android:fontFamily="@font/caveat"
-            android:text="Next"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnNextCreatePost"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/caveat"
+                android:text="Next"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

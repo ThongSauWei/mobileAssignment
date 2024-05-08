@@ -174,21 +174,30 @@
             app:layout_constraintStart_toStartOf="@+id/tvCoursesProfile"
             app:layout_constraintTop_toBottomOf="@+id/tvCoursesProfile" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEditProfile"
-            android:layout_width="340dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewBtnEditProfile"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/button_bg"
-            android:fontFamily="@font/caveat"
-            android:text="Edit Profile"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="@+id/tvBioProfile"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/tvBioProfile"
-            app:layout_constraintTop_toBottomOf="@+id/tvBioProfile" />
+            app:layout_constraintTop_toBottomOf="@+id/tvBioProfile">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditProfile"
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/caveat"
+                android:text="Edit Profile"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </androidx.cardview.widget.CardView>
 
         <View
             android:id="@+id/separatorProfile"
@@ -200,7 +209,7 @@
             android:background="@color/separator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnEditProfile" />
+            app:layout_constraintTop_toBottomOf="@id/cardViewBtnEditProfile" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/CardViewProfile"

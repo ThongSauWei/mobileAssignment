@@ -178,19 +178,28 @@
         app:layout_constraintStart_toStartOf="@+id/lblDescriptionEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/lblDescriptionEditProfile" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSaveEditProfile"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewBtnSaveEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:background="@drawable/button_bg"
-        android:fontFamily="@font/caveat"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescriptionEditProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDescriptionEditProfile">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSaveEditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/caveat"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
