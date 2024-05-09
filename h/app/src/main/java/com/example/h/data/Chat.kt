@@ -6,4 +6,6 @@ data class Chat(
     val receiverUserID : String,
     val initiatorLastSeen : String,
     val receiverLastSeen : String
-)
+) {
+    constructor() : this("", "", "", "", "")
+}

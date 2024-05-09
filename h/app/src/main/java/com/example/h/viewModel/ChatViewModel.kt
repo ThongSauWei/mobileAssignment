@@ -26,18 +26,8 @@ class ChatViewModel(application : Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? {
+    suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? {
 
-        var chat : Chat? = null
-
-        chatRepository.getChat(initiatorUserID, receiverUserID) { retrievedChat, errorMessage ->
-            if (errorMessage != null) {
-                Toast.makeText(getApplication(), "Error: $errorMessage", Toast.LENGTH_LONG).show()
-            } else {
-                chat = retrievedChat
-            }
-        }
-
-        return chat
+        return chatRepository.getChat(initiatorUserID, receiverUserID)
     }
 }

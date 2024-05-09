@@ -41,7 +41,7 @@ class UserDAO {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    continuation.resume(null)
+                    continuation.resumeWithException(error.toException())
                 }
 
             })
@@ -66,7 +66,7 @@ class UserDAO {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    continuation.resume(null)
+                    continuation.resumeWithException(error.toException())
                 }
 
             })

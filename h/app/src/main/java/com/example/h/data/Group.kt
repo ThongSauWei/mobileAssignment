@@ -5,4 +5,6 @@ data class Group(
     val groupName : String,
     val groupImage : String,
     val groupGoogleMeetLink : String
-)
+) {
+    constructor() : this("", "", "", "")
+}

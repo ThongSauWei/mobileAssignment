@@ -6,4 +6,6 @@ data class PostComment(
     val userID : String,
     val dateTime : String,
     val content : String
-)
+) {
+    constructor() : this("", "", "", "", "")
+}

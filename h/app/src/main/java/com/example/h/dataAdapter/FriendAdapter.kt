@@ -2,7 +2,6 @@ package com.example.h.dataAdapter
 
 import android.app.ActionBar
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.h.R
+import com.example.h.data.Profile
 import com.example.h.data.User
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -26,6 +26,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     private lateinit var storageRef : StorageReference
     private var friendList = emptyList<User>()
+    private var profileList = emptyList<Profile>()
 
     object Mode {
         const val ADD = 1
@@ -59,8 +60,6 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
         storageRef = FirebaseStorage.getInstance().getReference()
 
-
-
         return FriendHolder(itemView)
     }
 
@@ -69,17 +68,18 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     }
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
-        val currentItem = friendList[position]
+        val currentUser = friendList[position]
+        val currentProfile = profileList[position]
 
         // get the image of the friend
-        val ref = storageRef.child("imageProfile").child(currentItem.userID + ".png")
+        val ref = storageRef.child("imageProfile").child(currentUser.userID + ".png")
         ref.downloadUrl
             .addOnCompleteListener {
                 Glide.with(holder.imgProfile).load(it.result.toString()).into(holder.imgProfile)
             }
         
-        holder.tvName.text = currentItem.username
-        holder.tvText.text = "Business, TARUMT" // dynamic
+        holder.tvName.text = currentUser.username
+        holder.tvText.text = currentProfile.userCourse
 
         // convert dp to px
         val density = holder.dynamicContainer.context.resources.displayMetrics.density
@@ -212,8 +212,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         }
     }
 
-    fun initData(friendList : List<User>) {
+    fun initFriend(friendList : List<User>, profileList : List<Profile>) {
         this.friendList = friendList
+        this.profileList = profileList
 
         notifyDataSetChanged()
     }
