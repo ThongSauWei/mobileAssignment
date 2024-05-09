@@ -13,10 +13,10 @@
 
         <ImageView
             android:id="@+id/btnBackInnerChat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
             android:src="@drawable/back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +84,7 @@
                 android:paddingBottom="10dp"
                 android:text="Helooooooooooooooooooooooo byebyeeeeeeeeeee"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvTimeInnerChat"
