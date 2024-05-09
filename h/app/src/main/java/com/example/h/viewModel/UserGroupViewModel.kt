@@ -30,4 +30,10 @@ class UserGroupViewModel(application : Application) : AndroidViewModel(applicati
     suspend fun  getUserGroupByUser(userID : String) : List<UserGroup> {
         return userGroupRepository.getUserGroupByUser(userID)
     }
+
+    fun deleteUserGroup(userGroupID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userGroupRepository.deleteUserGroup(userGroupID)
+        }
+    }
 }

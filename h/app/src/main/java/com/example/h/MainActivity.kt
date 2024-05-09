@@ -27,14 +27,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
+
         // initForTesting()
     }
 
     fun initForTesting() {
-
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
         val userList : List<User> = listOf(
             User("A100", "Ali", "Ali@gmail.com", "0123456789", "01-01-2003", "AliPsw", "What is your favourite movie?"),

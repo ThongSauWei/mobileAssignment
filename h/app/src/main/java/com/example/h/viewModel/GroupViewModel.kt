@@ -26,4 +26,10 @@ class GroupViewModel(application : Application) : AndroidViewModel(application) 
     suspend fun getGroup(groupID : String) : Group? {
         return groupRepository.getGroup(groupID)
     }
+
+    fun deleteGroup(groupID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            groupRepository.deleteGroup(groupID)
+        }
+    }
 }

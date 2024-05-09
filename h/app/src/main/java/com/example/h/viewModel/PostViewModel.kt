@@ -38,4 +38,10 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
     suspend fun getAllPost() : List<Post> {
         return postRepository.getAllPost()
     }
+
+    fun deletePost(postID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            postRepository.deletePost(postID)
+        }
+    }
 }

@@ -60,4 +60,14 @@ class FriendDAO {
             })
         }
     }
+
+    fun deleteFriend(friendID : String) {
+        dbRef.child(friendID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

@@ -125,4 +125,14 @@ class PostDAO {
             })
         }
     }
+
+    fun deletePost(postID : String) {
+        dbRef.child(postID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

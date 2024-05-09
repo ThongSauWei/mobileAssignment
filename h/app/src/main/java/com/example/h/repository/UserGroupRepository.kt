@@ -16,4 +16,8 @@ class UserGroupRepository(private val userGroupDao : UserGroupDAO) {
     suspend fun getUserGroupByUser(userID : String) : List<UserGroup> {
         return userGroupDao.getUserGroupByUser(userID)
     }
+
+    fun deleteUserGroup(userGroupID : String) {
+        userGroupDao.deleteUserGroup(userGroupID)
+    }
 }

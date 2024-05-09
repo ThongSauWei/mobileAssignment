@@ -26,4 +26,10 @@ class PostCommentViewModel(application : Application) : AndroidViewModel(applica
     suspend fun getPostComment(postID : String) : List<PostComment> {
         return postCommentRepository.getPostComment(postID)
     }
+
+    fun deletePostComment(postCommentID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            postCommentRepository.deletePostComment(postCommentID)
+        }
+    }
 }

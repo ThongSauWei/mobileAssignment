@@ -12,4 +12,8 @@ class ChatLineRepository (private val chatLineDao : ChatLineDAO) {
     suspend fun getChatLine(chatID : String) : List<ChatLine> {
         return chatLineDao.getChatLine(chatID)
     }
+
+    fun deleteChatLine(chatLineID : String) {
+        chatLineDao.deleteChatLine(chatLineID)
+    }
 }

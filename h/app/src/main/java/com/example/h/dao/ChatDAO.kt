@@ -47,4 +47,14 @@ class ChatDAO {
                 }
             })
     }
+
+    fun deleteChat(chatID : String) {
+        dbRef.child(chatID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

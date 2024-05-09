@@ -52,4 +52,14 @@ class PostCommentDAO {
         }
     }
 
+    fun deletePostComment(postCommentID : String) {
+        dbRef.child(postCommentID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
 }

@@ -12,4 +12,8 @@ class ProfileRepository(private val profileDao : ProfileDAO) {
     suspend fun getProfile(userID : String) : Profile? {
         return profileDao.getProfile(userID)
     }
+
+    fun deleteProfile(userID : String) {
+        profileDao.deleteProfile(userID)
+    }
 }

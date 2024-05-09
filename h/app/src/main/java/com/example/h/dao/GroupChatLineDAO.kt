@@ -51,4 +51,14 @@ class GroupChatLineDAO {
                 })
         }
     }
+
+    fun deleteGroupChatLine(groupChatLineID : String) {
+        dbRef.child(groupChatLineID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

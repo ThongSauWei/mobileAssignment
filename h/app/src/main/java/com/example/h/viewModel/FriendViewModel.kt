@@ -27,4 +27,10 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
     suspend fun getFriendList(userID : String) : List<Friend> {
         return friendRepository.getFriendList(userID)
     }
+
+    fun deleteFriend(friendID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            friendRepository.deleteFriend(friendID)
+        }
+    }
 }

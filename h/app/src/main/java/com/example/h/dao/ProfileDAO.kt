@@ -45,4 +45,14 @@ class ProfileDAO {
 
             })
     }
+
+    fun deleteProfile(userID : String) {
+        dbRef.child(userID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

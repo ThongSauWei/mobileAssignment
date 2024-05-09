@@ -20,4 +20,8 @@ class UserRepository(private val userDao : UserDAO) {
 
         return userDao.getUserByLogin(userEmail, userPassword)
     }
+
+    fun deleteUser(userID : String) {
+        userDao.deleteUser(userID)
+    }
 }

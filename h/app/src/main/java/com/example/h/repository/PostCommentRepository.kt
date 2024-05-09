@@ -12,4 +12,8 @@ class PostCommentRepository(private val postCommentDao : PostCommentDAO) {
     suspend fun getPostComment(postID : String) : List<PostComment> {
         return postCommentDao.getPostComment(postID)
     }
+
+    fun deletePostComment(postCommentID : String) {
+        postCommentDao.deletePostComment(postCommentID)
+    }
 }

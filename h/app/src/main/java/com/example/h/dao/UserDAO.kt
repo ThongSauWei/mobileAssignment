@@ -71,4 +71,14 @@ class UserDAO {
 
             })
     }
+
+    fun deleteUser(userID : String) {
+        dbRef.child(userID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

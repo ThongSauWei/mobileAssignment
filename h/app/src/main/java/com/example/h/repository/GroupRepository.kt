@@ -12,4 +12,8 @@ class GroupRepository(private val groupDao : GroupDAO) {
     suspend fun getGroup(groupID : String) : Group? {
         return groupDao.getGroup(groupID)
     }
+
+    fun deleteGroup(groupID : String) {
+        groupDao.deleteGroup(groupID)
+    }
 }

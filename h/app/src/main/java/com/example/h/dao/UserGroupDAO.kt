@@ -75,4 +75,14 @@ class UserGroupDAO {
                 })
         }
     }
+
+    fun deleteUserGroup(userGroupID : String) {
+        dbRef.child(userGroupID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

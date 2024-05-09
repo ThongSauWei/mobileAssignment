@@ -26,4 +26,10 @@ class GroupChatLineViewModel(application : Application) : AndroidViewModel(appli
     suspend fun getGroupChatLine(groupID : String) : List<GroupChatLine> {
         return groupChatLineRepository.getGroupChatLine(groupID)
     }
+
+    fun deleteGroupChatLine(groupChatLineID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            groupChatLineRepository.deleteGroupChatLine(groupChatLineID)
+        }
+    }
 }

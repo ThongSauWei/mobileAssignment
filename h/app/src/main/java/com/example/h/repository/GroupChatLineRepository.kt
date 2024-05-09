@@ -12,4 +12,8 @@ class GroupChatLineRepository(private val groupChatLineDao : GroupChatLineDAO) {
     suspend fun getGroupChatLine(groupID : String) : List<GroupChatLine> {
         return groupChatLineDao.getGroupChatLine(groupID)
     }
+
+    fun deleteGroupChatLine(groupChatLineID : String) {
+        groupChatLineDao.deleteGroupChatLine(groupChatLineID)
+    }
 }

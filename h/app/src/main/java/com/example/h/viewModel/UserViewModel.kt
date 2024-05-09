@@ -33,4 +33,10 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
 
         return userRepository.getUserByLogin(userEmail, userPassword)
     }
+
+    fun deleteUser(userID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.deleteUser(userID)
+        }
+    }
 }

@@ -30,4 +30,10 @@ class ChatViewModel(application : Application) : AndroidViewModel(application) {
 
         return chatRepository.getChat(initiatorUserID, receiverUserID)
     }
+
+    fun deleteChat(chatID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            chatRepository.deleteChat(chatID)
+        }
+    }
 }

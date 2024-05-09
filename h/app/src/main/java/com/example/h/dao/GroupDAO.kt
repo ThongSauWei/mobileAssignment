@@ -46,4 +46,14 @@ class GroupDAO {
 
             })
     }
+
+    fun deleteGroup(groupID : String) {
+        dbRef.child(groupID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

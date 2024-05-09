@@ -51,4 +51,14 @@ class ChatLineDAO {
                 })
         }
     }
+
+    fun deleteChatLine(chatLineID : String) {
+        dbRef.child(chatLineID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

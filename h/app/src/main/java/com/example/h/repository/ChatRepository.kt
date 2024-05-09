@@ -11,4 +11,8 @@ class ChatRepository(private val chatDao : ChatDAO) {
     suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? {
         return chatDao.getChat(initiatorUserID, receiverUserID)
     }
+
+    fun deleteChat(chatID : String) {
+        chatDao.deleteChat(chatID)
+    }
 }

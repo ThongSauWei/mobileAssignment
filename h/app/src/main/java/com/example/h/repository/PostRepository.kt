@@ -24,4 +24,8 @@ class PostRepository(private val postDao : PostDAO) {
     suspend fun getAllPost() : List<Post> {
         return postDao.getAllPost()
     }
+
+    fun deletePost(postID : String) {
+        postDao.deletePost(postID)
+    }
 }
