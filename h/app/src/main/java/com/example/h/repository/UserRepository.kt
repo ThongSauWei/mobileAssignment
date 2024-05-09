@@ -22,13 +22,11 @@ class UserRepository(private val userDao : UserDAO) {
         userDao.addUser(userWithHashedPassword)
     }
 
-    fun getUserByID(userID : String, callback : (User?) -> Unit) {
-        userDao.getUserByID(userID) { user ->
-            callback(user)
-        }
+    suspend fun getUserByID(userID : String) : User? {
+        return userDao.getUserByID(userID)
     }
 
-    fun getUserByEmail(email: String): User? {
+    suspend fun getUserByEmail(email: String): User? {
         var user: User? = null
         userDao.getUserByEmail(email) { retrievedUser ->
             user = retrievedUser
@@ -36,13 +34,11 @@ class UserRepository(private val userDao : UserDAO) {
         return user
     }
 
-    fun getUserByLogin(userEmail : String, userPassword : String, callback : (User?) -> Unit) {
+   suspend fun getUserByLogin(userEmail : String, userPassword : String, callback : (User?) -> Unit) {
         // Hash the password before querying the user
         val hashedPassword = hashPassword(userPassword)
 
-        userDao.getUserByLogin(userEmail, hashedPassword) { user ->
-            callback(user)
-        }
+        return userDao.getUserByLogin(userEmail, userPassword)
     }
 
     private fun hashPassword(password: String): String {

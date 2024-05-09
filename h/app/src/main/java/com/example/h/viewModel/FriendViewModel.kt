@@ -24,7 +24,7 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
         }
     }
 
-    fun getFriendList(userID : String) : List<Friend> {
+    suspend fun getFriendList(userID : String) : List<Friend> {
         return friendRepository.getFriendList(userID)
     }
 }

@@ -8,4 +8,6 @@ data class User(
     val userDOB : String,
     val userPassword : String,
     val userSecurityQuestion : String
-)
+) {
+    constructor() : this("", "", "", "", "", "", "")
+}

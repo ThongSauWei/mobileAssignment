@@ -24,33 +24,13 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getUserByID(userID : String) : User? {
+    suspend fun getUserByID(userID : String) : User? {
 
-        var user : User? = null
-
-        userRepository.getUserByID(userID) { retrievedUser ->
-            if (user == null) {
-                Toast.makeText(getApplication(), "Error getting user", Toast.LENGTH_LONG).show()
-            } else {
-                user = retrievedUser
-            }
-        }
-
-        return user
+        return userRepository.getUserByID(userID)
     }
 
-    fun getUserByLogin(userEmail : String, userPassword : String) : User? {
+    suspend fun getUserByLogin(userEmail : String, userPassword : String) : User? {
 
-        var user : User? = null
-
-        userRepository.getUserByLogin(userEmail, userPassword) { retrievedUser ->
-            if (user == null) {
-                Toast.makeText(getApplication(), "Error getting user", Toast.LENGTH_LONG).show()
-            } else {
-                user = retrievedUser
-            }
-        }
-
-        return user
+        return userRepository.getUserByLogin(userEmail, userPassword)
     }
 }
