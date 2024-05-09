@@ -22,7 +22,7 @@ class UserDAO {
     }
 
     fun getUserByID(userID : String, callback : (User?) -> Unit) {
-        dbRef.orderByChild("UserID").equalTo(userID)
+        dbRef.orderByChild("userID").equalTo(userID)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {

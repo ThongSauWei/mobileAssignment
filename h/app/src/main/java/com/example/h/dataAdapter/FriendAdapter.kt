@@ -15,23 +15,17 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.h.R
-import com.example.h.data.Friend
 import com.example.h.data.User
-import com.example.h.saveSharedPreference.SaveSharedPreference
-import com.example.h.viewModel.UserViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
+class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
 
     private lateinit var storageRef : StorageReference
-    private var friendList = emptyList<Friend>()
-    private lateinit var userID : String
+    private var friendList = emptyList<User>()
 
     object Mode {
         const val ADD = 1
@@ -65,30 +59,26 @@ class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : Recycl
 
         storageRef = FirebaseStorage.getInstance().getReference()
 
-        userID = SaveSharedPreference.getUserID(parent.context)
+
 
         return FriendHolder(itemView)
     }
 
     override fun getItemCount(): Int {
-        return 20
+        return friendList.size
     }
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
         val currentItem = friendList[position]
 
-        // get the friend information
-        val friendID = if (currentItem.requestUserID == userID) currentItem.receiveUserID else currentItem.requestUserID
-        val friend = userViewModel.getUserByID(friendID)
-
         // get the image of the friend
-        val ref = storageRef.child("imageProfile").child(friend?.userID + ".png")
+        val ref = storageRef.child("imageProfile").child(currentItem.userID + ".png")
         ref.downloadUrl
             .addOnCompleteListener {
                 Glide.with(holder.imgProfile).load(it.result.toString()).into(holder.imgProfile)
             }
         
-        holder.tvName.text = friend?.username
+        holder.tvName.text = currentItem.username
         holder.tvText.text = "Business, TARUMT" // dynamic
 
         // convert dp to px
@@ -222,7 +212,7 @@ class FriendAdapter (val userViewModel : UserViewModel, val mode : Int) : Recycl
         }
     }
 
-    fun initData(friendList : List<Friend>) {
+    fun initData(friendList : List<User>) {
         this.friendList = friendList
 
         notifyDataSetChanged()

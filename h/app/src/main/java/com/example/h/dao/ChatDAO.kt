@@ -22,12 +22,12 @@ class ChatDAO {
 
     fun getChat(initiatorUserID : String, receiverUserID : String, callback : (chat : Chat?, errorMessage: String?) -> Unit) {
 
-        dbRef.orderByChild("InitiatorUserID").equalTo(initiatorUserID)
+        dbRef.orderByChild("initiatorUserID").equalTo(initiatorUserID)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         for (chatSnapshot in snapshot.children) {
-                            val userID = chatSnapshot.child("ReceiverUserID").getValue(String::class.java)
+                            val userID = chatSnapshot.child("receiverUserID").getValue(String::class.java)
                             if (userID == receiverUserID) {
                                 val chat = chatSnapshot.getValue(Chat::class.java)
                                 callback(chat, null)
