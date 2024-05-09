@@ -28,6 +28,14 @@ class UserRepository(private val userDao : UserDAO) {
         }
     }
 
+    fun getUserByEmail(email: String): User? {
+        var user: User? = null
+        userDao.getUserByEmail(email) { retrievedUser ->
+            user = retrievedUser
+        }
+        return user
+    }
+
     fun getUserByLogin(userEmail : String, userPassword : String, callback : (User?) -> Unit) {
         // Hash the password before querying the user
         val hashedPassword = hashPassword(userPassword)

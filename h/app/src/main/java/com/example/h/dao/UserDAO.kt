@@ -43,6 +43,26 @@ class UserDAO {
             })
     }
 
+    fun getUserByEmail(email: String, callback: (User?) -> Unit) {
+        dbRef.orderByChild("userEmail").equalTo(email)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (userSnapshot in snapshot.children) {
+                            val user = userSnapshot.getValue(User::class.java)
+                            callback(user)
+                            return
+                        }
+                    }
+                    callback(null)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+            })
+    }
+
     fun getUserByLogin(userEmail : String, hashedPassword : String, callback: (User?) -> Unit) {
         dbRef.orderByChild("userEmail").equalTo(userEmail)
             .addListenerForSingleValueEvent(object : ValueEventListener {
