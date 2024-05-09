@@ -7,6 +7,7 @@ import com.example.h.dao.FriendDAO
 import com.example.h.data.Friend
 import com.example.h.repository.FriendRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FriendViewModel(application : Application) : AndroidViewModel(application) {
