@@ -9,7 +9,7 @@ class FriendRepository(private val friendDao : FriendDAO) {
         friendDao.addFriend(friend)
     }
 
-    fun getFriendList(userID : String) : List<Friend> {
+    suspend fun getFriendList(userID : String) : List<Friend> {
         return friendDao.getFriendList(userID)
     }
 }

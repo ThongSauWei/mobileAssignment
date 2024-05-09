@@ -7,6 +7,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class UserDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("User")
@@ -21,29 +24,30 @@ class UserDAO {
             }
     }
 
-    fun getUserByID(userID : String, callback : (User?) -> Unit) {
+    suspend fun getUserByID(userID : String) : User? = suspendCoroutine { continuation ->
+
         dbRef.orderByChild("userID").equalTo(userID)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         for (userSnapshot in snapshot.children) {
                             val user = userSnapshot.getValue(User::class.java)
-                            callback(user)
+                            continuation.resume(user)
                             return
                         }
                     }
 
-                    callback(null)
+                    continuation.resume(null)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    callback(null)
+                    continuation.resume(null)
                 }
 
             })
     }
 
-    fun getUserByLogin(userEmail : String, hashedPassword : String, callback: (User?) -> Unit) {
+    suspend fun getUserByLogin(userEmail : String, hashedPassword : String) : User? = suspendCoroutine { continuation ->
         dbRef.orderByChild("userEmail").equalTo(userEmail)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -52,17 +56,17 @@ class UserDAO {
                             val password = userSnapshot.child("userPassword").getValue(String::class.java)
                             if (password == hashedPassword) {
                                 val user = userSnapshot.getValue(User::class.java)
-                                callback(user)
+                                continuation.resume(user)
                                 return
                             }
                         }
                     }
 
-                    callback(null)
+                    continuation.resume(null)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    callback(null)
+                    continuation.resume(null)
                 }
 
             })

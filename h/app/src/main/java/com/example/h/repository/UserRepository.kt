@@ -11,17 +11,13 @@ class UserRepository(private val userDao : UserDAO) {
         userDao.addUser(user)
     }
 
-    fun getUserByID(userID : String, callback : (User?) -> Unit) {
-        userDao.getUserByID(userID) { user ->
-            callback(user)
-        }
+    suspend fun getUserByID(userID : String) : User? {
+        return userDao.getUserByID(userID)
     }
 
-    fun getUserByLogin(userEmail : String, userPassword : String, callback : (User?) -> Unit) {
+    suspend fun getUserByLogin(userEmail : String, userPassword : String) : User? {
         // hash password here
 
-        userDao.getUserByLogin(userEmail, userPassword) { user ->
-            callback(user)
-        }
+        return userDao.getUserByLogin(userEmail, userPassword)
     }
 }

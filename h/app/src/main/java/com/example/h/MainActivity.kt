@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             Friend("F101", "A102", "A100", "Friend"),
             Friend("F102", "A103", "A100", "Friend"),
             Friend("F103", "A100", "A104", "Friend"),
-            Friend("F104", "A105", "A100", "Friend"),
+            Friend("F104", "A105", "A101", "Friend"),
             Friend("F105", "A101", "A102", "Friend"),
         )
 
