@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.h.Dialog.DeleteFriendDialog
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
@@ -28,7 +30,6 @@ class Friends : Fragment() {
 
     private val userList : ArrayList<User> = arrayListOf()
     private val profileList : ArrayList<Profile> = arrayListOf()
-    private lateinit var friendList : List<Friend>
 
     private lateinit var tvCount : TextView
 
@@ -53,26 +54,40 @@ class Friends : Fragment() {
     }
 
     private fun fetchData() {
+        val friendViewModel: FriendViewModel =
+            ViewModelProvider(this@Friends).get(FriendViewModel::class.java)
+        val profileViewModel: ProfileViewModel =
+            ViewModelProvider(this@Friends).get(ProfileViewModel::class.java)
+
         lifecycleScope.launch {
 
-            val friendViewModel : FriendViewModel = ViewModelProvider(this@Friends).get(FriendViewModel::class.java)
-            val profileViewModel : ProfileViewModel = ViewModelProvider(this@Friends).get(ProfileViewModel::class.java)
+            friendViewModel.friendList.observe(viewLifecycleOwner, Observer { friendList ->
 
-            friendList = friendViewModel.getFriendList(userID)
+                userList.clear()
+                profileList.clear()
 
-            for (friend in friendList) {
-                val friendID = if (friend.requestUserID == userID) friend.receiveUserID else friend.requestUserID
-                val user = userViewModel.getUserByID(friendID)
-                userList.add(user!!)
-                val userProfile = profileViewModel.getProfile(user.userID)
-                profileList.add(userProfile!!)
-            }
+                lifecycleScope.launch {
 
-            val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
-            adapter.initFriend(userList, profileList)
-            recyclerView.adapter = adapter
+                    for (friend in friendList) {
+                        val friendID =
+                            if (friend.requestUserID == userID) friend.receiveUserID else friend.requestUserID
+                        val user = userViewModel.getUserByID(friendID)
+                        userList.add(user!!)
+                        val userProfile = profileViewModel.getProfile(user.userID)
+                        profileList.add(userProfile!!)
+                    }
 
-            tvCount.text = userList.size.toString() + " Buddies"
+                    val dialog = DeleteFriendDialog()
+                    dialog.viewModel = friendViewModel
+
+                    val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
+                    adapter.setList(friendList, userList, profileList)
+                    adapter.setDeleteFriendDialog(dialog, childFragmentManager)
+                    recyclerView.adapter = adapter
+
+                    tvCount.text = userList.size.toString() + " Buddies"
+                }
+            })
         }
     }
 }

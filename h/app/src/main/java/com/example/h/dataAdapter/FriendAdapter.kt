@@ -14,9 +14,12 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.h.Dialog.DeleteFriendDialog
 import com.example.h.R
+import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
 import com.google.firebase.storage.FirebaseStorage
@@ -25,7 +28,11 @@ import com.google.firebase.storage.StorageReference
 class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
 
     private lateinit var storageRef : StorageReference
-    private var friendList = emptyList<User>()
+    private lateinit var fragmentManager : FragmentManager
+    private lateinit var deleteFriendDialog : DeleteFriendDialog
+
+    private var friendList = emptyList<Friend>()
+    private var userList = emptyList<User>()
     private var profileList = emptyList<Profile>()
 
     object Mode {
@@ -68,7 +75,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     }
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
-        val currentUser = friendList[position]
+        val currentUser = userList[position]
         val currentProfile = profileList[position]
 
         // get the image of the friend
@@ -105,7 +112,6 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 holder.btnAdd.compoundDrawablePadding = (8 * density).toInt()
                 holder.btnAdd.setPadding((10 * density).toInt(), 0, (10 * density).toInt(), 0)
 
-
                 // set the background of the button
                 holder.btnAdd.setBackgroundResource(R.drawable.button_bg)
 
@@ -126,6 +132,13 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 // add the image into the cardview
                 holder.dynamicContainer.removeAllViews()
                 holder.dynamicContainer.addView(holder.imgContent)
+
+                holder.imgContent.setOnClickListener {
+                    val friendID = friendList[position].friendID
+                    deleteFriendDialog.friendID = friendID
+
+                    deleteFriendDialog.show(fragmentManager, "DeleteFriendDialog")
+                }
             }
             Mode.CHAT -> {
                 // initialise the textview for time
@@ -212,9 +225,17 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         }
     }
 
-    fun initFriend(friendList : List<User>, profileList : List<Profile>) {
+    fun setList(friendList : List<Friend>, userList : List<User>, profileList : List<Profile>) {
         this.friendList = friendList
+        this.userList = userList
         this.profileList = profileList
+
+        notifyDataSetChanged()
+    }
+
+    fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog, fragmentManager : FragmentManager) {
+        this.deleteFriendDialog = deleteFriendDialog
+        this.fragmentManager = fragmentManager
 
         notifyDataSetChanged()
     }
