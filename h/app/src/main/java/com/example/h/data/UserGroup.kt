@@ -1,8 +1,10 @@
 package com.example.h.data
 
 data class UserGroup(
-    val userGroup : String,
+    val userGroupID : String,
     val userID : String,
     val groupID : String,
     val lastSeen : String
-)
+) {
+    constructor() : this("", "", "", "")
+}

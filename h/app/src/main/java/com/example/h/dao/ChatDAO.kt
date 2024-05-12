@@ -6,6 +6,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class ChatDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Chat")
@@ -20,7 +23,7 @@ class ChatDAO {
             }
     }
 
-    fun getChat(initiatorUserID : String, receiverUserID : String, callback : (chat : Chat?, errorMessage: String?) -> Unit) {
+    suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? = suspendCoroutine { continuation ->
 
         dbRef.orderByChild("initiatorUserID").equalTo(initiatorUserID)
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -30,18 +33,28 @@ class ChatDAO {
                             val userID = chatSnapshot.child("receiverUserID").getValue(String::class.java)
                             if (userID == receiverUserID) {
                                 val chat = chatSnapshot.getValue(Chat::class.java)
-                                callback(chat, null)
+                                continuation.resume(chat)
                                 return
                             }
                         }
                     }
 
-                    callback(null, "Chat not found")
+                    continuation.resume(null)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    callback(null, "Error: $error")
+                    continuation.resumeWithException(error.toException())
                 }
             })
+    }
+
+    fun deleteChat(chatID : String) {
+        dbRef.child(chatID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
     }
 }

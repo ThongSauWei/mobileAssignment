@@ -41,7 +41,7 @@ class UserDAO {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    continuation.resume(null)
+                    continuation.resumeWithException(error.toException())
                 }
 
             })
@@ -86,9 +86,19 @@ class UserDAO {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    continuation.resume(null)
+                    continuation.resumeWithException(error.toException())
                 }
 
             })
+    }
+
+    fun deleteUser(userID : String) {
+        dbRef.child(userID).removeValue()
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
     }
 }

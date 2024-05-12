@@ -10,8 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.h.R
 import com.example.h.data.Post
 
-class PostAdapter : RecyclerView.Adapter <PostAdapter.PostHolder>() {
+class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.PostHolder>() {
     class PostHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
+
+        val imgProfile: ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
+        val tvName: TextView = itemView.findViewById(R.id.tvNamePostHolder)
+        val tvDateTime: TextView = itemView.findViewById(R.id.tvDateTimePostHolder)
+        val imgPost: ImageView = itemView.findViewById(R.id.imgPostPostHolder)
+        val tvTitle: TextView = itemView.findViewById(R.id.tvPostTitlePostHolder)
+        val tvPostContent: TextView = itemView.findViewById(R.id.tvPostContentPostHolder)
+        val tvCategory1: TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
+        val tvCategory2: TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
 
         /* initialise all the views that is needed to change
 
@@ -33,11 +42,18 @@ class PostAdapter : RecyclerView.Adapter <PostAdapter.PostHolder>() {
     }
 
     override fun getItemCount(): Int {
-//        return postList.size
-        return 4
+        return postList.size
+//        return 4
     }
 
     override fun onBindViewHolder(holder: PostHolder, position: Int) {
+
+        val currentItem = postList[position]
+
+        holder.tvTitle.text = currentItem.postTitle
+        holder.tvPostContent.text = currentItem.postDescription
+        holder.tvCategory1.text = currentItem.postCategory
+        holder.tvCategory2.text = currentItem.postLearningStyle
 
         /* bind the views with the correct information
 

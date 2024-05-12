@@ -7,12 +7,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.h.data.Friend
+import com.example.h.data.Profile
 import com.example.h.data.User
 import com.example.h.viewModel.FriendViewModel
+import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var userViewModel : UserViewModel
+    private lateinit var profileViewModel : ProfileViewModel
     private lateinit var friendViewModel : FriendViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +27,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
+
         // initForTesting()
     }
 
     fun initForTesting() {
-
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
         val userList : List<User> = listOf(
             User("A100", "Ali", "Ali@gmail.com", "0123456789", "01-01-2003", "AliPsw", "What is your favourite movie?"),
@@ -39,6 +43,15 @@ class MainActivity : AppCompatActivity() {
             User("A103", "Dali", "Dali@gmail.com", "0124683579", "01-04-2003", "DaliPsw", "What is your favourite subject?"),
             User("A104", "Eali", "Eali@gmail.com", "0192348765", "01-05-2003", "EaliPsw", "What is your favourite fruit?"),
             User("A105", "Fali", "Fali@gmail.com", "0127893456", "01-06-2003", "FaliPsw", "What is your favourite food?"),
+        )
+
+        val profileList : List<Profile> = listOf(
+            Profile("A100", "Business, TARUMT", "Hi I am Ali", "", "English"),
+            Profile("A101", "Information Technology, TARUMT", "Hi I am Bali", "", "Chinese"),
+            Profile("A102", "Computer Science, TARUMT", "Hi I am Cali", "", "English"),
+            Profile("A103", "Accounting, TARUMT", "Hi I am Dali", "", "Chinese"),
+            Profile("A104", "Business, TARUMT", "Hi I am Eali", "", "Chinese"),
+            Profile("A105", "Information Technology, TARUMT", "Hi I am Fali", "", "English"),
         )
 
         val friendList : List<Friend> = listOf(
@@ -52,6 +65,10 @@ class MainActivity : AppCompatActivity() {
 
         for (user in userList) {
             userViewModel.addUser(user)
+        }
+
+        for (profile in profileList) {
+            profileViewModel.addProfile(profile)
         }
 
         for (friend in friendList) {

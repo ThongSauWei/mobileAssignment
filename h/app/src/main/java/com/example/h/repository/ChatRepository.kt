@@ -8,9 +8,11 @@ class ChatRepository(private val chatDao : ChatDAO) {
         chatDao.addChat(chat)
     }
 
-    fun getChat(initiatorUserID : String, receiverUserID : String, callback : (chat : Chat?, errorMessage : String?) -> Unit) {
-        chatDao.getChat(initiatorUserID, receiverUserID) { chat, errorMessage ->
-            callback(chat, errorMessage)
-        }
+    suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? {
+        return chatDao.getChat(initiatorUserID, receiverUserID)
+    }
+
+    fun deleteChat(chatID : String) {
+        chatDao.deleteChat(chatID)
     }
 }

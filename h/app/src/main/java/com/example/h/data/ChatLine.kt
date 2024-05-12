@@ -6,4 +6,6 @@ data class ChatLine(
     val dateTime : String,
     val chatID : String,
     val content : String
-)
+) {
+    constructor() : this("", "", "", "", "")
+}

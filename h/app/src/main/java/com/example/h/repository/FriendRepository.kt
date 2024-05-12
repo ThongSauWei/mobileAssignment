@@ -12,4 +12,8 @@ class FriendRepository(private val friendDao : FriendDAO) {
     suspend fun getFriendList(userID : String) : List<Friend> {
         return friendDao.getFriendList(userID)
     }
+
+    fun deleteFriend(friendID : String) {
+        friendDao.deleteFriend(friendID)
+    }
 }

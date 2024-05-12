@@ -9,4 +9,6 @@ data class Post(
     val postCategory : String,
     val postLearningStyle : String,
     val postDateTime : String
-)
+) {
+    constructor() : this("", "", "", "", "", "", "", "")
+}

@@ -4,6 +4,9 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/rounded_bg</item>
+    </style>
 
     <style name="Theme.H" parent="Base.Theme.H" />
 </resources>
