@@ -1,13 +1,19 @@
 package com.example.h.repository
 
+import android.net.Uri
 import com.example.h.dao.PostDAO
 import com.example.h.data.Post
 
 class PostRepository(private val postDao : PostDAO) {
 
-    fun addPost(post : Post) {
-        postDao.addPost(post)
+//    fun addPost(post : Post) {
+//        postDao.addPost(post)
+//    }
+
+    suspend fun addPost(post: Post, imageUri: Uri?, userID: String, onComplete: (Boolean, Exception?) -> Unit) {
+        postDao.addPost(post, imageUri, userID, onComplete)
     }
+
 
     suspend fun getPostByUser(userID : String) : List<Post> {
         return postDao.getPostByUser(userID)

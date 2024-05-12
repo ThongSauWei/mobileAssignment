@@ -1,6 +1,7 @@
 package com.example.h.viewModel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.h.dao.PostDAO
@@ -17,11 +18,25 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
         postRepository = PostRepository(postDao)
     }
 
-    fun addPost(post : Post) {
+//    fun addPost(post : Post) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            postRepository.addPost(post)
+//        }
+//    }
+
+    fun addPost(post: Post, imageUri: Uri?, userID: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.addPost(post)
+            postRepository.addPost(post, imageUri, userID) { success, exception ->
+                if (success) {
+                    // Post addition succeeded
+                    // You can perform any UI-related actions here if needed
+                } else {
+                    exception?.printStackTrace()
+                }
+            }
         }
     }
+
 
     suspend fun getPostByUser(userID : String) : List<Post> {
         return postRepository.getPostByUser(userID)
