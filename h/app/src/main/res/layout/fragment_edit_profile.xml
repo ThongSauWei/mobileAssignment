@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/caveat"
-        android:text="Name"
+        android:text="@string/profileName"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtNameEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -90,11 +90,11 @@
 
     <TextView
         android:id="@+id/lblEmailEditProfile"
-        android:layout_width="41dp"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="24dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Email"
+        android:text="@string/profileEmail"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtNameEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtNameEditProfile" />
@@ -110,11 +110,11 @@
 
     <TextView
         android:id="@+id/lblPhoneNoEditProfile"
-        android:layout_width="89dp"
-        android:layout_height="wrap_content"
+        android:layout_width="114dp"
+        android:layout_height="23dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Mobile Phone"
+        android:text="@string/profileMobile_phone"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtEmailEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtEmailEditProfile" />
@@ -130,11 +130,11 @@
 
     <TextView
         android:id="@+id/lblBirthdayEditProfile"
-        android:layout_width="63dp"
-        android:layout_height="wrap_content"
+        android:layout_width="118dp"
+        android:layout_height="23dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Birthday"
+        android:text="@string/profilrBirthday"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtPhoneNoEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtPhoneNoEditProfile" />
@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Description"
+        android:text="@string/profileDescription"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtBirthdayEditProfile"
         app:layout_constraintTop_toBottomOf="@+id/txtBirthdayEditProfile" />
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg"
             android:fontFamily="@font/caveat"
-            android:text="Save"
+            android:text="@string/profileSave"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />

@@ -44,21 +44,21 @@
             android:src="@drawable/baseline_add_24" />
     </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/txtTitleCreatePost"
-        android:layout_width="330dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@android:color/transparent"
-        android:ems="10"
-        android:fontFamily="@font/caveat"
-        android:gravity="start|top"
-        android:hint="Add a Title..."
-        android:inputType="text|textMultiLine"
-        android:textColorHint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewCreatePost" />
+        <EditText
+            android:id="@+id/txtTitleCreatePost"
+            android:layout_width="330dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@android:color/transparent"
+            android:ems="10"
+            android:fontFamily="@font/caveat"
+            android:gravity="start|top"
+            android:hint="@string/add_a_title"
+            android:inputType="text|textMultiLine"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewCreatePost" />
 
     <View
         android:id="@+id/separatorCreatePost"
@@ -80,7 +80,7 @@
         android:ems="10"
         android:fontFamily="@font/caveat"
         android:gravity="start|top"
-        android:hint="Type something to describe..."
+        android:hint="@string/type_something_to_describe"
         android:inputType="text|textMultiLine"
         android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/txtTitleCreatePost"
@@ -100,11 +100,11 @@
 
     <TextView
         android:id="@+id/lblLinkCreatePost"
-        android:layout_width="108dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Google Meet Link"
+        android:text="@string/google_meet_link"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
         app:layout_constraintTop_toBottomOf="@+id/separator2CreatePost" />
@@ -135,11 +135,11 @@
 
     <TextView
         android:id="@+id/lblCategoryCreatePost"
-        android:layout_width="115dp"
+        android:layout_width="197dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Select a Category"
+        android:text="@string/select_a_category"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
         app:layout_constraintTop_toBottomOf="@+id/separator3CreatePost" />
@@ -171,11 +171,11 @@
 
     <TextView
         android:id="@+id/lblLearningStyleCreatePost"
-        android:layout_width="149dp"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/caveat"
-        android:text="Select a Learning Style"
+        android:text="@string/select_a_learning_style"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/ddlCategoryCreatePost"
         app:layout_constraintTop_toBottomOf="@+id/separator4CreatePost" />
@@ -210,7 +210,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg"
             android:fontFamily="@font/caveat"
-            android:text="Next"
+            android:text="@string/next"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="24sp"

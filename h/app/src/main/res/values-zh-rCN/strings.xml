@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">h</string>
+    <string name="confirm_delete_haha">确认删除 Haha？</string>
+    <string name="delete_will_be_permanently">删除将是永久性的</string>
+    <string name="yes">是的</string>
+    <string name="no">不</string>
+    <string name="underlined_sign_up">注册</string>
+    <string name="underlined_forget_password">忘记密码？</string>
+    <string name="underlined_sign_in">登录</string>
+    <string name="underlined_contact_us">联系我们</string>
+    <string name="hello_blank_fragment">你好空白片段</string>
+    <string name="sign_out">登出</string>
+    <string name="about_us">关于我们</string>
+    <string name="find_partner_friend">（寻找伙伴朋友）</string>
+    <string name="welcome_to_fpf_where_creativity_knows_no_limits_we_are_fpf_the_quot">欢迎来到创意无限的FPF。我们是FPF，一个连接学生或学习者的“学习伙伴”平台。</string>
+    <string name="our_mission">我们的使命:</string>
+    <string name="at_fpf_our_mission_is_to_empower_students_we_provide_a_dedicated_platform_for_students_to_find_gather_and_communicate_their_learning_materials_we_believe_in_breaking_down_barriers_so_that_everyone_can_find_the_right_soulmate_learning_partner">在FPF，我们的使命是赋予学生权力。我们为学生提供一个查找、收集和交流学习资料的专用平台。我们相信打破障碍，让每个人都能找到合适的灵魂伴侣(学习伙伴)。</string>
+    <string name="why_fpf">为什么 FPF？</string>
+    <string name="fpf_is_the_preferred_learning_partner_platform_for_students_because_we_provide_practical_features_and_friendly_experiences_to_build_a_tight_knit_learning_community_choosing_fpf_means_choosing_a_learning_partner_who_walks_with_you_and_grows_together_to_inject_vitality_and_possibility_into_your_academic_journey">FPF是学生首选的学习伙伴平台，因为我们提供实用的功能和友好的体验，以建立一个紧密结合的学习社区。选择FPF意味着选择一个与你同行、共同成长的学习伙伴，为你的学术之旅注入活力和可能性。</string>
+    <string name="contact_us">联系我们</string>
+    <string name="name">名字</string>
+    <string name="email">电子邮件</string>
+    <string name="problem_type">问题类型</string>
+    <string name="submit">提交</string>
+    <array name="language_array">
+        <item>English</item>
+        <item>中文</item>
+    </array>
+    <array name="problem_type">
+        <item>不可添加好友</item>
+        <item>不可加入群组</item>
+        <item>不可上传帖子</item>
+        <item>其他</item>
+    </array>
+    <array name="category">
+        <item>作业</item>
+        <item>生意学</item>
+        <item>计算机科学</item>
+        <item>会计学</item>
+        <item>平面设计学</item>
+        <item>学士</item>
+        <item>金融学</item>
+        <item>医学</item>
+    </array>
+    <array name="learning_style">
+        <item>视觉学习</item>
+        <item>听觉学习</item>
+        <item>动觉学习</item>
+        <item>阅读/写作学习</item>
+        <item>社会学习</item>
+        <item>单独/个人学习</item>
+    </array>
+    <string name="mobile_phone">手机号码</string>
+    <string name="description">描述</string>
+    <string name="add_a_title">添加标题…</string>
+    <string name="type_something_to_describe">输入一些东西来描述…</string>
+    <string name="google_meet_link">谷歌会议链接</string>
+    <string name="select_a_category">选择类别</string>
+    <string name="select_a_learning_style">选择一种学习方式</string>
+    <string name="next">下一个</string>
+    <string name="profileName">名字</string>
+    <string name="profileEmail">电子邮件</string>
+    <string name="profileMobile_phone">手机号码</string>
+    <string name="profilrBirthday">生日日期</string>
+    <string name="profileDescription">描述</string>
+    <string name="profileSave">保存</string>
+    <string name="filter">筛选</string>
+    <string name="category">类别</string>
+    <string name="learning_style">学习风格</string>
+    <string name="add_buddy">添加伙伴</string>
+    <string name="message">消息</string>
+    <string name="groups">群组</string>
+    <string name="friends">朋友</string>
+    <string name="all_buddies">全部的伙伴</string>
+    <string name="_20_buddies">20 伙伴</string>
+    <string name="typing">输入...</string>
+    <string name="chat_with_groups">群组聊天</string>
+    <string name="search_your_groups">搜索你的群组</string>
+    <string name="group">群组</string>
+    <string name="all">全部</string>
+    <string name="InnerChatTyping">输入...</string>
+    <string name="view_post">查看帖子</string>
+    <string name="invite_friends_to_join">邀请朋友加入</string>
+    <string name="invite_more_friends_to_join_the_discussion_now">现在邀请更多的朋友加入讨论!!</string>
+    <string name="done">完成</string>
+    <string name="search_by_name">按名称搜索</string>
+    <string name="assignment">" 作业"</string>
+    <string name="visual_learning">视觉学习</string>
+    <string name="join">加入</string>
+    <string name="write_a_comment">写个评论……</string>
+    <string name="_4_comments">4 评论</string>
+    <string name="new_password">新密码</string>
+    <string name="new_password_title">新密码</string>
+    <string name="confirm_password_title">确认密码</string>
+    <string name="submit_passRecover">提交</string>
+    <string name="chat_with_buddies">和伙伴聊天</string>
+    <string name="search_your_buddies">搜索你的伙伴</string>
+    <string name="chat">聊天</string>
+    <string name="password_recovery">密码恢复</string>
+    <string name="prc_email">电子邮件</string>
+    <string name="security_question">安全问题</string>
+    <string name="prc_submit">提交</string>
+    <string name="need_help">需要帮忙?</string>
+    <string name="edit_profile">编辑資料</string>
+    <string name="profile_groups">群组</string>
+    <string name="profile_friends">朋友</string>
+    <string name="open_gallery">打开相册</string>
+    <string name="sign_up">注册</string>
+    <string name="signUpName">名字</string>
+    <string name="signUpMobile_number">手机号码</string>
+    <string name="signUpBirthday">生日日期</string>
+    <string name="signUpPassword">密码</string>
+    <string name="signUp_security_question">安全问题</string>
+    <string name="signUp_sign_up_btn">注册</string>
+    <string name="already_have_an_account">已经有账户了吗?</string>
+    <string name="SignUpEmail">电子邮件</string>
+    <string name="find_buddies">寻找伙伴</string>
+    <string name="study_with_other_study_partner">和其他学习伙伴一起学习!</string>
+    <string name="search_by_name_category_or_learning_styles">搜索的名称，类别或学习风格</string>
+    <string name="add_buddies">添加伙伴</string>
+    <string name="suggest_buddies">推荐伙伴</string>
+    <string name="search_a_post">搜索帖子</string>
+    <string name="explore_something_special">探索一些特别的东西……</string>
+    <string name="type_something_to_search">输入要搜索的内容</string>
+    <string name="search">搜索</string>
+    <string name="suggest_post">推荐帖子</string>
+    <string name="settings">设置</string>
+    <string name="setting_about_us">关于我们</string>
+    <string name="setting_contact_us">联系我们</string>
+    <string name="setting_language">语言</string>
+    <string name="sign_in">登录</string>
+    <string name="signIn_email">电子邮件</string>
+    <string name="signIn_password">密码</string>
+    <string name="sigIn_btn_sign_in">登录</string>
+    <string name="sign_in_with">使用登录</string>
+    <string name="home">主页</string>
+    <string name="settings_menu">设置</string>
+    <string name="chat_menu">聊天</string>
+    <string name="group_menu">群组</string>
+    <string name="profile_menu">个人主页</string>
+    <string name="sign_out_menu">登出</string>
+
+</resources>

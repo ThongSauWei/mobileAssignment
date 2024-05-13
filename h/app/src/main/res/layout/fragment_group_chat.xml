@@ -354,7 +354,7 @@
                 android:fontFamily="@font/caveat"
                 android:inputType="text"
                 android:paddingStart="15dp"
-                android:text="Typing..."
+                android:text="@string/typing"
                 android:textColor="@color/search_text"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"

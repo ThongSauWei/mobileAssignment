@@ -65,7 +65,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/caveat"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="ALL"
+                    android:text="@string/all"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>

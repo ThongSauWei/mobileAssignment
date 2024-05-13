@@ -14,21 +14,16 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.example.h.dao.PostDAO
 import com.example.h.data.Post
-import com.example.h.repository.PostRepository
+import com.example.h.saveSharedPreference.SaveSharedPreference
+import com.example.h.viewModel.PostViewModel
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Calendar
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import java.util.Calendar
 
 class CreatePost : Fragment() {
 
@@ -45,7 +40,7 @@ class CreatePost : Fragment() {
     private val imagePickRequestCode = 1000
     private var imageUri: Uri? = null
 
-    private val postRepository = PostRepository(PostDAO())
+    private lateinit var postViewModel: PostViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,32 +61,16 @@ class CreatePost : Fragment() {
         val cardViewCreatePost = view.findViewById<CardView>(R.id.cardViewCreatePost)
         cardViewCreatePost.addView(imageView)
 
-        btnNextCreatePost.setOnClickListener {
-//            if (validateForm()) {
-//                savePostToFirebase()
-//            }
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 
+        btnNextCreatePost.setOnClickListener {
             if (validateForm()) {
                 val fragment = InviteFriend()
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 transaction?.replace(R.id.fragmentContainerView, fragment)
                 transaction?.addToBackStack(null)
                 transaction?.commit()
-
-//                val navHostFragment =
-//                    activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-//                val navController = navHostFragment.navController
-//
-//                navController.navigate(R.id.action_createPost_to_inviteFriend2)
-
             }
-//            if (validateForm()) {
-//                val post = createPostObject() // Create a Post object with the required data
-//                val action = CreatePostFragmentDirections.actionCreatePostFragmentToInviteFriendFragment(post)
-//                findNavController().navigate(action)
-//            }
-
-
         }
 
         btnAddCreatePost.setOnClickListener {
@@ -155,44 +134,8 @@ class CreatePost : Fragment() {
     }
 
     private fun savePostToFirebase() {
-        val title = txtTitleCreatePost.text.toString()
-        val description = txtDescriptionCreatePost.text.toString()
-        val link = txtLinkCreatePost.text.toString()
-        val category = ddlCategoryCreatePost.selectedItem.toString()
-        val learningStyle = ddlLearningStyleCreatePost.selectedItem.toString()
-        val currentDateTime = Calendar.getInstance().time.toString()
-        val userID = getCurrentUserID()
-        val postID = FirebaseDatabase.getInstance().reference.push().key
-            ?: throw IllegalStateException("Post ID could not be generated")
-
-        val post = Post(
-            postID = postID,
-            userID = userID,
-            postImage = "",
-            postTitle = title,
-            postDescription = description,
-            postCategory = category,
-            postLearningStyle = learningStyle,
-            postDateTime = currentDateTime
-        )
-
-        lifecycleScope.launch {
-            try {
-                postRepository.addPost(post, imageUri, userID) { success, exception ->
-                    if (success) {
-                        Toast.makeText(requireContext(), "Post saved successfully", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(requireContext(), "Failed to save post: ${exception?.message}", Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "Failed to save post: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
+        val post = createPostObject()
+        postViewModel.addPost(post, imageUri, getCurrentUserID())
     }
 
     private fun pickImageFromGallery() {
@@ -215,7 +158,6 @@ class CreatePost : Fragment() {
     }
 
     private fun getCurrentUserID(): String {
-        return "A100" //testing data
+        return SaveSharedPreference.getUserID(requireContext())
     }
 }
-

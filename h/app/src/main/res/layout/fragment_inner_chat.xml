@@ -174,7 +174,7 @@
                             android:layout_height="31dp"
                             android:background="@drawable/button_bg"
                             android:fontFamily="@font/caveat"
-                            android:text="View Post"
+                            android:text="@string/view_post"
                             android:textAllCaps="true"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
@@ -224,7 +224,7 @@
                 android:fontFamily="@font/caveat"
                 android:inputType="text"
                 android:paddingStart="15dp"
-                android:text="Typing..."
+                android:text="@string/InnerChatTyping"
                 android:textColor="@color/search_text"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"

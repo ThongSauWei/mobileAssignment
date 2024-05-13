@@ -39,15 +39,15 @@
 
     <TextView
         android:id="@+id/tvAboutUsAboutUs"
-        android:layout_width="115dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="165dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="@font/caveat"
-        android:text="About Us"
+        android:text="@string/about_us"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintHorizontal_bias="0.223"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,10 +75,10 @@
 
     <TextView
         android:id="@+id/tvFullNameAboutUs"
-        android:layout_width="158dp"
-        android:layout_height="wrap_content"
+        android:layout_width="221dp"
+        android:layout_height="25dp"
         android:fontFamily="@font/caveat"
-        android:text="(Find Partner Friend)"
+        android:text="@string/find_partner_friend"
         android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvNameAboutUs"
         app:layout_constraintStart_toEndOf="@+id/tvNameAboutUs" />
@@ -87,75 +87,44 @@
         android:id="@+id/tvWelcomeMsgAboutUs"
         android:layout_width="327dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/caveat"
-        android:text="Welcome to FPF where creativity knows no limits. We are FPF, the &quot;"
+        android:text="@string/welcome_to_fpf_where_creativity_knows_no_limits_we_are_fpf_the_quot"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNameAboutUs" />
 
     <TextView
-        android:id="@+id/tvWelcomeMsg2AboutUs"
-        android:layout_width="77dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
+        android:id="@+id/tvMissionAboutUs"
+        android:layout_width="122dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/caveat"
-        android:text="Study Buddy"
+        android:text="@string/our_mission"
         android:textColor="@color/button"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvWelcomeMsgAboutUs"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvWelcomeMsg3AboutUs"
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-2dp"
-        android:fontFamily="@font/caveat"
-        android:text="&quot; platform that connects"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvWelcomeMsg2AboutUs"
-        app:layout_constraintStart_toEndOf="@+id/tvWelcomeMsg2AboutUs" />
-
-    <TextView
-        android:id="@+id/tvWelcomeMsg4AboutUs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/caveat"
-        android:text="students or learners."
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvWelcomeMsgAboutUs"
         app:layout_constraintTop_toBottomOf="@+id/tvWelcomeMsgAboutUs" />
-
-    <TextView
-        android:id="@+id/tvMissionAboutUs"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/caveat"
-        android:text="Our Mission:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/tvWelcomeMsgAboutUs"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeMsg4AboutUs" />
 
     <TextView
         android:id="@+id/tvMissionDescAboutUs"
         android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/caveat"
-        android:text="At FPF, our mission is to empower students. We provide a dedicated platform for students to find, gather and communicate their learning materials. We believe in breaking down barriers so that everyone can find the right soulmate (learning partner)."
+        android:text="@string/at_fpf_our_mission_is_to_empower_students_we_provide_a_dedicated_platform_for_students_to_find_gather_and_communicate_their_learning_materials_we_believe_in_breaking_down_barriers_so_that_everyone_can_find_the_right_soulmate_learning_partner"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvMissionAboutUs"
         app:layout_constraintTop_toBottomOf="@+id/tvMissionAboutUs" />
 
     <TextView
         android:id="@+id/tvWhyAboutUs"
-        android:layout_width="72dp"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="30dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/caveat"
-        android:text="Why FPF?"
+        android:text="@string/why_fpf"
         android:textColor="@color/button"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvMissionDescAboutUs"
@@ -165,8 +134,9 @@
         android:id="@+id/tvReasonAboutUs"
         android:layout_width="327dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/caveat"
-        android:text="FPF is the preferred learning partner platform for students because we provide practical features and friendly experiences to build a tight-knit learning community. Choosing FPF means choosing a learning partner who walks with you and grows together to inject vitality and possibility into your academic journey."
+        android:text="@string/fpf_is_the_preferred_learning_partner_platform_for_students_because_we_provide_practical_features_and_friendly_experiences_to_build_a_tight_knit_learning_community_choosing_fpf_means_choosing_a_learning_partner_who_walks_with_you_and_grows_together_to_inject_vitality_and_possibility_into_your_academic_journey"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tvWhyAboutUs"
         app:layout_constraintTop_toBottomOf="@+id/tvWhyAboutUs" />
