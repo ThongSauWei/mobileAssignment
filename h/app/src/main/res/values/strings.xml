@@ -114,6 +114,8 @@
     <string name="group_menu">Group</string>
     <string name="profile_menu">Profile</string>
     <string name="sign_out_menu">Sign Out</string>
+    <string name="menu_open" translatable="false">Open</string>
+    <string name="menu_close" translatable="false">Close</string>
     <array name="language_array">
         <item>English</item>
         <item>中文</item>
