@@ -66,8 +66,16 @@ class CreatePost : Fragment() {
         cardViewCreatePost.addView(imageView)
 
         btnNextCreatePost.setOnClickListener {
+//            if (validateForm()) {
+//                savePostToFirebase()
+//            }
+
             if (validateForm()) {
-                savePostToFirebase()
+                val fragment = InviteFriend()
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                transaction?.replace(R.id.fragmentContainerView, fragment)
+                transaction?.addToBackStack(null)
+                transaction?.commit()
             }
 //            if (validateForm()) {
 //                val post = createPostObject() // Create a Post object with the required data
