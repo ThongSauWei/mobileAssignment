@@ -1,19 +1,32 @@
 package com.example.h
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
+import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.FriendViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
+    
+    private lateinit var drawerLayout : DrawerLayout
+    private lateinit var navigationView : NavigationView
+    private lateinit var actionBarDrawerToggle : ActionBarDrawerToggle
+    private val manager = supportFragmentManager
+
     private lateinit var userViewModel : UserViewModel
     private lateinit var profileViewModel : ProfileViewModel
     private lateinit var friendViewModel : FriendViewModel
@@ -25,6 +38,88 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        drawerLayout = findViewById(R.id.main)
+        navigationView = findViewById(R.id.navigationView)
+        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.menu_open, R.string.menu_close)
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        navigationView.setNavigationItemSelectedListener {
+            menuItem ->
+            when(menuItem.itemId) {
+                R.id.nav_home -> {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+
+                    val transaction = manager.beginTransaction()
+                    val fragment = Home()
+                    transaction.replace(R.id.fragmentContainerView, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+
+                    true
+                }
+                R.id.nav_settings -> {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+
+                    val transaction = manager.beginTransaction()
+                    val fragment = Settings()
+                    transaction.replace(R.id.fragmentContainerView, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+
+                    true
+                }
+                R.id.nav_chat -> {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+
+                    val transaction = manager.beginTransaction()
+                    val fragment = OuterChat()
+                    transaction.replace(R.id.fragmentContainerView, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+
+                    true
+                }
+                R.id.nav_group -> {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+
+                    val transaction = manager.beginTransaction()
+                    val fragment = Groups()
+                    transaction.replace(R.id.fragmentContainerView, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+
+                    true
+                }
+                R.id.nav_profile -> {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+
+                    val transaction = manager.beginTransaction()
+                    val fragment = com.example.h.Profile()
+                    transaction.replace(R.id.fragmentContainerView, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
+        val footerMenu : View = findViewById(R.id.footerMenu)
+        footerMenu.setOnClickListener {
+            SaveSharedPreference.setUserID(this, "")
+
+            val transaction = manager.beginTransaction()
+            val fragment = SignIn()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
@@ -74,5 +169,9 @@ class MainActivity : AppCompatActivity() {
         for (friend in friendList) {
             friendViewModel.addFriend(friend)
         }
+    }
+
+    fun openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START)
     }
 }

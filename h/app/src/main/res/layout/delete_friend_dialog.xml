@@ -28,18 +28,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/baseline_close_24" />
 
-            <TextView
-                android:id="@+id/tvDeleteDeleteFriendDialog"
-                android:layout_width="190dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/caveat"
-                android:text="@string/confirm_delete_haha"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/imgDeleteDeleteFriendDialog"
-                app:layout_constraintStart_toStartOf="@+id/imgDeleteDeleteFriendDialog"
-                app:layout_constraintTop_toBottomOf="@+id/imgDeleteDeleteFriendDialog" />
+    <TextView
+        android:id="@+id/tvDeleteDeleteFriendDialog"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/caveat"
+        android:gravity="center_horizontal"
+        android:text="@string/confirm_delete_haha"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgDeleteDeleteFriendDialog"
+        app:layout_constraintStart_toStartOf="@+id/imgDeleteDeleteFriendDialog"
+        app:layout_constraintTop_toBottomOf="@+id/imgDeleteDeleteFriendDialog" />
 
             <TextView
                 android:id="@+id/tvNoteDeleteFriendDialog"

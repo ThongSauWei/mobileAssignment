@@ -136,6 +136,8 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 holder.imgContent.setOnClickListener {
                     val friendID = friendList[position].friendID
                     deleteFriendDialog.friendID = friendID
+                    val username = currentUser.username
+                    deleteFriendDialog.username = username
 
                     deleteFriendDialog.show(fragmentManager, "DeleteFriendDialog")
                 }
