@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.dao.PostDAO
@@ -19,6 +21,8 @@ class Home : Fragment() {
 
     private lateinit var postAdapter: PostAdapter
     private lateinit var postRepository: PostRepository
+
+    //private lateinit var btnAddHome: AppCompatButton
 
 
     override fun onCreateView(
@@ -51,9 +55,20 @@ class Home : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        //btnAddHome = view.findViewById(R.id.btnAddHome)
+
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewPostHome)
         recyclerView.layoutManager = LinearLayoutManager(activity?.application)
         recyclerView.setHasFixedSize(true)
+
+        val btnAddHome = view.findViewById<ImageView>(R.id.btnAddHome)
+        btnAddHome.setOnClickListener {
+            val fragment = CreatePost()
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
 
         // Initialize the PostAdapter
         postAdapter = PostAdapter(emptyList())
