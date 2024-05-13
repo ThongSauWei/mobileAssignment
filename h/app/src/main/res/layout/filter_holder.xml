@@ -9,12 +9,14 @@
         android:id="@+id/cardViewBtnFilterFilterHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFilterFilterHolder"
@@ -26,7 +28,7 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

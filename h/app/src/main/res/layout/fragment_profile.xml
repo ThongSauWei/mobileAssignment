@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profilePage"
@@ -8,366 +8,342 @@
     android:background="@color/background"
     tools:context=".Profile">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        android:id="@+id/toolbarProfile"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutProfile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="225dp"
+        android:background="#919A9898"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/toolbarProfile"
-            layout="@layout/toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="176dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayoutProfile"
-            android:layout_width="match_parent"
-            android:layout_height="225dp"
-            android:background="#919A9898"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imgProfileProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/profile_pic" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imgEditProfile"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="246dp"
+        app:cardBackgroundColor="#fdfaf6"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_edit_24" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imgSettingsProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/outline_settings_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutProfile" />
+
+    <TextView
+        android:id="@+id/tvNameProfile"
+        android:layout_width="50dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/caveat"
+        android:text="Thong"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/cardViewProfile"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewProfile" />
+
+    <TextView
+        android:id="@+id/tvGroupsProfile"
+        android:layout_width="11dp"
+        android:layout_height="27dp"
+        android:fontFamily="@font/caveat"
+        android:text="6"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvNameProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvFriendsProfile"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="56dp"
+        android:fontFamily="@font/caveat"
+        android:text="20"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvGroupsProfile"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDOBProfile"
+        android:layout_width="64dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="2003-11-21"
+        android:textColor="@color/sub_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tvNameProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameProfile" />
+
+    <TextView
+        android:id="@+id/lblGroupsProfile"
+        android:layout_width="38dp"
+        android:layout_height="17dp"
+        android:fontFamily="@font/caveat"
+        android:text="Groups"
+        android:textColor="@color/sub_text"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvDOBProfile"
+        app:layout_constraintEnd_toEndOf="@+id/tvGroupsProfile"
+        app:layout_constraintStart_toStartOf="@+id/tvGroupsProfile" />
+
+    <TextView
+        android:id="@+id/lblFriendsProfile"
+        android:layout_width="41dp"
+        android:layout_height="19dp"
+        android:fontFamily="@font/caveat"
+        android:text="Friends"
+        android:textColor="@color/sub_text"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblGroupsProfile"
+        app:layout_constraintEnd_toEndOf="@+id/tvFriendsProfile"
+        app:layout_constraintStart_toStartOf="@+id/tvFriendsProfile" />
+
+    <TextView
+        android:id="@+id/tvCoursesProfile"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Business, TARUMT"
+        android:textColor="@color/sub_text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tvDOBProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvDOBProfile" />
+
+    <TextView
+        android:id="@+id/tvBioProfile"
+        android:layout_width="340dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah auf uca schasuc   asjncabca  bcasjca"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvCoursesProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvCoursesProfile" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewBtnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvBioProfile"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tvBioProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvBioProfile">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEditProfile"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/caveat"
+            android:text="Edit Profile"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/separatorProfile"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardViewBtnEditProfile" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CardViewProfile"
+        android:layout_width="161dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        app:cardBackgroundColor="#91E8E5E5"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separatorProfile">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewProfile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="176dp"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.11"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="20dp">
 
             <ImageView
-                android:id="@+id/imgProfileProfile"
+                android:id="@+id/imgProfile2Profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:src="@drawable/profile_pic" />
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/imgEditProfile"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="246dp"
-            app:cardBackgroundColor="#fdfaf6"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.27"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/baseline_edit_24" />
-        </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:id="@+id/imgSettingsProfile"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvName2Profile"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/outline_settings_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutProfile" />
-
-        <TextView
-            android:id="@+id/tvNameProfile"
-            android:layout_width="50dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/caveat"
-            android:text="Thong"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/cardViewProfile"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewProfile" />
+            android:text="Aha"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvGroupsProfile"
-            android:layout_width="11dp"
-            android:layout_height="27dp"
-            android:fontFamily="@font/caveat"
-            android:text="6"
-            android:textSize="20sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvNameProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvFriendsProfile"
-            android:layout_width="22dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="56dp"
-            android:fontFamily="@font/caveat"
-            android:text="20"
-            android:textSize="20sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvGroupsProfile"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/tvDOBProfile"
-            android:layout_width="64dp"
-            android:layout_height="19dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/caveat"
-            android:text="2003-11-21"
-            android:textColor="@color/sub_text"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tvNameProfile"
-            app:layout_constraintTop_toBottomOf="@+id/tvNameProfile" />
-
-        <TextView
-            android:id="@+id/lblGroupsProfile"
-            android:layout_width="38dp"
-            android:layout_height="17dp"
-            android:fontFamily="@font/caveat"
-            android:text="Groups"
-            android:textColor="@color/sub_text"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvDOBProfile"
-            app:layout_constraintEnd_toEndOf="@+id/tvGroupsProfile"
-            app:layout_constraintStart_toStartOf="@+id/tvGroupsProfile" />
-
-        <TextView
-            android:id="@+id/lblFriendsProfile"
-            android:layout_width="41dp"
-            android:layout_height="19dp"
-            android:fontFamily="@font/caveat"
-            android:text="Friends"
-            android:textColor="@color/sub_text"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lblGroupsProfile"
-            app:layout_constraintEnd_toEndOf="@+id/tvFriendsProfile"
-            app:layout_constraintStart_toStartOf="@+id/tvFriendsProfile" />
-
-        <TextView
-            android:id="@+id/tvCoursesProfile"
-            android:layout_width="98dp"
+            android:id="@+id/tvCourses2Profile"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="35dp"
             android:fontFamily="@font/caveat"
             android:text="Business, TARUMT"
             android:textColor="@color/sub_text"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tvDOBProfile"
-            app:layout_constraintTop_toBottomOf="@+id/tvDOBProfile" />
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvBioProfile"
-            android:layout_width="340dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/caveat"
-            android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah auf uca schasuc   asjncabca  bcasjca"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tvCoursesProfile"
-            app:layout_constraintTop_toBottomOf="@+id/tvCoursesProfile" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewBtnEditProfile"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvBio2Profile"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/tvBioProfile"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/tvBioProfile"
-            app:layout_constraintTop_toBottomOf="@+id/tvBioProfile">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEditProfile"
-                android:layout_width="340dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_bg"
-                android:fontFamily="@font/caveat"
-                android:text="Edit Profile"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-        </androidx.cardview.widget.CardView>
-
-        <View
-            android:id="@+id/separatorProfile"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardViewBtnEditProfile" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/CardViewProfile"
-            android:layout_width="161dp"
-            android:layout_height="127dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="28dp"
-            app:cardBackgroundColor="#91E8E5E5"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separatorProfile">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                app:cardCornerRadius="20dp">
-
-                <ImageView
-                    android:id="@+id/imgProfile2Profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:src="@drawable/profile_pic" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tvName2Profile"
-                android:layout_width="32dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/caveat"
-                android:text="Aha"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvCourses2Profile"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="35dp"
-                android:fontFamily="@font/caveat"
-                android:text="Business, TARUMT"
-                android:textColor="@color/sub_text"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvBio2Profile"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="60dp"
-                android:fontFamily="@font/caveat"
-                android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah aasjncabca  bcasjca"
-                android:textColor="@color/sub_text"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/CardView2Profile"
-            android:layout_width="161dp"
-            android:layout_height="127dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="24dp"
-            app:cardBackgroundColor="#91E8E5E5"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separatorProfile">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                app:cardCornerRadius="20dp">
-
-                <ImageView
-                    android:id="@+id/imgProfile3Profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:src="@drawable/profile_pic" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tvName3Profile"
-                android:layout_width="32dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/caveat"
-                android:text="Aha"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvCourses3Profile"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="35dp"
-                android:fontFamily="@font/caveat"
-                android:text="Business, TARUMT"
-                android:textColor="@color/sub_text"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvBio3Profile"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="60dp"
-                android:fontFamily="@font/caveat"
-                android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah aasjncabca  bcasjca"
-                android:textColor="@color/sub_text"
-                android:textSize="16sp" />
-
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/btnOpenGalleryProfile"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
             android:fontFamily="@font/caveat"
-            android:text="Open Gallery"
-            android:textAllCaps="false"
-            android:textColor="#868686"
+            android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah aasjncabca  bcasjca"
+            android:textColor="@color/sub_text"
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CardView2Profile"
+        android:layout_width="161dp"
+        android:layout_height="127dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        app:cardBackgroundColor="#91E8E5E5"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separatorProfile">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="20dp">
+
+            <ImageView
+                android:id="@+id/imgProfile3Profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/profile_pic" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvName3Profile"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/caveat"
+            android:text="Aha"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CardViewProfile"
-            app:strokeColor="@color/button"
-            app:strokeWidth="3dp" />
+            android:textStyle="bold" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvCourses3Profile"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="35dp"
+            android:fontFamily="@font/caveat"
+            android:text="Business, TARUMT"
+            android:textColor="@color/sub_text"
+            android:textSize="14sp" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationViewProfile"
+        <TextView
+            android:id="@+id/tvBio3Profile"
+            android:layout_width="144dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/caveat"
+            android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah aasjncabca  bcasjca"
+            android:textColor="@color/sub_text"
+            android:textSize="16sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnOpenGalleryProfile"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/header_menu"
-        app:menu="@menu/menu">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/caveat"
+        android:text="Open Gallery"
+        android:textAllCaps="false"
+        android:textColor="#868686"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CardViewProfile"
+        app:strokeColor="@color/button"
+        app:strokeWidth="3dp" />
 
-        <include
-            android:id="@+id/footerMenuProfile"
-            layout="@layout/footer_menu" />
-
-    </com.google.android.material.navigation.NavigationView>
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

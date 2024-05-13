@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout5"
@@ -8,234 +8,213 @@
     android:background="@color/background"
     tools:context=".CreatePost">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbarCreatePost"
+        layout="@layout/toolbar_with_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/toolbarCreatePost"
-            layout="@layout/toolbar_with_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewCreatePost"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="@color/post"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCreatePost" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewCreatePost"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/post"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarCreatePost" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2CreatePost"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="24dp"
+        app:cardBackgroundColor="@color/post"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewCreatePost"
+        app:layout_constraintStart_toEndOf="@+id/cardViewCreatePost"
+        app:layout_constraintTop_toTopOf="@+id/cardViewCreatePost">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2CreatePost"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="24dp"
-            app:cardBackgroundColor="@color/post"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardViewCreatePost"
-            app:layout_constraintStart_toEndOf="@+id/cardViewCreatePost"
-            app:layout_constraintTop_toTopOf="@+id/cardViewCreatePost">
+        <ImageView
+            android:id="@+id/btnAddCreatePost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_add_24" />
+    </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:id="@+id/btnAddCreatePost"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/baseline_add_24" />
-        </androidx.cardview.widget.CardView>
+    <EditText
+        android:id="@+id/txtTitleCreatePost"
+        android:layout_width="330dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@android:color/transparent"
+        android:ems="10"
+        android:fontFamily="@font/caveat"
+        android:gravity="start|top"
+        android:hint="Add a Title..."
+        android:inputType="text|textMultiLine"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewCreatePost" />
 
-        <EditText
-            android:id="@+id/txtTitleCreatePost"
-            android:layout_width="330dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@android:color/transparent"
-            android:ems="10"
-            android:fontFamily="@font/caveat"
-            android:gravity="start|top"
-            android:hint="Add a Title..."
-            android:inputType="text|textMultiLine"
-            android:textColorHint="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewCreatePost" />
+    <View
+        android:id="@+id/separatorCreatePost"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleCreatePost" />
 
-        <View
-            android:id="@+id/separatorCreatePost"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitleCreatePost" />
+    <EditText
+        android:id="@+id/txtDescriptionCreatePost"
+        android:layout_width="330dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:ems="10"
+        android:fontFamily="@font/caveat"
+        android:gravity="start|top"
+        android:hint="Type something to describe..."
+        android:inputType="text|textMultiLine"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/txtTitleCreatePost"
+        app:layout_constraintStart_toStartOf="@+id/txtTitleCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/separatorCreatePost" />
 
-        <EditText
-            android:id="@+id/txtDescriptionCreatePost"
-            android:layout_width="330dp"
-            android:layout_height="105dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@android:color/transparent"
-            android:ems="10"
-            android:fontFamily="@font/caveat"
-            android:gravity="start|top"
-            android:hint="Type something to describe..."
-            android:inputType="text|textMultiLine"
-            android:textColorHint="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/txtTitleCreatePost"
-            app:layout_constraintStart_toStartOf="@+id/txtTitleCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/separatorCreatePost" />
+    <View
+        android:id="@+id/separator2CreatePost"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescriptionCreatePost" />
 
-        <View
-            android:id="@+id/separator2CreatePost"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescriptionCreatePost" />
+    <TextView
+        android:id="@+id/lblLinkCreatePost"
+        android:layout_width="108dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Google Meet Link"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/separator2CreatePost" />
 
-        <TextView
-            android:id="@+id/lblLinkCreatePost"
-            android:layout_width="108dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/caveat"
-            android:text="Google Meet Link"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/separator2CreatePost" />
+    <EditText
+        android:id="@+id/txtLinkCreatePost"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:ems="10"
+        android:fontFamily="@font/caveat"
+        android:gravity="start|top"
+        android:inputType="text|textUri"
+        app:layout_constraintEnd_toEndOf="@+id/txtDescriptionCreatePost"
+        app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/lblLinkCreatePost" />
 
-        <EditText
-            android:id="@+id/txtLinkCreatePost"
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:ems="10"
-            android:fontFamily="@font/caveat"
-            android:gravity="start|top"
-            android:inputType="text|textUri"
-            app:layout_constraintEnd_toEndOf="@+id/txtDescriptionCreatePost"
-            app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/lblLinkCreatePost" />
+    <View
+        android:id="@+id/separator3CreatePost"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLinkCreatePost" />
 
-        <View
-            android:id="@+id/separator3CreatePost"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtLinkCreatePost" />
+    <TextView
+        android:id="@+id/lblCategoryCreatePost"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Select a Category"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/separator3CreatePost" />
 
-        <TextView
-            android:id="@+id/lblCategoryCreatePost"
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/caveat"
-            android:text="Select a Category"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/txtDescriptionCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/separator3CreatePost" />
+    <Spinner
+        android:id="@+id/ddlCategoryCreatePost"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_bg"
+        android:elevation="5dp"
+        android:entries="@array/category"
+        android:paddingStart="10dp"
+        android:popupBackground="@drawable/spinner_dropdown_bg"
+        app:layout_constraintStart_toStartOf="@+id/lblCategoryCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/lblCategoryCreatePost" />
 
-        <Spinner
-            android:id="@+id/ddlCategoryCreatePost"
-            android:layout_width="330dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/spinner_bg"
-            android:elevation="5dp"
-            android:entries="@array/category"
-            android:paddingStart="10dp"
-            android:popupBackground="@drawable/spinner_dropdown_bg"
-            app:layout_constraintStart_toStartOf="@+id/lblCategoryCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/lblCategoryCreatePost" />
+    <View
+        android:id="@+id/separator4CreatePost"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:background="@color/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ddlCategoryCreatePost" />
 
-        <View
-            android:id="@+id/separator4CreatePost"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ddlCategoryCreatePost" />
+    <TextView
+        android:id="@+id/lblLearningStyleCreatePost"
+        android:layout_width="149dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/caveat"
+        android:text="Select a Learning Style"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/ddlCategoryCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/separator4CreatePost" />
 
-        <TextView
-            android:id="@+id/lblLearningStyleCreatePost"
-            android:layout_width="149dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/caveat"
-            android:text="Select a Learning Style"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/ddlCategoryCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/separator4CreatePost" />
+    <Spinner
+        android:id="@+id/ddlLearningStyleCreatePost"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_bg"
+        android:elevation="5dp"
+        android:entries="@array/learning_style"
+        android:paddingStart="10dp"
+        android:popupBackground="@drawable/spinner_dropdown_bg"
+        app:layout_constraintStart_toStartOf="@+id/lblLearningStyleCreatePost"
+        app:layout_constraintTop_toBottomOf="@+id/lblLearningStyleCreatePost" />
 
-        <Spinner
-            android:id="@+id/ddlLearningStyleCreatePost"
-            android:layout_width="330dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/spinner_bg"
-            android:elevation="5dp"
-            android:entries="@array/learning_style"
-            android:paddingStart="10dp"
-            android:popupBackground="@drawable/spinner_dropdown_bg"
-            app:layout_constraintStart_toStartOf="@+id/lblLearningStyleCreatePost"
-            app:layout_constraintTop_toBottomOf="@+id/lblLearningStyleCreatePost" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewBtnNextCreatePost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnNextCreatePost"
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_bg"
-                android:fontFamily="@font/caveat"
-                android:text="Next"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationViewCreatePost"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewBtnNextCreatePost"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/header_menu"
-        app:menu="@menu/menu">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <include
-            android:id="@+id/footerMenuCreatePost"
-            layout="@layout/footer_menu" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNextCreatePost"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/caveat"
+            android:text="Next"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    </com.google.android.material.navigation.NavigationView>
-</androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
