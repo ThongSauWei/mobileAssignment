@@ -59,7 +59,7 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/caveat"
-                android:text="Sign UP"
+                android:text="@string/sign_up"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.12"
@@ -71,7 +71,7 @@
                 android:layout_width="39dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/caveat"
-                android:text="Name"
+                android:text="@string/signUpName"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/tvSignUpRegister"
                 app:layout_constraintTop_toBottomOf="@+id/tvSignUpRegister" />
@@ -87,10 +87,10 @@
 
             <TextView
                 android:id="@+id/lblEmailRegister"
-                android:layout_width="42dp"
-                android:layout_height="wrap_content"
+                android:layout_width="91dp"
+                android:layout_height="23dp"
                 android:fontFamily="@font/caveat"
-                android:text="Email"
+                android:text="@string/SignUpEmail"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/txtNameRegister"
                 app:layout_constraintTop_toBottomOf="@+id/txtNameRegister" />
@@ -109,7 +109,7 @@
                 android:layout_width="98dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/caveat"
-                android:text="Mobile Number"
+                android:text="@string/signUpMobile_number"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/lblEmailRegister"
                 app:layout_constraintTop_toBottomOf="@+id/txtEmailRegister" />
@@ -125,10 +125,10 @@
 
             <TextView
                 android:id="@+id/lblBirthdayRegister"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
+                android:layout_width="108dp"
+                android:layout_height="25dp"
                 android:fontFamily="@font/caveat"
-                android:text="Birthday"
+                android:text="@string/signUpBirthday"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/lblPhoneNoRegister"
                 app:layout_constraintTop_toBottomOf="@+id/txtPhoneNoRegister" />
@@ -157,7 +157,7 @@
                 android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/caveat"
-                android:text="Password"
+                android:text="@string/signUpPassword"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/lblBirthdayRegister"
                 app:layout_constraintTop_toBottomOf="@+id/txtBirthdayRegister" />
@@ -176,7 +176,7 @@
                 android:layout_width="113dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/caveat"
-                android:text="Security Question"
+                android:text="@string/signUp_security_question"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/lblPasswordRegister"
                 app:layout_constraintTop_toBottomOf="@+id/txtPasswordRegister" />
@@ -207,7 +207,7 @@
                     android:layout_height="45dp"
                     android:background="@drawable/button_bg"
                     android:fontFamily="@font/caveat"
-                    android:text="Sign Up"
+                    android:text="@string/signUp_sign_up_btn"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
@@ -221,7 +221,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/caveat"
-                android:text="Already have an account?"
+                android:text="@string/already_have_an_account"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -231,8 +231,8 @@
 
             <Button
                 android:id="@+id/btnSignInRegister"
-                android:layout_width="111dp"
-                android:layout_height="41dp"
+                android:layout_width="115dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="172dp"
                 android:backgroundTint="@android:color/transparent"
                 android:fontFamily="@font/caveat"
