@@ -24,7 +24,7 @@
                 android:id="@+id/imgProfilePostHolder"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/profile_pic_2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,16 +32,17 @@
 
             <TextView
                 android:id="@+id/tvNamePostHolder"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_width="103dp"
+                android:layout_height="23dp"
+                android:layout_marginStart="12dp"
                 android:fontFamily="@font/caveat"
                 android:text="Erika"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imgProfilePostHolder"
                 app:layout_constraintStart_toEndOf="@+id/imgProfilePostHolder"
-                app:layout_constraintTop_toTopOf="@+id/imgProfilePostHolder" />
+                app:layout_constraintTop_toTopOf="@+id/imgProfilePostHolder"
+                app:layout_constraintVertical_bias="0.529" />
 
             <TextView
                 android:id="@+id/tvDateTimePostHolder"
@@ -68,6 +69,7 @@
                 android:id="@+id/imgPostPostHolder"
                 android:layout_width="258dp"
                 android:layout_height="214dp"
+                android:layout_marginTop="2dp"
                 android:src="@drawable/post"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,9 +77,9 @@
 
             <TextView
                 android:id="@+id/tvPostTitlePostHolder"
-                android:layout_width="85dp"
+                android:layout_width="258dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-15dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/caveat"
                 android:text="HAHA title"
                 android:textSize="20sp"
