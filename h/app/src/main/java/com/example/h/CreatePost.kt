@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.h.dao.PostDAO
 import com.example.h.data.Post
@@ -76,6 +77,13 @@ class CreatePost : Fragment() {
                 transaction?.replace(R.id.fragmentContainerView, fragment)
                 transaction?.addToBackStack(null)
                 transaction?.commit()
+
+//                val navHostFragment =
+//                    activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+//                val navController = navHostFragment.navController
+//
+//                navController.navigate(R.id.action_createPost_to_inviteFriend2)
+
             }
 //            if (validateForm()) {
 //                val post = createPostObject() // Create a Post object with the required data

@@ -1,11 +1,14 @@
 package com.example.h
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.RequiresApi
+import com.example.h.data.User
 
 class FriendProfile : Fragment() {
 
@@ -16,19 +19,7 @@ class FriendProfile : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friend_profile, container, false)
 
-        val btnA : Button = view.findViewById(R.id.btnAddFriendFriendProfile)
-
-        btnA.setOnClickListener {
-
-            val fragment = Home()
-
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-
-            transaction?.replace(R.id.fragmentContainerView, fragment)
-            transaction?.addToBackStack(null)
-            transaction?.commit()
-
-        }
+        val friendUserID = arguments?.getString("user")
 
         return view
     }
