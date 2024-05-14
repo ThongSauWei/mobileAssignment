@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/signIn">
+    app:startDestination="@id/register">
 
     <fragment
         android:id="@+id/signIn"
@@ -59,8 +59,7 @@
         android:id="@+id/createPost"
         android:name="com.example.h.CreatePost"
         android:label="fragment_create_post"
-        tools:layout="@layout/fragment_create_post" >
-    </fragment>
+        tools:layout="@layout/fragment_create_post"></fragment>
     <fragment
         android:id="@+id/searchPost"
         android:name="com.example.h.SearchPost"

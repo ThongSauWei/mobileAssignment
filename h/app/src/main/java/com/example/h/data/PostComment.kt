@@ -1,7 +1,7 @@
 package com.example.h.data
 
 data class PostComment(
-    val postCommentID : String,
+    var postCommentID : String,
     val postID : String,
     val userID : String,
     val dateTime : String,

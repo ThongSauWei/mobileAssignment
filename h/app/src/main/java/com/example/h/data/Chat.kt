@@ -1,7 +1,7 @@
 package com.example.h.data
 
 data class Chat(
-    val chatID : String,
+    var chatID : String,
     val initiatorUserID : String,
     val receiverUserID : String,
     val initiatorLastSeen : String,

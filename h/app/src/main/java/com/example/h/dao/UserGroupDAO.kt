@@ -17,6 +17,8 @@ class UserGroupDAO {
     private var userGroupList = ArrayList<UserGroup>()
 
     fun addUserGroup(userGroup : UserGroup) {
+        userGroup.userGroupID = getNextID()
+
         dbRef.child(userGroup.userGroupID).setValue(userGroup)
             .addOnCompleteListener {
 
@@ -84,5 +86,27 @@ class UserGroupDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    private fun getNextID() : String {
+        var userGroupID = 100
+        dbRef.orderByKey().limitToLast(1)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (userGroupSnapshot in snapshot.children) {
+                            val lastUserGroupID = userGroupSnapshot.key!!
+                            userGroupID = lastUserGroupID.substring(2).toInt() + 1
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    throw IllegalArgumentException("Database Error")
+                }
+
+            })
+
+        return "UG$userGroupID"
     }
 }

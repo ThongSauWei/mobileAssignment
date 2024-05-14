@@ -17,7 +17,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.h.Dialog.DeleteFriendDialog
+import com.example.h.dialog.DeleteFriendDialog
 import com.example.h.R
 import com.example.h.data.Friend
 import com.example.h.data.Profile
@@ -71,7 +71,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     }
 
     override fun getItemCount(): Int {
-        return friendList.size
+        return userList.size
     }
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
@@ -118,6 +118,10 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 // add the button to the cardview
                 holder.dynamicContainer.removeAllViews()
                 holder.dynamicContainer.addView(holder.btnAdd)
+
+                holder.btnAdd.setOnClickListener {
+
+                }
             }
             Mode.DELETE -> {
                 // initialise cardview settings
@@ -227,12 +231,15 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         }
     }
 
-    fun setList(friendList : List<Friend>, userList : List<User>, profileList : List<Profile>) {
-        this.friendList = friendList
+    fun setUserList(userList : List<User>, profileList : List<Profile>) {
         this.userList = userList
         this.profileList = profileList
 
         notifyDataSetChanged()
+    }
+
+    fun setFriendList(friendList : List<Friend>) {
+        this.friendList = friendList
     }
 
     fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog, fragmentManager : FragmentManager) {

@@ -33,4 +33,11 @@
             layout="@layout/footer_menu" />
 
     </com.google.android.material.navigation.NavigationView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.Holo.Light.ProgressBar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </androidx.drawerlayout.widget.DrawerLayout>

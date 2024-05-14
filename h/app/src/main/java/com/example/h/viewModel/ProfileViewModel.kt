@@ -27,6 +27,10 @@ class ProfileViewModel(application : Application) : AndroidViewModel(application
         return profileRepository.getProfile(userID)
     }
 
+    suspend fun getUserListByCourse(course : String) : List<String> {
+        return profileRepository.getUserListByCourse(course)
+    }
+
     fun deleteProfile(userID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             profileRepository.deleteProfile(userID)

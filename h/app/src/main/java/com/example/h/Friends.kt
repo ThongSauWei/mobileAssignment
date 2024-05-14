@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.h.Dialog.DeleteFriendDialog
-import com.example.h.data.Friend
+import com.example.h.dialog.DeleteFriendDialog
 import com.example.h.data.Profile
 import com.example.h.data.User
 import com.example.h.dataAdapter.FriendAdapter
@@ -23,15 +24,15 @@ import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.launch
 
 class Friends : Fragment() {
+    private lateinit var tvTitle : TextView
+    private lateinit var tvCount : TextView
+    private lateinit var separator : View
 
-    private lateinit var userViewModel : UserViewModel
     private lateinit var userID : String
     private lateinit var recyclerView : RecyclerView
 
     private val userList : ArrayList<User> = arrayListOf()
     private val profileList : ArrayList<Profile> = arrayListOf()
-
-    private lateinit var tvCount : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,24 +41,40 @@ class Friends : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
 
+        tvTitle = view.findViewById(R.id.tvTitleFriends)
         tvCount = view.findViewById(R.id.tvFriendCountFriends)
+        separator = view.findViewById(R.id.separatorFriends)
 
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         userID = SaveSharedPreference.getUserID(requireContext())
 
         recyclerView = view.findViewById(R.id.recyclerViewFriendFriends)
-        fetchData()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
+
+        (activity as MainActivity).showProgressBar()
+
+        fetchData().observe(viewLifecycleOwner, Observer { isDataFetched ->
+            if (isDataFetched) {
+                (activity as MainActivity).hideProgressBar()
+
+                tvTitle.visibility = View.VISIBLE
+                tvCount.visibility = View.VISIBLE
+                separator.visibility = View.VISIBLE
+            }
+        })
 
         return view
     }
 
-    private fun fetchData() {
+    private fun fetchData() : LiveData<Boolean> {
+        val isDataFetched = MutableLiveData<Boolean>()
+
+        val userViewModel : UserViewModel =
+            ViewModelProvider(this).get(UserViewModel::class.java)
         val friendViewModel: FriendViewModel =
-            ViewModelProvider(this@Friends).get(FriendViewModel::class.java)
+            ViewModelProvider(this).get(FriendViewModel::class.java)
         val profileViewModel: ProfileViewModel =
-            ViewModelProvider(this@Friends).get(ProfileViewModel::class.java)
+            ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         lifecycleScope.launch {
 
@@ -81,13 +98,17 @@ class Friends : Fragment() {
                     dialog.viewModel = friendViewModel
 
                     val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
-                    adapter.setList(friendList, userList, profileList)
+                    adapter.setUserList(userList, profileList)
+                    adapter.setFriendList(friendList)
                     adapter.setDeleteFriendDialog(dialog, childFragmentManager)
                     recyclerView.adapter = adapter
 
                     tvCount.text = userList.size.toString() + " Buddies"
+                    isDataFetched.value = true
                 }
             })
         }
+
+        return isDataFetched
     }
 }

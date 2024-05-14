@@ -24,4 +24,8 @@ class UserRepository(private val userDao : UserDAO) {
     fun deleteUser(userID : String) {
         userDao.deleteUser(userID)
     }
+
+    suspend fun searchUser(searchText : String) : List<User> {
+        return userDao.searchUser(searchText)
+    }
 }

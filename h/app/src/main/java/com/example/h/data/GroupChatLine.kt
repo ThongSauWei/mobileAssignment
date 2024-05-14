@@ -1,7 +1,7 @@
 package com.example.h.data
 
 data class GroupChatLine(
-    val groupChatLineID : String,
+    var groupChatLineID : String,
     val senderID : String,
     val dateTime : String,
     val groupID : String,

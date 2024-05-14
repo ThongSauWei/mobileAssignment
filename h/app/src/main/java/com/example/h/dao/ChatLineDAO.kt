@@ -18,6 +18,8 @@ class ChatLineDAO {
     private var chatLineList = ArrayList<ChatLine>()
 
     fun addChatLine(chatLine : ChatLine) {
+        chatLine.chatLineID = getNextID()
+
         dbRef.child(chatLine.chatLineID).setValue(chatLine)
             .addOnCompleteListener {
 
@@ -60,5 +62,27 @@ class ChatLineDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    private fun getNextID() : String {
+        var chatLineID = 100
+        dbRef.orderByKey().limitToLast(1)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (chatLineSnapshot in snapshot.children) {
+                            val lastChatLineID = chatLineSnapshot.key!!
+                            chatLineID = lastChatLineID.substring(2).toInt() + 1
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    throw IllegalArgumentException("Database Error")
+                }
+
+            })
+
+        return "CL$chatLineID"
     }
 }

@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/tvTitleSearchFriend"
-                android:layout_width="110dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/caveat"
@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/tvSubtitleSearchFriend"
-                android:layout_width="184dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/caveat"
@@ -91,7 +91,7 @@
 
             <TextView
                 android:id="@+id/tvSuggestFriendsSearchFriend"
-                android:layout_width="92dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/caveat"
