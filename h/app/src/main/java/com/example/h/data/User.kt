@@ -6,7 +6,7 @@ data class User(
     val userEmail : String,
     val userMobileNo : String,
     val userDOB : String,
-    val userPassword : String,
+    var userPassword : String,
     val userSecurityQuestion : String
 ) {
     constructor() : this("", "", "", "", "", "", "")
