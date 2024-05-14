@@ -15,6 +15,8 @@ class GroupDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Group")
 
     fun addGroup(group : Group) {
+        group.groupID = getNextID()
+
         dbRef.child(group.groupID).setValue(group)
             .addOnCompleteListener {
 
@@ -55,5 +57,27 @@ class GroupDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    private fun getNextID() : String {
+        var groupID = 100
+        dbRef.orderByKey().limitToLast(1)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (groupSnapshot in snapshot.children) {
+                            val lastGroupID = groupSnapshot.key!!
+                            groupID = lastGroupID.substring(1).toInt() + 1
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    throw IllegalArgumentException("Database Error")
+                }
+
+            })
+
+        return "G$groupID"
     }
 }

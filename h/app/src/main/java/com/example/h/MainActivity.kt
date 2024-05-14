@@ -2,6 +2,7 @@ package com.example.h
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,8 @@ import com.example.h.viewModel.UserViewModel
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
-    
+
+    private lateinit var progressBar : ProgressBar
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView : NavigationView
     private lateinit var actionBarDrawerToggle : ActionBarDrawerToggle
@@ -39,6 +41,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        progressBar = findViewById(R.id.progressBar)
 
         drawerLayout = findViewById(R.id.main)
         navigationView = findViewById(R.id.navigationView)
@@ -173,5 +177,13 @@ class MainActivity : AppCompatActivity() {
 
     fun openDrawer() {
         drawerLayout.openDrawer(GravityCompat.START)
+    }
+
+    fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 }

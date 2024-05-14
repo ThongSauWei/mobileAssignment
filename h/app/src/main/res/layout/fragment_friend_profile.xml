@@ -56,10 +56,12 @@
 
             <TextView
                 android:id="@+id/tvNameFriendProfile"
-                android:layout_width="50dp"
+                android:layout_width="150dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="16dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/caveat"
+                android:maxLines="1"
                 android:text="Erika"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -68,9 +70,10 @@
 
             <TextView
                 android:id="@+id/tvGroupsFriendProfile"
-                android:layout_width="11dp"
+                android:layout_width="30dp"
                 android:layout_height="27dp"
                 android:fontFamily="@font/caveat"
+                android:gravity="center_horizontal"
                 android:text="6"
                 android:textSize="20sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvNameFriendProfile"
@@ -79,9 +82,9 @@
 
             <TextView
                 android:id="@+id/tvFriendsFriendProfile"
-                android:layout_width="22dp"
+                android:layout_width="30dp"
                 android:layout_height="24dp"
-                android:layout_marginEnd="56dp"
+                android:layout_marginEnd="48dp"
                 android:fontFamily="@font/caveat"
                 android:text="20"
                 android:textSize="20sp"
@@ -90,7 +93,7 @@
 
             <TextView
                 android:id="@+id/tvDOBFriendProfile"
-                android:layout_width="64dp"
+                android:layout_width="100dp"
                 android:layout_height="19dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/caveat"
@@ -126,7 +129,7 @@
 
             <TextView
                 android:id="@+id/tvCoursesFriendProfile"
-                android:layout_width="98dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/caveat"
@@ -141,7 +144,9 @@
                 android:layout_width="340dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="8dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/caveat"
+                android:maxLines="2"
                 android:text="I am blah bala baajajaja    hbaba   acyc aauh ahaah auf uca schasuc   asjncabca  bcasjca"
                 android:textSize="14sp"
                 android:textStyle="bold"

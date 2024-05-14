@@ -13,6 +13,10 @@ class ProfileRepository(private val profileDao : ProfileDAO) {
         return profileDao.getProfile(userID)
     }
 
+    suspend fun getUserListByCourse(course : String) : List<String> {
+        return profileDao.getUserListByCourse(course)
+    }
+
     fun deleteProfile(userID : String) {
         profileDao.deleteProfile(userID)
     }

@@ -40,6 +40,10 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
         }
     }
 
+    suspend fun searchUser(searchText : String) : List<User> {
+        return userRepository.searchUser(searchText)
+    }
+
     suspend fun isEmailRegistered(email: String): Boolean {
         return userRepository.isEmailRegistered(email)
     }

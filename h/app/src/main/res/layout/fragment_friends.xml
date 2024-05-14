@@ -7,19 +7,19 @@
     android:background="@color/background"
     tools:context=".Friends">
 
+    <include android:id="@+id/toolbarFriends"
+        layout="@layout/toolbar_with_profile" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarFriends"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <include android:id="@+id/toolbarFriends"
-                layout="@layout/toolbar_with_profile" />
 
             <TextView
                 android:id="@+id/tvTitleFriends"
@@ -31,19 +31,22 @@
                 android:text="@string/all_buddies"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarFriends" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvFriendCountFriends"
-                android:layout_width="57dp"
-                android:layout_height="18dp"
+                android:layout_width="70dp"
+                android:layout_height="23dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/caveat"
+                android:gravity="end"
                 android:text="@string/_20_buddies"
                 android:textColor="@color/sub_text"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:visibility="invisible"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvTitleFriends"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -55,6 +58,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:background="@color/separator"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitleFriends" />
@@ -63,6 +67,8 @@
                 android:id="@+id/recyclerViewFriendFriends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="70dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separatorFriends"

@@ -18,6 +18,8 @@ class GroupChatLineDAO {
     private var groupChatLineList = ArrayList<GroupChatLine>()
 
     fun addGroupChatLine(groupChatLine : GroupChatLine) {
+        groupChatLine.groupChatLineID = getNextID()
+
         dbRef.child(groupChatLine.groupChatLineID).setValue(groupChatLine)
             .addOnCompleteListener {
 
@@ -60,5 +62,27 @@ class GroupChatLineDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    private fun getNextID() : String {
+        var groupChatLineID = 100
+        dbRef.orderByKey().limitToLast(1)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (groupChatLineSnapshot in snapshot.children) {
+                            val lastGroupChatLineID = groupChatLineSnapshot.key!!
+                            groupChatLineID = lastGroupChatLineID.substring(2).toInt() + 1
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    throw IllegalArgumentException("Database Error")
+                }
+
+            })
+
+        return "GC$groupChatLineID"
     }
 }

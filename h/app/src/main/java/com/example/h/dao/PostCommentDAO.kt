@@ -18,6 +18,8 @@ class PostCommentDAO {
     private var postCommentList = ArrayList<PostComment>()
 
     fun addPostComment(postComment : PostComment) {
+        postComment.postCommentID = getNextID()
+        
         dbRef.child(postComment.postCommentID).setValue(postComment)
             .addOnCompleteListener {
 
@@ -60,6 +62,28 @@ class PostCommentDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    private fun getNextID() : String {
+        var postCommentID = 100
+        dbRef.orderByKey().limitToLast(1)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (postCommentSnapshot in snapshot.children) {
+                            val lastPostCommentID = postCommentSnapshot.key!!
+                            postCommentID = lastPostCommentID.substring(2).toInt() + 1
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    throw IllegalArgumentException("Database Error")
+                }
+
+            })
+
+        return "PC$postCommentID"
     }
 
 }

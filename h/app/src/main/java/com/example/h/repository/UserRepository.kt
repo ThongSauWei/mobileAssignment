@@ -37,4 +37,8 @@ class UserRepository(private val userDao : UserDAO) {
         val digest = md.digest(bytes)
         return digest.fold("", { str, it -> str + "%02x".format(it) })
     }
+
+    suspend fun searchUser(searchText : String) : List<User> {
+        return userDao.searchUser(searchText)
+    }
 }

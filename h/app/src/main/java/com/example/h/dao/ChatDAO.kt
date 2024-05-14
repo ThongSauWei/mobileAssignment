@@ -14,6 +14,8 @@ class ChatDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Chat")
 
     fun addChat(chat : Chat) {
+        chat.chatID = getNextID()
+
         dbRef.child(chat.chatID).setValue(chat)
             .addOnCompleteListener{
 
@@ -56,5 +58,27 @@ class ChatDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    private fun getNextID() : String {
+        var chatID = 100
+        dbRef.orderByKey().limitToLast(1)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (chatSnapshot in snapshot.children) {
+                            val lastChatID = chatSnapshot.key!!
+                            chatID = lastChatID.substring(1).toInt() + 1
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    throw IllegalArgumentException("Database Error")
+                }
+
+            })
+
+        return "C$chatID"
     }
 }
