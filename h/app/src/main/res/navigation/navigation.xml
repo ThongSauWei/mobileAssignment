@@ -59,7 +59,8 @@
         android:id="@+id/createPost"
         android:name="com.example.h.CreatePost"
         android:label="fragment_create_post"
-        tools:layout="@layout/fragment_create_post" />
+        tools:layout="@layout/fragment_create_post" >
+    </fragment>
     <fragment
         android:id="@+id/searchPost"
         android:name="com.example.h.SearchPost"

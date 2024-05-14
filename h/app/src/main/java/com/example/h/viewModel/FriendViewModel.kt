@@ -24,7 +24,7 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
     init {
         val friendDao = FriendDAO()
         friendRepository = FriendRepository(friendDao)
-        getFriendList()
+        fetchFriendList()
     }
 
     fun addFriend(friend : Friend) {
@@ -33,7 +33,11 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
         }
     }
 
-    private fun getFriendList() {
+    suspend fun getFriendList(userID : String) : List<Friend> {
+        return friendRepository.getFriendList(userID)
+    }
+
+    private fun fetchFriendList() {
         viewModelScope.launch {
             val newList = friendRepository.getFriendList(userID)
             _friendList.postValue(newList)
@@ -43,7 +47,7 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
     fun deleteFriend(friendID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             friendRepository.deleteFriend(friendID)
-            getFriendList()
+            fetchFriendList()
         }
     }
 }
