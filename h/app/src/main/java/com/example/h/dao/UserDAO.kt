@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -114,6 +115,27 @@ class UserDAO {
 
                 })
         }
+    }
+
+    suspend fun isEmailRegistered(email: String): Boolean = suspendCancellableCoroutine { continuation ->
+        dbRef.orderByChild("userEmail").equalTo(email)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // Check if the snapshot contains any data
+                    if (snapshot.exists()) {
+                        // If the email is found, resume with true
+                        continuation.resume(true)
+                    } else {
+                        // If the email is not found, resume with false
+                        continuation.resume(false)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // If there's an error, resume with false
+                    continuation.resume(false)
+                }
+            })
     }
 
     private fun getNextID() : String {
