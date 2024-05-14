@@ -39,4 +39,8 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
             userRepository.deleteUser(userID)
         }
     }
+
+    suspend fun isEmailRegistered(email: String): Boolean {
+        return userRepository.isEmailRegistered(email)
+    }
 }

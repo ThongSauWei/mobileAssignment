@@ -7,8 +7,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="menu_open" translatable="false">Open</string>
-    <string name="menu_close" translatable="false">Close</string>
+
 
     <string name="confirm_delete_haha">Confirm Delete Haha?</string>
     <string name="delete_will_be_permanently">Delete will be permanently</string>

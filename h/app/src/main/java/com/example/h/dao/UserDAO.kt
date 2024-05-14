@@ -7,25 +7,26 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class UserDAO {
-    private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("User")
+    private val dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("User")
 
-    fun addUser(user : User) {
+    fun addUser(user: User) {
         dbRef.child(user.userID).setValue(user)
-            .addOnCompleteListener{
+            .addOnCompleteListener {
 
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
 
             }
     }
 
-    suspend fun getUserByID(userID : String) : User? = suspendCoroutine { continuation ->
-
+    suspend fun getUserByID(userID: String): User? = suspendCancellableCoroutine { continuation ->
         dbRef.orderByChild("userID").equalTo(userID)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -36,18 +37,16 @@ class UserDAO {
                             return
                         }
                     }
-
                     continuation.resume(null)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     continuation.resumeWithException(error.toException())
                 }
-
             })
     }
 
-    suspend fun getUserByLogin(userEmail : String, hashedPassword : String) : User? = suspendCoroutine { continuation ->
+    suspend fun getUserByLogin(userEmail: String, hashedPassword: String): User? = suspendCancellableCoroutine { continuation ->
         dbRef.orderByChild("userEmail").equalTo(userEmail)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -61,18 +60,16 @@ class UserDAO {
                             }
                         }
                     }
-
                     continuation.resume(null)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     continuation.resumeWithException(error.toException())
                 }
-
             })
     }
 
-    fun deleteUser(userID : String) {
+    fun deleteUser(userID: String) {
         dbRef.child(userID).removeValue()
             .addOnCompleteListener {
 
@@ -80,5 +77,26 @@ class UserDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    suspend fun isEmailRegistered(email: String): Boolean = suspendCancellableCoroutine { continuation ->
+        dbRef.orderByChild("userEmail").equalTo(email)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // Check if the snapshot contains any data
+                    if (snapshot.exists()) {
+                        // If the email is found, resume with true
+                        continuation.resume(true)
+                    } else {
+                        // If the email is not found, resume with false
+                        continuation.resume(false)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // If there's an error, resume with false
+                    continuation.resume(false)
+                }
+            })
     }
 }
