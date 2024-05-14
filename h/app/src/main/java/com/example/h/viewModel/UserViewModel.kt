@@ -1,6 +1,7 @@
 package com.example.h.viewModel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.h.dao.UserDAO
@@ -41,5 +42,9 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
 
     suspend fun searchUser(searchText : String) : List<User> {
         return userRepository.searchUser(searchText)
+    }
+
+    suspend fun isEmailRegistered(email: String): Boolean {
+        return userRepository.isEmailRegistered(email)
     }
 }
