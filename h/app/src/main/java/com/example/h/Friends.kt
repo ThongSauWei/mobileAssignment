@@ -94,13 +94,14 @@ class Friends : Fragment() {
                         profileList.add(userProfile!!)
                     }
 
-                    val dialog = DeleteFriendDialog()
-                    dialog.viewModel = friendViewModel
-
                     val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
                     adapter.setUserList(userList, profileList)
                     adapter.setFriendList(friendList)
+                    adapter.setViewModel(friendViewModel)
+
+                    val dialog = DeleteFriendDialog()
                     adapter.setDeleteFriendDialog(dialog, parentFragmentManager)
+
                     recyclerView.adapter = adapter
 
                     tvCount.text = userList.size.toString() + " Buddies"

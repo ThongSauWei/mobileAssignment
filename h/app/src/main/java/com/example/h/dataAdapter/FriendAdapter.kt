@@ -25,6 +25,8 @@ import com.example.h.SearchFriend
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
+import com.example.h.saveSharedPreference.SaveSharedPreference
+import com.example.h.viewModel.FriendViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -33,10 +35,13 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     private lateinit var storageRef : StorageReference
     private lateinit var fragmentManager : FragmentManager
     private lateinit var deleteFriendDialog : DeleteFriendDialog
+    private lateinit var friendViewModel : FriendViewModel
 
     private var friendList = emptyList<Friend>()
     private var userList = emptyList<User>()
     private var profileList = emptyList<Profile>()
+
+    private lateinit var currentUserID : String
 
     object Mode {
         const val ADD = 1
@@ -54,11 +59,8 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         val tvText : TextView = itemView.findViewById(R.id.tvTextFriendHolder)
         val dynamicContainer : CardView = itemView.findViewById(R.id.dynamicFriendHolder)
 
-        // for delete & invite
+        // for delete & invite & add
         val imgContent = ImageView(itemView.context)
-
-        // for add
-        val btnAdd = Button(itemView.context)
 
         // for chat
         val time = TextView(itemView.context)
@@ -69,6 +71,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.friend_holder, parent, false)
 
         storageRef = FirebaseStorage.getInstance().getReference()
+        currentUserID = SaveSharedPreference.getUserID(parent.context)
 
         return FriendHolder(itemView)
     }
@@ -114,8 +117,26 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 holder.dynamicContainer.removeAllViews()
                 holder.dynamicContainer.addView(holder.imgContent)
 
-                holder.btnAdd.setOnClickListener {
+                holder.imgContent.setOnClickListener {
 
+                    val newFriend = Friend("0", currentUserID, currentUser.userID, "Pending")
+
+                    friendViewModel.addFriend(newFriend)
+
+                    holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                }
+
+                holder.constraintLayout.setOnClickListener {
+                    val transaction = fragmentManager.fragments.get(0).activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = FriendProfile()
+
+                    val bundle = Bundle()
+                    bundle.putString("friendUserID", currentUser.userID)
+                    fragment.arguments = bundle
+
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
                 }
             }
             Mode.DELETE -> {
@@ -137,6 +158,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                     deleteFriendDialog.friendID = friendID
                     val username = currentUser.username
                     deleteFriendDialog.username = username
+                    deleteFriendDialog.viewModel = friendViewModel
 
                     deleteFriendDialog.show(fragmentManager, "DeleteFriendDialog")
                 }
@@ -248,6 +270,10 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     fun setFriendList(friendList : List<Friend>) {
         this.friendList = friendList
+    }
+
+    fun setViewModel(friendViewModel : FriendViewModel) {
+        this.friendViewModel = friendViewModel
     }
 
     fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog, fragmentManager : FragmentManager) {
