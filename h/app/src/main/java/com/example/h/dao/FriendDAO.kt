@@ -24,7 +24,7 @@ class FriendDAO {
         }
     }
 
-    fun addFriend(friend : Friend) {
+    suspend fun addFriend(friend : Friend) {
         friend.friendID = "F$nextID"
         nextID++
 
@@ -34,7 +34,7 @@ class FriendDAO {
             }
             .addOnFailureListener{
 
-            }
+            }.await()
     }
 
     suspend fun getFriendList(userID : String) : List<Friend> = withContext(Dispatchers.IO) {

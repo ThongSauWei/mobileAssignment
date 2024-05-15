@@ -5,7 +5,7 @@ import com.example.h.data.User
 
 class UserRepository(private val userDao : UserDAO) {
 
-    fun addUser(user: User) {
+    suspend fun addUser(user: User) {
         // hash password here
 
         userDao.addUser(user)

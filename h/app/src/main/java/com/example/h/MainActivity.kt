@@ -3,15 +3,16 @@ package com.example.h
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
@@ -20,6 +21,8 @@ import com.example.h.viewModel.FriendViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -130,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
-        initForTesting()
+        // initForTesting()
     }
 
     fun initForTesting() {
@@ -162,16 +165,40 @@ class MainActivity : AppCompatActivity() {
             Friend("0", "U101", "U102", "Friend"),
         )
 
-        for (user in userList) {
-            userViewModel.addUser(user)
-        }
 
-        for (profile in profileList) {
-            profileViewModel.addProfile(profile)
-        }
+        lifecycleScope.launch {
+            userList.forEach { user ->
+                try {
+                    userViewModel.addUser(user)
+                    // Delay for a short period to ensure sequential addition
+                    delay(100)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding user", Toast.LENGTH_LONG).show()
+                }
+            }
 
-        for (friend in friendList) {
-            friendViewModel.addFriend(friend)
+            profileList.forEach { profile ->
+                try {
+                    profileViewModel.addProfile(profile)
+                    // Delay for a short period to ensure sequential addition
+                    delay(100)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding profile", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            friendList.forEach { friend ->
+                try {
+                    friendViewModel.addFriend(friend)
+                    // Delay for a short period to ensure sequential addition
+                    delay(100)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding friend", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

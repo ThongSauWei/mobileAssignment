@@ -5,7 +5,7 @@ import com.example.h.data.Friend
 
 class FriendRepository(private val friendDao : FriendDAO) {
 
-    fun addFriend(friend : Friend) {
+    suspend fun addFriend(friend : Friend) {
         friendDao.addFriend(friend)
     }
 

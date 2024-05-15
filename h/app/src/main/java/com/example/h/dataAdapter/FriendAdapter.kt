@@ -2,6 +2,7 @@ package com.example.h.dataAdapter
 
 import android.app.ActionBar
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,10 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.h.FriendProfile
 import com.example.h.dialog.DeleteFriendDialog
 import com.example.h.R
+import com.example.h.SearchFriend
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
@@ -144,6 +147,19 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                     deleteFriendDialog.username = username
 
                     deleteFriendDialog.show(fragmentManager, "DeleteFriendDialog")
+                }
+
+                holder.constraintLayout.setOnClickListener {
+                    val transaction = fragmentManager.fragments.get(0).activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = FriendProfile()
+
+                    val bundle = Bundle()
+                    bundle.putString("friendUserID", currentUser.userID)
+                    fragment.arguments = bundle
+
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
                 }
             }
             Mode.CHAT -> {

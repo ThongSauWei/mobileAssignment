@@ -28,7 +28,7 @@ class UserDAO {
         }
     }
 
-    fun addUser(user : User) {
+    suspend fun addUser(user : User) {
         user.userID = "U$nextID"
         nextID++
 
@@ -38,7 +38,7 @@ class UserDAO {
             }
             .addOnFailureListener{
 
-            }
+            }.await()
     }
 
     suspend fun getUserByID(userID : String) : User? = suspendCoroutine { continuation ->

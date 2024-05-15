@@ -100,7 +100,7 @@ class Friends : Fragment() {
                     val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
                     adapter.setUserList(userList, profileList)
                     adapter.setFriendList(friendList)
-                    adapter.setDeleteFriendDialog(dialog, childFragmentManager)
+                    adapter.setDeleteFriendDialog(dialog, parentFragmentManager)
                     recyclerView.adapter = adapter
 
                     tvCount.text = userList.size.toString() + " Buddies"
