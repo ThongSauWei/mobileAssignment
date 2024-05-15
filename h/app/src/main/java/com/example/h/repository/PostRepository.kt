@@ -38,4 +38,13 @@ class PostRepository(private val postDao : PostDAO) {
     fun deletePost(postID : String) {
         postDao.deletePost(postID)
     }
+
+    suspend fun getPostByID(postID: String): Post? {
+        return postDao.getPostByID(postID)
+    }
+
+    suspend fun getPostByCategoryAndLearningStyle(postCategory : String, postLearningStyle : String) : List<Post> {
+        return postDao.getPostByCategoryAndLearningStyle(postCategory, postLearningStyle)
+    }
+
 }

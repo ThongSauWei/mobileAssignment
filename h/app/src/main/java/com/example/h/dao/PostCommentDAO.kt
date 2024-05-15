@@ -29,41 +29,49 @@ class PostCommentDAO {
     }
 
     fun addPostComment(postComment : PostComment) {
-        postComment.postCommentID = "PC$nextID"
-        nextID++
-        
-        dbRef.child(postComment.postCommentID).setValue(postComment)
-            .addOnCompleteListener {
+        // Fetch the last post comment ID from Firebase
+        dbRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lastPostCommentSnapshot = snapshot.children.lastOrNull()
+                val lastPostCommentID = lastPostCommentSnapshot?.key?.substring(2)?.toIntOrNull() ?: 0
+                // Increment the nextID based on the last ID retrieved
+                nextID = lastPostCommentID + 1
+                // Set the postCommentID for the new comment
+                postComment.postCommentID = "PC$nextID"
+                // Add the post comment to Firebase
+                dbRef.child(postComment.postCommentID).setValue(postComment)
+                    .addOnCompleteListener {
+
+                    }
+                    .addOnFailureListener {
+
+                    }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
 
             }
-            .addOnFailureListener {
-
-            }
+        })
     }
 
-    suspend fun getPostComment(postID : String) : List<PostComment> = withContext(Dispatchers.IO) {
-        return@withContext suspendCoroutine { continuation ->
 
-            dbRef.orderByChild("postID").equalTo(postID)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        postCommentList.clear()
-                        if (snapshot.exists()) {
-                            for (postCommentSnapshot in snapshot.children) {
-                                val postComment = postCommentSnapshot.getValue(PostComment::class.java)
-                                postCommentList.add(postComment!!)
-                            }
-                        }
 
-                        continuation.resume(postCommentList)
-                    }
+    suspend fun getPostComment(postID: String): List<PostComment> = suspendCoroutine { continuation ->
+        val commentList = mutableListOf<PostComment>()
+        val query = dbRef.orderByChild("postID").equalTo(postID)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val comment = snapshot.getValue(PostComment::class.java)
+                    comment?.let { commentList.add(it) }
+                }
+                continuation.resume(commentList)
+            }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resumeWithException(error.toException())
-                    }
-
-                })
-        }
+            override fun onCancelled(databaseError: DatabaseError) {
+                continuation.resumeWithException(databaseError.toException())
+            }
+        })
     }
 
     fun deletePostComment(postCommentID : String) {

@@ -88,4 +88,22 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
             postRepository.deletePost(postID)
         }
     }
+
+    suspend fun getPostByID(postID: String) : Post? {
+        return postRepository.getPostByID(postID)
+    }
+
+//    fun getPostByID(postID: String): LiveData<Post> {
+//        val postLiveData = MutableLiveData<Post>()
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val post = postRepository.getPostByID(postID)
+//            postLiveData.postValue(post)
+//        }
+//        return postLiveData
+//    }
+
+    suspend fun getPostByCategoryAndLearningStyle(category: String, learningStyle: String): List<Post> {
+        return postRepository.getPostByCategoryAndLearningStyle(category, learningStyle)
+    }
+
 }

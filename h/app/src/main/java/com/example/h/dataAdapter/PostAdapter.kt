@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.h.JoinGroup
 import com.example.h.R
 import com.example.h.dao.UserDAO
 import com.example.h.data.Post
@@ -31,15 +33,6 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
 
     class PostHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
 
-//        val imgProfile: ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
-//        val tvName: TextView = itemView.findViewById(R.id.tvNamePostHolder)
-//        val tvDateTime: TextView = itemView.findViewById(R.id.tvDateTimePostHolder)
-//        val imgPost: ImageView = itemView.findViewById(R.id.imgPostPostHolder)
-//        val tvTitle: TextView = itemView.findViewById(R.id.tvPostTitlePostHolder)
-//        val tvPostContent: TextView = itemView.findViewById(R.id.tvPostContentPostHolder)
-//        val tvCategory1: TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
-//        val tvCategory2: TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
-
         val imgProfile: ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
         val tvName: TextView = itemView.findViewById(R.id.tvNamePostHolder)
         val tvDateTime: TextView = itemView.findViewById(R.id.tvDateTimePostHolder)
@@ -49,17 +42,6 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
         val tvCategory: TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
         val tvCategory2: TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
 
-        /* initialise all the views that is needed to change
-
-        val imgProfile : ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
-        val tvName : TextView = itemView.findViewById(R.id.tvNamePostHolder)
-        val tvDateTime : TextView = itemView.findViewById(R.id.tvDateTimePostHolder)
-        val imgPost : ImageView = itemView.findViewById(R.id.imgPostPostHolder)
-        val tvTitle : TextView = itemView.findViewById(R.id.tvPostTitlePostHolder)
-        val tvPostContent : TextView = itemView.findViewById(R.id.tvPostContentPostHolder)
-        val tvCategory1 : TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
-        val tvCategory2 : TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
-        */
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
@@ -109,6 +91,16 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
             holder.tvName.text = user?.username ?: "Unknown"
         }
 
+        // Set onClickListener for each item in the RecyclerView
+        holder.itemView.setOnClickListener {
+            val postID = currentItem.postID
+            val fragment = JoinGroup.newInstance(postID)
+            val transaction = (holder.itemView.context as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
         /* bind the views with the correct information
 
         val currentItem = postList[position]
@@ -133,5 +125,15 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
         Log.d("PostAdapter", "Converted ${dp}dp to ${px}px")
         return px
     }
+
+    //go to JoinGroup page
+    private fun joinGroup(context: Context) {
+        val fragment = JoinGroup()
+        val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainerView, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
 
 }
