@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
-        // initForTesting()
+        initForTesting()
     }
 
     fun initForTesting() {

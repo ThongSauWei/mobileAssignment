@@ -138,7 +138,7 @@ class UserDAO {
             })
     }
 
-    private fun getNextID() : String {
+        private fun getNextID() : String {
         var userID = 100
         dbRef.orderByKey().limitToLast(1)
             .addListenerForSingleValueEvent(object : ValueEventListener {

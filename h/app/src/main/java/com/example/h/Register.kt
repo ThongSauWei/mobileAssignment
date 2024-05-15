@@ -78,7 +78,7 @@ class Register : Fragment() {
                         ).show()
                     } else {
                         val user = User(
-                            userID = "", // Generate or retrieve user ID as needed
+                            userID = "",
                             username = name,
                             userEmail = email,
                             userMobileNo = phoneNo,

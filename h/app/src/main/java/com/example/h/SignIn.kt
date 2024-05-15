@@ -79,21 +79,29 @@ class SignIn : Fragment() {
 
     private fun signInWithEmailAndPassword(email: String, password: String) {
         lifecycleScope.launch {
-            val user = userViewModel.getUserByLogin(email, password)
-            if (user != null) {
-                // Save user ID to shared preferences
-                SaveSharedPreference.setUserID(requireContext(), user.userID)
+            try {
+                val user = userViewModel.getUserByLogin(email, password)
+                if (user != null) {
+                    // Save user ID to shared preferences
+                    SaveSharedPreference.setUserID(requireContext(), user.userID)
 
-                val transaction = activity?.supportFragmentManager?.beginTransaction()
-                val fragment = Home()
-                transaction?.replace(R.id.fragmentContainerView, fragment)
-                transaction?.addToBackStack(null)
-                transaction?.commit()
-                Toast.makeText(requireContext(), "Welcome to FPF!", Toast.LENGTH_SHORT).show()
-            } else {
-                // Sign in failed, display a message to the user.
+                    val transaction = activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = Home()
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
+                    Toast.makeText(requireContext(), "Welcome to FPF!", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Sign in failed, display a message to the user.
+                    Toast.makeText(
+                        requireContext(), "Authentication failed. Invalid Email/Password!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                // Handle any exceptions that may occur during sign-in
                 Toast.makeText(
-                    requireContext(), "Authentication failed. Invalid Password!",
+                    requireContext(), "Authentication failed: ${e.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
