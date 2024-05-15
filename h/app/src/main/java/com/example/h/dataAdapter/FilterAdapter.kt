@@ -1,5 +1,3 @@
-package com.example.h.dataAdapter
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,15 +5,16 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.R
 
-class FilterAdapter (private val list : List<String>) : RecyclerView.Adapter <FilterAdapter.FilterHolder>() {
+class FilterAdapter(private val list: List<String>) : RecyclerView.Adapter<FilterAdapter.FilterHolder>() {
 
-    class FilterHolder (itemView : View) : RecyclerView.ViewHolder(itemView) {
-        val btn : Button = itemView.findViewById(R.id.btnFilterFilterHolder)
+    private var selectedItem: String? = null
+
+    class FilterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val btn: Button = itemView.findViewById(R.id.btnFilterFilterHolder)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.filter_holder, parent, false)
-
         return FilterHolder(itemView)
     }
 
@@ -25,9 +24,21 @@ class FilterAdapter (private val list : List<String>) : RecyclerView.Adapter <Fi
 
     override fun onBindViewHolder(holder: FilterHolder, position: Int) {
         val currentItem = list[position]
-
         holder.btn.text = currentItem
+
+        // Set click listener for each item
+        holder.btn.setOnClickListener {
+            // Set the selected item
+            selectedItem = currentItem
+            notifyDataSetChanged() // Notify adapter of data change
+        }
+
+        // Set background color based on selection
+        holder.itemView.isSelected = currentItem == selectedItem
     }
 
-
+    // Method to get the selected value
+    fun getSelectedValue(): String? {
+        return selectedItem
+    }
 }
