@@ -29,7 +29,9 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
 
     fun addFriend(friend : Friend) {
         viewModelScope.launch(Dispatchers.IO) {
-            friendRepository.addFriend(friend)
+            if (friendRepository.getFriend(friend.requestUserID, friend.receiveUserID) == null) {
+                friendRepository.addFriend(friend)
+            }
         }
     }
 

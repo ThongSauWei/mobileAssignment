@@ -16,6 +16,7 @@ import com.example.h.data.User
 import com.example.h.data.Profile
 import com.example.h.dataAdapter.FriendAdapter
 import com.example.h.saveSharedPreference.SaveSharedPreference
+import com.example.h.viewModel.FriendViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.launch
@@ -112,6 +113,8 @@ class SearchFriend : Fragment() {
             }
 
             adapter.setUserList(userList, profileList)
+            adapter.setViewModel(friendViewModel = ViewModelProvider(this@SearchFriend).get(FriendViewModel::class.java))
+            adapter.setFragmentManager(parentFragmentManager)
             recyclerView.adapter = adapter
 
             tvSuggest.text = "Suggest Buddies"

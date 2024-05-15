@@ -100,7 +100,8 @@ class Friends : Fragment() {
                     adapter.setViewModel(friendViewModel)
 
                     val dialog = DeleteFriendDialog()
-                    adapter.setDeleteFriendDialog(dialog, parentFragmentManager)
+                    adapter.setDeleteFriendDialog(dialog)
+                    adapter.setFragmentManager(parentFragmentManager)
 
                     recyclerView.adapter = adapter
 

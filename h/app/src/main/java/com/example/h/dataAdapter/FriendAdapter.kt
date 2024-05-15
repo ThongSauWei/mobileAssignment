@@ -29,6 +29,8 @@ import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.FriendViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
 
@@ -111,19 +113,26 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 holder.dynamicContainer.radius = (15 * density)
 
                 // set the image inside the cardview
-                holder.imgContent.setImageResource(R.drawable.baseline_add_24)
+                GlobalScope.launch {
+                    if (friendViewModel.getFriend(currentUserID, currentUser.userID) == null) {
+                        holder.imgContent.setImageResource(R.drawable.baseline_add_24)
 
-                // add the image into the cardview
-                holder.dynamicContainer.removeAllViews()
-                holder.dynamicContainer.addView(holder.imgContent)
+                        holder.imgContent.setOnClickListener {
 
-                holder.imgContent.setOnClickListener {
+                            val newFriend = Friend("0", currentUserID, currentUser.userID, "Pending")
 
-                    val newFriend = Friend("0", currentUserID, currentUser.userID, "Pending")
+                            friendViewModel.addFriend(newFriend)
 
-                    friendViewModel.addFriend(newFriend)
+                            holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                        }
 
-                    holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                    } else {
+                        holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                    }
+
+                    // add the image into the cardview
+                    holder.dynamicContainer.removeAllViews()
+                    holder.dynamicContainer.addView(holder.imgContent)
                 }
 
                 holder.constraintLayout.setOnClickListener {
@@ -273,14 +282,23 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     fun setFriendList(friendList : List<Friend>) {
         this.friendList = friendList
+
+        notifyDataSetChanged()
     }
 
     fun setViewModel(friendViewModel : FriendViewModel) {
         this.friendViewModel = friendViewModel
+
+        notifyDataSetChanged()
     }
 
-    fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog, fragmentManager : FragmentManager) {
+    fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog) {
         this.deleteFriendDialog = deleteFriendDialog
+
+        notifyDataSetChanged()
+    }
+
+    fun setFragmentManager(fragmentManager : FragmentManager) {
         this.fragmentManager = fragmentManager
 
         notifyDataSetChanged()
