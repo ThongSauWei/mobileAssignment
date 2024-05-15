@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.example.h.Home
 import com.example.h.R
 
 class FilterPost : Fragment() {
@@ -39,23 +40,36 @@ class FilterPost : Fragment() {
             // Get selected learning style
             val selectedLearningStyle = (recyclerViewLearningStyle.adapter as? FilterAdapter)?.getSelectedValue()
 
-            // Set selected filter data in arguments
-            arguments = Bundle().apply {
-                putString("selectedCategory", selectedCategory)
-                putString("selectedLearningStyle", selectedLearningStyle)
+            // Retrieve existing arguments bundle
+//            val args = arguments ?: Bundle()
+//
+//            // Update the existing arguments bundle
+//            args.putString("selectedCategory", selectedCategory)
+//            args.putString("selectedLearningStyle", selectedLearningStyle)
+//
+//            // Set the updated arguments bundle
+//            arguments = args
+//
+//            // Navigate back to Home fragment
+//            activity?.onBackPressed()
 
-                if (selectedCategory != null) {
-                    Log.d("selectedCategory", selectedCategory)
-                }
 
-                if (selectedLearningStyle != null) {
-                    Log.d("selectedLearningStyle", selectedLearningStyle)
-                }
+            val fragment = Home()
+            val bundle = Bundle()
+            if (selectedCategory != null) {
+                bundle.putString("selectedCategory", selectedCategory)
+            }
+            if (selectedLearningStyle != null) {
+                bundle.putString("selectedLearningStyle", selectedLearningStyle)
             }
 
-            // Navigate back to Home fragment
-            activity?.onBackPressed()
+            fragment.arguments = bundle
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
         }
+
 
         val btnExitFilterPost = view.findViewById<ImageView>(R.id.btnExitFilterPost)
         btnExitFilterPost.setOnClickListener {

@@ -98,4 +98,8 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
 //        return postLiveData
 //    }
 
+    suspend fun getPostByCategoryAndLearningStyle(category: String, learningStyle: String): List<Post> {
+        return postRepository.getPostByCategoryAndLearningStyle(category, learningStyle)
+    }
+
 }

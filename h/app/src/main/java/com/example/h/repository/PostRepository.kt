@@ -39,4 +39,8 @@ class PostRepository(private val postDao : PostDAO) {
         return postDao.getPostByID(postID)
     }
 
+    suspend fun getPostByCategoryAndLearningStyle(postCategory : String, postLearningStyle : String) : List<Post> {
+        return postDao.getPostByCategoryAndLearningStyle(postCategory, postLearningStyle)
+    }
+
 }
