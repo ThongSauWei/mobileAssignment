@@ -8,6 +8,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -17,8 +20,17 @@ class PostCommentDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("PostComment")
     private var postCommentList = ArrayList<PostComment>()
 
+    private var nextID = 100
+
+    init {
+        GlobalScope.launch {
+            nextID = getNextID()
+        }
+    }
+
     fun addPostComment(postComment : PostComment) {
-        postComment.postCommentID = getNextID()
+        postComment.postCommentID = "PC$nextID"
+        nextID++
         
         dbRef.child(postComment.postCommentID).setValue(postComment)
             .addOnCompleteListener {
@@ -64,26 +76,18 @@ class PostCommentDAO {
             }
     }
 
-    private fun getNextID() : String {
+    private suspend fun getNextID() : Int {
         var postCommentID = 100
-        dbRef.orderByKey().limitToLast(1)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (postCommentSnapshot in snapshot.children) {
-                            val lastPostCommentID = postCommentSnapshot.key!!
-                            postCommentID = lastPostCommentID.substring(2).toInt() + 1
-                        }
-                    }
-                }
+        val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+        if (snapshot.exists()) {
+            for (postCommentSnapshot in snapshot.children) {
+                val lastPostCommentID = postCommentSnapshot.key!!
+                postCommentID = lastPostCommentID.substring(2).toInt() + 1
+            }
+        }
 
-            })
-
-        return "PC$postCommentID"
+        return postCommentID
     }
 
 }

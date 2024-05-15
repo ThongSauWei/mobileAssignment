@@ -8,6 +8,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -17,8 +20,17 @@ class GroupChatLineDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("GroupChatLine")
     private var groupChatLineList = ArrayList<GroupChatLine>()
 
+    private var nextID = 100
+
+    init {
+        GlobalScope.launch {
+            nextID = getNextID()
+        }
+    }
+
     fun addGroupChatLine(groupChatLine : GroupChatLine) {
-        groupChatLine.groupChatLineID = getNextID()
+        groupChatLine.groupChatLineID = "GC$nextID"
+        nextID++
 
         dbRef.child(groupChatLine.groupChatLineID).setValue(groupChatLine)
             .addOnCompleteListener {
@@ -64,25 +76,17 @@ class GroupChatLineDAO {
             }
     }
 
-    private fun getNextID() : String {
+    private suspend fun getNextID() : Int {
         var groupChatLineID = 100
-        dbRef.orderByKey().limitToLast(1)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (groupChatLineSnapshot in snapshot.children) {
-                            val lastGroupChatLineID = groupChatLineSnapshot.key!!
-                            groupChatLineID = lastGroupChatLineID.substring(2).toInt() + 1
-                        }
-                    }
-                }
+        val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+        if (snapshot.exists()) {
+            for (groupChatLineSnapshot in snapshot.children) {
+                val lastGroupChatLineID = groupChatLineSnapshot.key!!
+                groupChatLineID = lastGroupChatLineID.substring(2).toInt() + 1
+            }
+        }
 
-            })
-
-        return "GC$groupChatLineID"
+        return groupChatLineID
     }
 }

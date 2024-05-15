@@ -8,13 +8,25 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class FriendDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Friend")
 
+    private var nextID = 100
+
+    init {
+        GlobalScope.launch {
+            nextID = getNextID()
+        }
+    }
+
     fun addFriend(friend : Friend) {
-        friend.friendID = getNextID()
+        friend.friendID = "F$nextID"
+        nextID++
 
         dbRef.child(friend.friendID).setValue(friend)
             .addOnCompleteListener{
@@ -73,25 +85,17 @@ class FriendDAO {
             }
     }
 
-    private fun getNextID() : String {
+    private suspend fun getNextID() : Int {
         var friendID = 100
-        dbRef.orderByKey().limitToLast(1)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (friendSnapshot in snapshot.children) {
-                            val lastFriendID = friendSnapshot.key!!
-                            friendID = lastFriendID.substring(1).toInt() + 1
-                        }
-                    }
-                }
+        val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+        if (snapshot.exists()) {
+            for (friendSnapshot in snapshot.children) {
+                val lastFriendID = friendSnapshot.key!!
+                friendID = lastFriendID.substring(1).toInt() + 1
+            }
+        }
 
-            })
-
-        return "F$friendID"
+        return friendID
     }
 }

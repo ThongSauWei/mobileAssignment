@@ -18,6 +18,6 @@ object SaveSharedPreference {
     }
 
     fun getUserID(context : Context) : String {
-        return getSharedPreference(context).getString(PREF_USER_ID, "A100")?: "A100"
+        return getSharedPreference(context).getString(PREF_USER_ID, "U100")?: "U100"
     }
 }

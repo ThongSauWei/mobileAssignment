@@ -9,7 +9,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -18,8 +21,16 @@ import kotlin.coroutines.suspendCoroutine
 class UserDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("User")
 
+    private var nextID = 100
+    init {
+        GlobalScope.launch {
+            nextID = getNextID()
+        }
+    }
+
     fun addUser(user : User) {
-        user.userID = getNextID()
+        user.userID = "U$nextID"
+        nextID++
 
         dbRef.child(user.userID).setValue(user)
             .addOnCompleteListener{
@@ -138,25 +149,17 @@ class UserDAO {
             })
     }
 
-    private fun getNextID() : String {
+    private suspend fun getNextID() : Int {
         var userID = 100
-        dbRef.orderByKey().limitToLast(1)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (userSnapshot in snapshot.children) {
-                            val lastUserID = userSnapshot.key!!
-                            userID = lastUserID.substring(1).toInt() + 1
-                        }
-                    }
-                }
+        val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+        if (snapshot.exists()) {
+            for (userSnapshot in snapshot.children) {
+                val lastUserID = userSnapshot.key!!
+                userID = lastUserID.substring(1).toInt() + 1
+            }
+        }
 
-            })
-
-        return "U$userID"
+        return userID
     }
 }
