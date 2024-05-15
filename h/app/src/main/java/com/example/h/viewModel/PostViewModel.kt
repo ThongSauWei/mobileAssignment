@@ -79,6 +79,10 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
         return postRepository.getAllPost()
     }
 
+    suspend fun searchPost(searchText : String) : List<Post> {
+        return postRepository.searchPost(searchText)
+    }
+
     fun deletePost(postID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.deletePost(postID)

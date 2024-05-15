@@ -19,6 +19,7 @@ import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.launch
+import java.util.function.Predicate
 
 class SearchFriend : Fragment() {
 
@@ -33,7 +34,7 @@ class SearchFriend : Fragment() {
     private var userList : ArrayList<User> = arrayListOf()
     private val profileList : ArrayList<Profile> = arrayListOf()
 
-    private lateinit var userID : String
+    private lateinit var currentUserID : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +43,7 @@ class SearchFriend : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search_friend, container, false)
 
-        userID = SaveSharedPreference.getUserID(requireContext())
+        currentUserID = SaveSharedPreference.getUserID(requireContext())
 
         tvSuggest = view.findViewById(R.id.tvSuggestFriendsSearchFriend)
 
@@ -67,26 +68,41 @@ class SearchFriend : Fragment() {
     }
 
     private fun searchUser(inputText : String) {
+        if (inputText.isEmpty()) {
+            setupDefault()
 
-        lifecycleScope.launch {
-            userList = ArrayList(userViewModel.searchUser(inputText))
+        } else {
 
-            for (user in userList) {
-                val profile = profileViewModel.getProfile(user.userID)
-                profileList.add(profile!!)
+            userList.clear()
+            profileList.clear()
+
+            lifecycleScope.launch {
+                userList = ArrayList(userViewModel.searchUser(inputText))
+                userList.removeIf { it.userID == currentUserID }
+
+                for (user in userList) {
+                    val profile = profileViewModel.getProfile(user.userID)
+                    profileList.add(profile!!)
+                }
+
+                adapter.setUserList(userList, profileList)
+                recyclerView.adapter = adapter
+
+                tvSuggest.text = "Search Result"
+
+                // can add a "No such friend" if no record
             }
-
-            adapter.setUserList(userList, profileList)
-            recyclerView.adapter = adapter
-
-            tvSuggest.text = "Search Result"
         }
     }
 
     private fun setupDefault() {
+        userList.clear()
+        profileList.clear()
+
         lifecycleScope.launch {
-            val currentUserProfile = profileViewModel.getProfile(userID)
-            val userIDList = profileViewModel.getUserListByCourse(currentUserProfile!!.userCourse)
+            val currentUserProfile = profileViewModel.getProfile(currentUserID)
+            val userIDList = ArrayList(profileViewModel.getUserListByCourse(currentUserProfile!!.userCourse))
+            userIDList.removeIf { it == currentUserID }
 
             for (otherUserID in userIDList) {
                 val user = userViewModel.getUserByID(otherUserID)
@@ -97,6 +113,8 @@ class SearchFriend : Fragment() {
 
             adapter.setUserList(userList, profileList)
             recyclerView.adapter = adapter
+
+            tvSuggest.text = "Suggest Buddies"
         }
     }
 }

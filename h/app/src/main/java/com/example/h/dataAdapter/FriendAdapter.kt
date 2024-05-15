@@ -99,28 +99,20 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
         when (mode) {
             Mode.ADD -> {
-                holder.dynamicContainer.radius = (10 * density)
+                // initialise cardview settings
+                layoutParamsCardView.width = (30 * density).toInt()
+                layoutParamsCardView.height = (30 * density).toInt()
+                holder.dynamicContainer.layoutParams = layoutParamsCardView
+                holder.dynamicContainer.setCardBackgroundColor(holder.dynamicContainer.context.getColor(R.color.button))
+                holder.dynamicContainer.cardElevation = (5 * density)
+                holder.dynamicContainer.radius = (15 * density)
 
-                // initialise the button settings
-                holder.btnAdd.text = "Add Buddies"
-                holder.btnAdd.typeface = ResourcesCompat.getFont(holder.btnAdd.context, R.font.caveat)
-                holder.btnAdd.textSize = 14f
-                holder.btnAdd.setTextColor(Color.BLACK)
-                holder.btnAdd.isAllCaps = false
+                // set the image inside the cardview
+                holder.imgContent.setImageResource(R.drawable.baseline_add_24)
 
-                // set the color of the icon and set the icon to the button
-                val iconAdd = ContextCompat.getDrawable(holder.btnAdd.context, R.drawable.baseline_person_add_alt_24)?.mutate()
-                DrawableCompat.setTint(iconAdd!!, Color.BLACK)
-                holder.btnAdd.setCompoundDrawablesRelativeWithIntrinsicBounds(iconAdd, null, null, null)
-                holder.btnAdd.compoundDrawablePadding = (8 * density).toInt()
-                holder.btnAdd.setPadding((10 * density).toInt(), 0, (10 * density).toInt(), 0)
-
-                // set the background of the button
-                holder.btnAdd.setBackgroundResource(R.drawable.button_bg)
-
-                // add the button to the cardview
+                // add the image into the cardview
                 holder.dynamicContainer.removeAllViews()
-                holder.dynamicContainer.addView(holder.btnAdd)
+                holder.dynamicContainer.addView(holder.imgContent)
 
                 holder.btnAdd.setOnClickListener {
 

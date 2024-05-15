@@ -2,12 +2,16 @@ package com.example.h.dao
 
 import android.net.Uri
 import com.example.h.data.Post
+import com.example.h.data.User
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class PostDAO {
     private val dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Post")
@@ -140,6 +144,35 @@ class PostDAO {
                 continuation.resumeWithException(error.toException())
             }
         })
+    }
+
+    suspend fun searchPost(searchText : String) : List<Post> = withContext(Dispatchers.IO) {
+        return@withContext suspendCoroutine { continuation ->
+
+            val postList = ArrayList<Post>()
+
+            dbRef.orderByChild("postTitle")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (postSnapshot in snapshot.children) {
+                                val postTitle = postSnapshot.child("postTitle").getValue(String::class.java)!!
+                                if (postTitle.startsWith(searchText, true)) {
+                                    val post = postSnapshot.getValue(Post::class.java)
+                                    postList.add(post!!)
+                                }
+                            }
+                        }
+
+                        continuation.resume(postList)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        continuation.resumeWithException(error.toException())
+                    }
+
+                })
+        }
     }
 
     fun deletePost(postID: String) {

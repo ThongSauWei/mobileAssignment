@@ -104,7 +104,7 @@ class UserDAO {
 
             val userList = ArrayList<User>()
 
-            dbRef.orderByChild("username").startAt(searchText)
+            dbRef.orderByChild("username")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
