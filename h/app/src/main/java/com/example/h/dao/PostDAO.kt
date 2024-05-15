@@ -2,7 +2,6 @@ package com.example.h.dao
 
 import android.net.Uri
 import com.example.h.data.Post
-import com.example.h.data.User
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -146,6 +145,37 @@ class PostDAO {
         })
     }
 
+    fun deletePost(postID: String) {
+        dbRef.child(postID).removeValue().addOnCompleteListener {
+            // Handle success
+        }.addOnFailureListener {
+            // Handle failure
+        }
+    }
+
+    suspend fun getPostByID(postID: String): Post? = suspendCancellableCoroutine { continuation ->
+        dbRef.child(postID).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val post = snapshot.getValue(Post::class.java)
+                continuation.resume(post)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resumeWithException(error.toException())
+            }
+        })
+    }
+
+    suspend fun getPostByCategoryAndLearningStyle(category: String, learningStyle: String): List<Post> {
+        val postsByCategory = getPostByCategory(category)
+        val postsByLearningStyle = getPostByLearningStyle(learningStyle)
+
+        // Filter posts by both category and learning style
+        return postsByCategory.filter { post ->
+            postsByLearningStyle.any { it.postID == post.postID }
+        }
+    }
+
     suspend fun searchPost(searchText : String) : List<Post> = withContext(Dispatchers.IO) {
         return@withContext suspendCoroutine { continuation ->
 
@@ -175,11 +205,7 @@ class PostDAO {
         }
     }
 
-    fun deletePost(postID: String) {
-        dbRef.child(postID).removeValue().addOnCompleteListener {
-            // Handle success
-        }.addOnFailureListener {
-            // Handle failure
-        }
-    }
+
+
+
 }

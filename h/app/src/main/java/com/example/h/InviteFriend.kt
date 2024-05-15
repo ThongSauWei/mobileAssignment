@@ -1,23 +1,31 @@
 package com.example.h
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.h.data.Profile
+import com.example.h.data.User
 import com.example.h.dataAdapter.FriendAdapter
-import com.example.h.viewModel.PostViewModel
+import com.example.h.saveSharedPreference.SaveSharedPreference
+import com.example.h.viewModel.FriendViewModel
+import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
+import kotlinx.coroutines.launch
 
 class InviteFriend : Fragment() {
+    private lateinit var recyclerView : RecyclerView
 
-    private lateinit var userViewModel : UserViewModel
-    private lateinit var postViewModel: PostViewModel
+    private val userList : ArrayList<User> = arrayListOf()
+    private val profileList : ArrayList<Profile> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,27 +34,65 @@ class InviteFriend : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_invite_friend, container, false)
 
-        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
-
-        val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewFriendInviteFriend)
-        recyclerView.adapter = FriendAdapter(FriendAdapter.Mode.INVITE)
+        recyclerView = view.findViewById(R.id.recyclerViewFriendInviteFriend)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
+        (activity as MainActivity).showProgressBar()
 
-        // Observe postLiveData
-        postViewModel.postLiveData.observe(viewLifecycleOwner) { post ->
-            post?.let {
-                // Use the post object
-                Log.d("InviteFriend", "Received post: $post")
+        fetchData().observe(viewLifecycleOwner, Observer { isDataFetched ->
+            if (isDataFetched) {
+                (activity as MainActivity).hideProgressBar()
             }
-        }
-
-        arguments?.getString("success_message")?.let { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-        }
+        })
 
         return view
+    }
+
+    private fun fetchData() : LiveData<Boolean> {
+        val isDataFetched = MutableLiveData<Boolean>()
+
+        val userViewModel : UserViewModel =
+            ViewModelProvider(this).get(UserViewModel::class.java)
+        val friendViewModel: FriendViewModel =
+            ViewModelProvider(this).get(FriendViewModel::class.java)
+        val profileViewModel: ProfileViewModel =
+            ViewModelProvider(this).get(ProfileViewModel::class.java)
+
+        val userID = getCurrentUserID()
+
+        lifecycleScope.launch {
+
+            friendViewModel.friendList.observe(viewLifecycleOwner, Observer { friendList ->
+
+                userList.clear()
+                profileList.clear()
+
+                lifecycleScope.launch {
+
+                    for (friend in friendList) {
+                        val friendID =
+                            if (friend.requestUserID == userID) friend.receiveUserID else friend.requestUserID
+                        val user = userViewModel.getUserByID(friendID)
+                        userList.add(user!!)
+                        val userProfile = profileViewModel.getProfile(user.userID)
+                        profileList.add(userProfile!!)
+                    }
+
+                    val adapter = FriendAdapter(FriendAdapter.Mode.INVITE)
+                    adapter.setUserList(userList, profileList)
+                    adapter.setFriendList(friendList)
+                    recyclerView.adapter = adapter
+
+                    isDataFetched.value = true
+                }
+            })
+        }
+
+        return isDataFetched
+    }
+
+    private fun getCurrentUserID(): String {
+        return SaveSharedPreference.getUserID(requireContext())
     }
 }
