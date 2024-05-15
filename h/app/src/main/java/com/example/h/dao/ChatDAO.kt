@@ -6,6 +6,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -13,8 +16,17 @@ import kotlin.coroutines.suspendCoroutine
 class ChatDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Chat")
 
+    private var nextID = 100
+
+    init {
+        GlobalScope.launch {
+            nextID = getNextID()
+        }
+    }
+
     fun addChat(chat : Chat) {
-        chat.chatID = getNextID()
+        chat.chatID = "C$nextID"
+        nextID++
 
         dbRef.child(chat.chatID).setValue(chat)
             .addOnCompleteListener{
@@ -60,25 +72,17 @@ class ChatDAO {
             }
     }
 
-    private fun getNextID() : String {
+    private suspend fun getNextID() : Int {
         var chatID = 100
-        dbRef.orderByKey().limitToLast(1)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (chatSnapshot in snapshot.children) {
-                            val lastChatID = chatSnapshot.key!!
-                            chatID = lastChatID.substring(1).toInt() + 1
-                        }
-                    }
-                }
+        val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+        if (snapshot.exists()) {
+            for (chatSnapshot in snapshot.children) {
+                val lastChatID = chatSnapshot.key!!
+                chatID = lastChatID.substring(1).toInt() + 1
+            }
+        }
 
-            })
-
-        return "C$chatID"
+        return chatID
     }
 }

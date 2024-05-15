@@ -7,6 +7,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -14,8 +17,17 @@ import kotlin.coroutines.suspendCoroutine
 class GroupDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Group")
 
+    private var nextID = 100
+
+    init {
+        GlobalScope.launch {
+            nextID = getNextID()
+        }
+    }
+
     fun addGroup(group : Group) {
-        group.groupID = getNextID()
+        group.groupID = "G$nextID"
+        nextID++
 
         dbRef.child(group.groupID).setValue(group)
             .addOnCompleteListener {
@@ -59,25 +71,17 @@ class GroupDAO {
             }
     }
 
-    private fun getNextID() : String {
+    private suspend fun getNextID() : Int {
         var groupID = 100
-        dbRef.orderByKey().limitToLast(1)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (groupSnapshot in snapshot.children) {
-                            val lastGroupID = groupSnapshot.key!!
-                            groupID = lastGroupID.substring(1).toInt() + 1
-                        }
-                    }
-                }
+        val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+        if (snapshot.exists()) {
+            for (groupSnapshot in snapshot.children) {
+                val lastGroupID = groupSnapshot.key!!
+                groupID = lastGroupID.substring(1).toInt() + 1
+            }
+        }
 
-            })
-
-        return "G$groupID"
+        return groupID
     }
 }

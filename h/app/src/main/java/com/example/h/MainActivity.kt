@@ -136,30 +136,30 @@ class MainActivity : AppCompatActivity() {
     fun initForTesting() {
 
         val userList : List<User> = listOf(
-            User("A100", "Ali", "Ali@gmail.com", "0123456789", "01-01-2003", "AliPsw", "What is your favourite movie?"),
-            User("A101", "Bali", "Bali@gmail.com", "0198765432", "01-02-2003", "BaliPsw", "What is your favourite pet?"),
-            User("A102", "Cali", "Cali@gmail.com", "0135792468", "01-03-2003", "CaliPsw", "What is your favourite month?"),
-            User("A103", "Dali", "Dali@gmail.com", "0124683579", "01-04-2003", "DaliPsw", "What is your favourite subject?"),
-            User("A104", "Eali", "Eali@gmail.com", "0192348765", "01-05-2003", "EaliPsw", "What is your favourite fruit?"),
-            User("A105", "Fali", "Fali@gmail.com", "0127893456", "01-06-2003", "FaliPsw", "What is your favourite food?"),
+            User("0", "Ali", "Ali@gmail.com", "0123456789", "01-01-2003", "AliPsw", "What is your favourite movie?"),
+            User("0", "Bali", "Bali@gmail.com", "0198765432", "01-02-2003", "BaliPsw", "What is your favourite pet?"),
+            User("0", "Cali", "Cali@gmail.com", "0135792468", "01-03-2003", "CaliPsw", "What is your favourite month?"),
+            User("0", "Dali", "Dali@gmail.com", "0124683579", "01-04-2003", "DaliPsw", "What is your favourite subject?"),
+            User("0", "Eali", "Eali@gmail.com", "0192348765", "01-05-2003", "EaliPsw", "What is your favourite fruit?"),
+            User("0", "Fali", "Fali@gmail.com", "0127893456", "01-06-2003", "FaliPsw", "What is your favourite food?"),
         )
 
         val profileList : List<Profile> = listOf(
-            Profile("A100", "Business, TARUMT", "Hi I am Ali", "", "English"),
-            Profile("A101", "Information Technology, TARUMT", "Hi I am Bali", "", "Chinese"),
-            Profile("A102", "Computer Science, TARUMT", "Hi I am Cali", "", "English"),
-            Profile("A103", "Accounting, TARUMT", "Hi I am Dali", "", "Chinese"),
-            Profile("A104", "Business, TARUMT", "Hi I am Eali", "", "Chinese"),
-            Profile("A105", "Information Technology, TARUMT", "Hi I am Fali", "", "English"),
+            Profile("U100", "Business, TARUMT", "Hi I am Ali", "", "English"),
+            Profile("U101", "Information Technology, TARUMT", "Hi I am Bali", "", "Chinese"),
+            Profile("U102", "Computer Science, TARUMT", "Hi I am Cali", "", "English"),
+            Profile("U103", "Accounting, TARUMT", "Hi I am Dali", "", "Chinese"),
+            Profile("U104", "Business, TARUMT", "Hi I am Eali", "", "Chinese"),
+            Profile("U105", "Information Technology, TARUMT", "Hi I am Fali", "", "English"),
         )
 
         val friendList : List<Friend> = listOf(
-            Friend("F100", "A100", "A101", "Friend"),
-            Friend("F101", "A102", "A100", "Friend"),
-            Friend("F102", "A103", "A100", "Friend"),
-            Friend("F103", "A100", "A104", "Friend"),
-            Friend("F104", "A105", "A101", "Friend"),
-            Friend("F105", "A101", "A102", "Friend"),
+            Friend("0", "U100", "U101", "Friend"),
+            Friend("0", "U102", "U100", "Friend"),
+            Friend("0", "U103", "U100", "Friend"),
+            Friend("0", "U100", "U104", "Friend"),
+            Friend("0", "U105", "U101", "Friend"),
+            Friend("0", "U101", "U102", "Friend"),
         )
 
         for (user in userList) {
