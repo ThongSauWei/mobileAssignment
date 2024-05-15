@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,11 +67,57 @@ class CreatePost : Fragment() {
 
         btnNextCreatePost.setOnClickListener {
             if (validateForm()) {
-                val fragment = InviteFriend()
-                val transaction = activity?.supportFragmentManager?.beginTransaction()
-                transaction?.replace(R.id.fragmentContainerView, fragment)
-                transaction?.addToBackStack(null)
-                transaction?.commit()
+                //Log.d("CreatePosttest", "test")
+                //val post = createPostObject()
+                //postViewModel.setPost(post)
+
+                //Log.d("CreatePost1", "post: $post")
+
+                //save post data
+                savePostToFirebase()
+
+                // Observe the post creation status
+                postViewModel.postCreationStatus.observe(viewLifecycleOwner) { status ->
+                    val (success, exception) = status
+                    if (success) {
+                        val fragment = InviteFriend()
+                        val bundle = Bundle().apply {
+                            putString("success_message", "Post created successfully! Choose to invite a friend now!")
+                        }
+                        fragment.arguments = bundle
+
+                        activity?.supportFragmentManager?.beginTransaction()
+                            ?.replace(R.id.fragmentContainerView, fragment)
+                            ?.addToBackStack(null)
+                            ?.commit()
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to create post: ${exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+//                val fragment = InviteFriend()
+//                val transaction = activity?.supportFragmentManager?.beginTransaction()
+//                transaction?.replace(R.id.fragmentContainerView, fragment)
+//                transaction?.addToBackStack(null)
+//                transaction?.commit()
+//                val post = createPostObject()
+//
+//                val fragment = InviteFriend()
+//                val bundle = Bundle().apply {
+//                    putParcelable("post", post as Parcelable?)
+//                }
+//                fragment.arguments = bundle
+//
+//                val transaction = activity?.supportFragmentManager?.beginTransaction()
+//                transaction?.replace(R.id.fragmentContainerView, fragment)
+//                transaction?.addToBackStack(null)
+//                transaction?.commit()
+
+//                val fragment = InviteFriend()
+//                val transaction = activity?.supportFragmentManager?.beginTransaction()
+//                transaction?.replace(R.id.fragmentContainerView, fragment)
+//                transaction?.addToBackStack(null)
+//                transaction?.commit()
             }
         }
 
@@ -77,8 +125,15 @@ class CreatePost : Fragment() {
             pickImageFromGallery()
         }
 
+
+
         return view
     }
+
+    object PostSingleton {
+        var post: Post? = null
+    }
+
 
     private fun createPostObject(): Post {
         val title = txtTitleCreatePost.text.toString()
@@ -97,6 +152,7 @@ class CreatePost : Fragment() {
             postImage = "",
             postTitle = title,
             postDescription = description,
+            postLink = link,
             postCategory = category,
             postLearningStyle = learningStyle,
             postDateTime = currentDateTime
@@ -137,6 +193,8 @@ class CreatePost : Fragment() {
         val post = createPostObject()
         postViewModel.addPost(post, imageUri, getCurrentUserID())
     }
+
+
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)

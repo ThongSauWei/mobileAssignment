@@ -6,9 +6,10 @@ data class Post(
     val postImage : String,
     val postTitle : String,
     val postDescription : String,
+    val postLink : String,
     val postCategory : String,
     val postLearningStyle : String,
     val postDateTime : String
 ) {
-    constructor() : this("", "", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "", "", "")
 }

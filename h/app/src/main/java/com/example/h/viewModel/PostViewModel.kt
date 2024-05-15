@@ -3,6 +3,8 @@ package com.example.h.viewModel
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.h.dao.PostDAO
 import com.example.h.data.Post
@@ -13,9 +15,23 @@ import kotlinx.coroutines.launch
 class PostViewModel(application : Application) : AndroidViewModel(application) {
     val postRepository : PostRepository
 
+    private val _postCreationStatus = MutableLiveData<Pair<Boolean, Exception?>>()
+    val postCreationStatus: LiveData<Pair<Boolean, Exception?>> get() = _postCreationStatus
+
+
     init {
         val postDao = PostDAO()
         postRepository = PostRepository(postDao)
+    }
+
+    val postLiveData = MutableLiveData<Post>()
+
+    fun setPost(post: Post) {
+        postLiveData.value = post
+    }
+
+    fun getPost(): Post? {
+        return postLiveData.value
     }
 
 //    fun addPost(post : Post) {
@@ -24,15 +40,24 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
 //        }
 //    }
 
+//    fun addPost(post: Post, imageUri: Uri?, userID: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            postRepository.addPost(post, imageUri, userID) { success, exception ->
+//                if (success) {
+//                    // Post addition succeeded
+//                    // You can perform any UI-related actions here if needed
+//
+//                } else {
+//                    exception?.printStackTrace()
+//                }
+//            }
+//        }
+//    }
+
     fun addPost(post: Post, imageUri: Uri?, userID: String) {
         viewModelScope.launch(Dispatchers.IO) {
             postRepository.addPost(post, imageUri, userID) { success, exception ->
-                if (success) {
-                    // Post addition succeeded
-                    // You can perform any UI-related actions here if needed
-                } else {
-                    exception?.printStackTrace()
-                }
+                _postCreationStatus.postValue(Pair(success, exception))
             }
         }
     }
