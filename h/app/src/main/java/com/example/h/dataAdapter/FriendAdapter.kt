@@ -228,6 +228,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
                 // set the image inside the cardview
                 holder.imgContent.setImageResource(R.drawable.baseline_add_24)
+                holder.imgContent.setOnClickListener {
+                    holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                }
 
                 // add the image into the cardview
                 holder.dynamicContainer.removeAllViews()
