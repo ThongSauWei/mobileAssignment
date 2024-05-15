@@ -49,8 +49,8 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewCriteriaHome"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 app:cardBackgroundColor="@color/post"
                 app:cardCornerRadius="15dp"
@@ -61,10 +61,38 @@
 
                 <TextView
                     android:id="@+id/tvCriteriaHome"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:minWidth="80dp"
                     android:fontFamily="@font/caveat"
                     android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/all"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewCriteria2Home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/post"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="5dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/btnFilterHome"
+                app:layout_constraintStart_toEndOf="@+id/cardViewCriteriaHome"
+                app:layout_constraintTop_toTopOf="@+id/btnFilterHome">
+
+                <TextView
+                    android:id="@+id/tvCriteria2Home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:minWidth="80dp"
+                    android:fontFamily="@font/caveat"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:text="@string/all"
                     android:textSize="18sp"
                     android:textStyle="bold" />

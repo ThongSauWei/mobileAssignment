@@ -1,9 +1,15 @@
 package com.example.h
 
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
+import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -42,7 +48,10 @@ class FriendProfile : Fragment() {
     private lateinit var tvCourse : TextView
     private lateinit var tvBio : TextView
     private lateinit var separator : View
+    private lateinit var btnAdd : AppCompatButton
     private lateinit var layout : ConstraintLayout
+
+    private lateinit var currentUserID : String
 
     private lateinit var postList : List<Post>
 
@@ -70,6 +79,8 @@ class FriendProfile : Fragment() {
 
         }
 
+        currentUserID = SaveSharedPreference.getUserID(requireContext())
+
         imgProfile = view.findViewById(R.id.imgProfileFriendProfile)
         tvName = view.findViewById(R.id.tvNameFriendProfile)
         tvGroup = view.findViewById(R.id.tvGroupsFriendProfile)
@@ -88,20 +99,10 @@ class FriendProfile : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
-        val btnAdd : AppCompatButton = view.findViewById(R.id.btnAddFriendFriendProfile)
+        btnAdd = view.findViewById(R.id.btnAddFriendFriendProfile)
         val btnMessage : AppCompatButton = view.findViewById(R.id.btnMessageFriendProfile)
 
         layout = view.findViewById(R.id.layoutFriendProfile)
-
-        btnAdd.setOnClickListener {
-            val friendID = "0"
-            val userID = SaveSharedPreference.getUserID(requireContext())
-            val status = "Pending"
-
-            val friend = Friend(friendID, userID, friendUserID, status)
-
-            friendViewModel.addFriend(friend)
-        }
 
         btnMessage.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -150,6 +151,8 @@ class FriendProfile : Fragment() {
             tvCourse.text = profile.userCourse
             tvBio.text = profile.userBio
 
+            buttonSetup(currentUserID, userID)
+
             if (postList.size > 0) {
                 val adapter = PostAdapter(postList)
                 recyclerView.adapter = adapter
@@ -159,6 +162,54 @@ class FriendProfile : Fragment() {
             }
         }
     }
+
+    private fun buttonSetup(userID : String, friendUserID : String) {
+        lifecycleScope.launch {
+            val friend = friendViewModel.getFriend(userID, friendUserID)
+
+            var onClickListener : (View) -> Unit = {}
+
+            if (friend != null) {
+                when (friend.status) {
+                    "Pending", "Blocked", "Friend" -> {
+                        if (friend.status == "Pending" && friend.receiveUserID == currentUserID) {
+                            btnAdd.text = "Accept"
+
+                            onClickListener = {
+                                val updatedFriend = Friend(friend.friendID, friend.requestUserID, friend.receiveUserID, "Friend")
+                                friendViewModel.updateFriend(updatedFriend)
+                            }
+
+                        } else {
+                            btnAdd.text = friend.status
+                            btnAdd.setBackgroundColor(requireContext().getColor(R.color.disabled_button))
+                            btnAdd.isClickable = false
+                        }
+                    }
+                    "Blocking" -> {
+                        btnAdd.text = "Unblock"
+
+                        onClickListener = {
+                            val updatedFriend = Friend(friend.friendID, friend.requestUserID, friend.receiveUserID, "Friend")
+                            friendViewModel.updateFriend(updatedFriend)
+                        }
+                    }
+                    else -> {
+
+                    }
+                }
+            } else {
+                onClickListener = {
+                    val newFriend = Friend("0", userID, friendUserID, "Pending")
+
+                    friendViewModel.addFriend(newFriend)
+                }
+            }
+
+            btnAdd.setOnClickListener(onClickListener)
+        }
+    }
+
 
     private fun noPostSetup() {
         val tvNoPost = TextView(requireContext())

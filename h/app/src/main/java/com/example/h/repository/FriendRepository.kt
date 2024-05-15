@@ -13,6 +13,14 @@ class FriendRepository(private val friendDao : FriendDAO) {
         return friendDao.getFriendList(userID)
     }
 
+    suspend fun getFriend(userID_1 : String, userID_2 : String) : Friend? {
+        return friendDao.getFriend(userID_1, userID_2)
+    }
+
+    fun updateFriend(friend : Friend) {
+        friendDao.updateFriend(friend)
+    }
+
     fun deleteFriend(friendID : String) {
         friendDao.deleteFriend(friendID)
     }

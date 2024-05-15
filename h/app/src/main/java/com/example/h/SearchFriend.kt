@@ -33,7 +33,7 @@ class SearchFriend : Fragment() {
     private var userList : ArrayList<User> = arrayListOf()
     private val profileList : ArrayList<Profile> = arrayListOf()
 
-    private val userID = SaveSharedPreference.getUserID(requireContext())
+    private lateinit var userID : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +41,8 @@ class SearchFriend : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search_friend, container, false)
+
+        userID = SaveSharedPreference.getUserID(requireContext())
 
         tvSuggest = view.findViewById(R.id.tvSuggestFriendsSearchFriend)
 
@@ -53,6 +55,8 @@ class SearchFriend : Fragment() {
 
         val btnAdd : AppCompatButton = view.findViewById(R.id.btnSearchSearchFriend)
         val txtSearch : EditText = view.findViewById(R.id.txtSearchSearchFriend)
+
+        setupDefault()
 
         btnAdd.setOnClickListener {
             val inputText = txtSearch.text.toString()
