@@ -43,6 +43,16 @@
         <item>金融学</item>
         <item>医学</item>
     </array>
+    <array name="course">
+        <item>生意学</item>
+        <item>计算机科学</item>
+        <item>会计学</item>
+        <item>平面设计学</item>
+        <item>传媒学</item>
+        <item>金融学</item>
+        <item>医学</item>
+        <item>其他</item>
+    </array>
     <array name="learning_style">
         <item>视觉学习</item>
         <item>听觉学习</item>
@@ -60,7 +70,7 @@
     <string name="select_a_learning_style">选择一种学习方式</string>
     <string name="next">下一个</string>
     <string name="profileName">名字</string>
-    <string name="profileEmail">电子邮件</string>
+    <string name="profileLanguages">语言</string>
     <string name="profileMobile_phone">手机号码</string>
     <string name="profilrBirthday">生日日期</string>
     <string name="profileDescription">描述</string>
@@ -99,19 +109,19 @@
     <string name="chat">聊天</string>
     <string name="password_recovery">密码恢复</string>
     <string name="prc_email">电子邮件</string>
-    <string name="security_question">安全问题</string>
+    <string name="security_question">你最喜欢的电影是什么?</string>
     <string name="prc_submit">提交</string>
     <string name="need_help">需要帮忙?</string>
     <string name="edit_profile">编辑資料</string>
     <string name="profile_groups">群组</string>
     <string name="profile_friends">朋友</string>
-    <string name="open_gallery">打开相册</string>
+    <string name="create_post">新帖子</string>
     <string name="sign_up">注册</string>
     <string name="signUpName">名字</string>
     <string name="signUpMobile_number">手机号码</string>
     <string name="signUpBirthday">生日日期</string>
     <string name="signUpPassword">密码</string>
-    <string name="signUp_security_question">安全问题</string>
+    <string name="signUp_security_question">你最喜欢的电影是什么?</string>
     <string name="signUp_sign_up_btn">注册</string>
     <string name="already_have_an_account">已经有账户了吗?</string>
     <string name="SignUpEmail">电子邮件</string>
@@ -140,5 +150,6 @@
     <string name="group_menu">群组</string>
     <string name="profile_menu">个人主页</string>
     <string name="sign_out_menu">登出</string>
+    <string name="course_profile">课程</string>
 
 </resources>

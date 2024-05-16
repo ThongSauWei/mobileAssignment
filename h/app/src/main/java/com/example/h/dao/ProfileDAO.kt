@@ -103,6 +103,16 @@ class ProfileDAO {
         }
     }
 
+    fun updateProfilePicture(userID: String, newImageUrl: String) {
+        dbRef.child(userID).child("userImage").setValue(newImageUrl)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
     fun deleteProfile(userID : String) {
         dbRef.child(userID).removeValue()
             .addOnCompleteListener {

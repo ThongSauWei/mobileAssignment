@@ -8,7 +8,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <string name="confirm_delete_haha">Confirm Delete Haha?</string>
     <string name="delete_will_be_permanently">Delete will be permanently</string>
     <string name="yes">Yes</string>
@@ -35,7 +34,7 @@
     <string name="select_a_learning_style">Select a Learning Style</string>
     <string name="next">Next</string>
     <string name="profileName">Name</string>
-    <string name="profileEmail">Email</string>
+    <string name="profileLanguages">Language</string>
     <string name="profileMobile_phone">Mobile Phone</string>
     <string name="profilrBirthday">Birthday</string>
     <string name="profileDescription">Description</string>
@@ -74,19 +73,19 @@
     <string name="chat">Chat</string>
     <string name="password_recovery">Password Recovery</string>
     <string name="prc_email">Email</string>
-    <string name="security_question">Security Question</string>
+    <string name="security_question">What is your favorite movie?</string>
     <string name="prc_submit">Submit</string>
     <string name="need_help">Need help?</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="profile_groups">Groups</string>
     <string name="profile_friends">Friends</string>
-    <string name="open_gallery">Open Gallery</string>
+    <string name="create_post">New Post</string>
     <string name="sign_up">Sign UP</string>
     <string name="signUpName">Name</string>
     <string name="signUpMobile_number">Mobile Number</string>
     <string name="signUpBirthday">Birthday</string>
     <string name="signUpPassword">Password</string>
-    <string name="signUp_security_question">Security Question</string>
+    <string name="signUp_security_question">What is your favorite movie?</string>
     <string name="signUp_sign_up_btn">Sign Up</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="SignUpEmail">Email</string>
@@ -117,6 +116,7 @@
     <string name="sign_out_menu">Sign Out</string>
     <string name="menu_open" translatable="false">Open</string>
     <string name="menu_close" translatable="false">Close</string>
+    <string name="course_profile">Course</string>
     <array name="language_array">
         <item>English</item>
         <item>中文</item>
@@ -136,6 +136,16 @@
         <item>Degree</item>
         <item>Finance</item>
         <item>Medicine</item>
+    </array>
+    <array name="course">
+        <item>Business</item>
+        <item>Computer Science</item>
+        <item>Account</item>
+        <item>Graphic Design</item>
+        <item>Media</item>
+        <item>Finance</item>
+        <item>Medicine</item>
+        <item>Others</item>
     </array>
     <array name="learning_style">
         <item>Visual Learning</item>

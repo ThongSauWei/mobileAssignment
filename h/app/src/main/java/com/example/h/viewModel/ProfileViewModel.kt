@@ -39,6 +39,7 @@ class ProfileViewModel(application : Application) : AndroidViewModel(application
         }
     }
 
+
     fun deleteProfile(userID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             profileRepository.deleteProfile(userID)
