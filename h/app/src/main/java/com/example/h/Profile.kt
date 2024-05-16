@@ -52,15 +52,11 @@ class Profile : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        val toolbar: Toolbar = view.findViewById(R.id.toolbarProfile)
-        toolbar.setNavigationOnClickListener {
-            (requireActivity() as MainActivity).openDrawer()
-        }
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         btnSettingProfile = view.findViewById(R.id.imgSettingsProfile)
         changeImage = view.findViewById(R.id.changeImage)
-        cardViewProfile = view.findViewById(R.id.CardViewProfile)
+        cardViewProfile = view.findViewById(R.id.cardViewProfile)
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         userID = SaveSharedPreference.getUserID(requireContext())
         profileDao = ProfileDAO()
