@@ -26,6 +26,9 @@ import com.example.h.dataAdapter.PostAdapter
 import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.PostCommentViewModel
 import com.example.h.viewModel.PostViewModel
+import com.example.h.viewModel.UserViewModel
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +41,7 @@ import java.util.Locale
 
 class JoinGroup : Fragment() {
 
-    private lateinit var imgProfileCommentHolder: ImageView
+    private lateinit var imgProfileJoinGroup: ImageView
     private lateinit var btnSendComment: ImageView
     private lateinit var btnJoinJoinGroup: AppCompatButton
     private lateinit var btnBackJoinGroup: ImageView
@@ -47,7 +50,9 @@ class JoinGroup : Fragment() {
     private lateinit var tvCommentCountJoinGroup: TextView
     private lateinit var postID: String
     private lateinit var postViewModel: PostViewModel
+    private lateinit var userViewModel : UserViewModel
     private val userDAO = UserDAO()
+    private lateinit var storageRef : StorageReference
 
     companion object {
         private const val ARG_POST_ID = "postID"
@@ -68,10 +73,12 @@ class JoinGroup : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_join_group, container, false)
 
+        storageRef = FirebaseStorage.getInstance().getReference()
         // Get the postID from arguments
         postID = arguments?.getString(ARG_POST_ID) ?: ""
 
         // Initialize views
+        imgProfileJoinGroup = view.findViewById(R.id.imgProfileJoinGroup)
         btnSendComment = view.findViewById(R.id.btnSendComment)
         btnJoinJoinGroup = view.findViewById(R.id.btnJoinJoinGroup)
         btnBackJoinGroup = view.findViewById(R.id.btnBackJoinGroup)
@@ -142,14 +149,23 @@ class JoinGroup : Fragment() {
                 // Update UI with the retrieved post data
                 post?.let { // Check if post is not null
                     // Update UI elements with post details
-                    // Set profile image if available
-                    val imgProfileJoinGroup = view?.findViewById<ImageView>(R.id.imgProfileJoinGroup)
-                    //post.profileImage?.let { imgProfileJoinGroup?.setImageResource(it) }
+
 
                     // Set name if available
                     val tvNameJoinGroup = view?.findViewById<TextView>(R.id.tvNameJoinGroup)
                     val user = userDAO.getUserByID(post.userID)
                     tvNameJoinGroup?.text = user?.username ?: "Unknown"
+
+                    // Set profile image if available
+                    val imgProfileJoinGroup = view?.findViewById<ImageView>(R.id.imgProfileJoinGroup)
+                    //post.profileImage?.let { imgProfileJoinGroup?.setImageResource(it) }
+                    val ref = storageRef.child("imageProfile").child("${user?.userID}.png")
+                    ref.downloadUrl
+                        .addOnCompleteListener {
+                            if (imgProfileJoinGroup != null) {
+                                Glide.with(imgProfileJoinGroup).load(it.result.toString()).into(imgProfileJoinGroup)
+                            }
+                        }
 
                     // Set date and time if available
                     val tvDateTimeJoinGroup = view?.findViewById<TextView>(R.id.tvDateTimeJoinGroup)
@@ -233,10 +249,13 @@ class JoinGroup : Fragment() {
             try {
                 // Fetch and observe comments for the specified post ID
                 val postCommentViewModel = ViewModelProvider(this@JoinGroup).get(PostCommentViewModel::class.java)
+                val userViewModel : UserViewModel =
+                    ViewModelProvider(this@JoinGroup).get(UserViewModel::class.java)
                 postCommentViewModel.getPostComment(postID)
                 postCommentViewModel.postComments.observe(viewLifecycleOwner, Observer { comments ->
                     // Update the RecyclerView adapter with the new list of comments
                     val adapter = recyclerViewCommentJoinGroup.adapter as CommentAdapter
+                    adapter.setViewModel(userViewModel)
                     adapter.updateComments(comments)
 
                     // Update the comment count TextView with the total count of comments

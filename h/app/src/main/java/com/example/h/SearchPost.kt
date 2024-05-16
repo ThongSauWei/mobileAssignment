@@ -15,6 +15,7 @@ import com.example.h.dao.PostDAO
 import com.example.h.dataAdapter.PostAdapter
 import com.example.h.repository.PostRepository
 import com.example.h.viewModel.PostViewModel
+import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class SearchPost : Fragment() {
 
     private lateinit var postAdapter: PostAdapter
     private lateinit var postViewModel: PostViewModel
+    private lateinit var userViewModel : UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +32,8 @@ class SearchPost : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search_post, container, false)
+
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewPostSearchPost)
         recyclerView.layoutManager = LinearLayoutManager(activity?.application)
@@ -64,6 +68,7 @@ class SearchPost : Fragment() {
             lifecycleScope.launch {
                 try {
                     val posts = postViewModel.searchPost(inputText)
+                    postAdapter.setViewModel(userViewModel)
                     postAdapter.postList = posts
                     postAdapter.notifyDataSetChanged()
                 } catch (e: Exception) {
@@ -77,6 +82,7 @@ class SearchPost : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val posts = postViewModel.getAllPost()
+                postAdapter.setViewModel(userViewModel)
                 postAdapter.postList = posts
                 postAdapter.notifyDataSetChanged()
             } catch (e: Exception) {
