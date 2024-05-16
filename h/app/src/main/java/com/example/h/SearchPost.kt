@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.dao.PostDAO
 import com.example.h.dataAdapter.PostAdapter
 import com.example.h.repository.PostRepository
+import com.example.h.viewModel.PostViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,7 +22,7 @@ import kotlinx.coroutines.launch
 class SearchPost : Fragment() {
 
     private lateinit var postAdapter: PostAdapter
-    private lateinit var postRepository: PostRepository
+    private lateinit var postViewModel: PostViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +48,8 @@ class SearchPost : Fragment() {
         postAdapter = PostAdapter(emptyList())
         recyclerView.adapter = postAdapter
 
-        // Initialize the PostRepository
-        postRepository = PostRepository(PostDAO())
+        // Initialize the ViewModel
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 
         // Fetch posts from Firebase and set them directly in the adapter
         fetchPosts()
@@ -61,7 +63,7 @@ class SearchPost : Fragment() {
         } else {
             lifecycleScope.launch {
                 try {
-                    val posts = postRepository.searchPost(inputText)
+                    val posts = postViewModel.searchPost(inputText)
                     postAdapter.postList = posts
                     postAdapter.notifyDataSetChanged()
                 } catch (e: Exception) {
@@ -74,7 +76,7 @@ class SearchPost : Fragment() {
     private fun fetchPosts() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val posts = postRepository.getAllPost()
+                val posts = postViewModel.getAllPost()
                 postAdapter.postList = posts
                 postAdapter.notifyDataSetChanged()
             } catch (e: Exception) {
