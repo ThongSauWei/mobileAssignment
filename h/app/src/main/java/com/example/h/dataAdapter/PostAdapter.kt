@@ -11,10 +11,14 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.h.JoinGroup
 import com.example.h.R
 import com.example.h.dao.UserDAO
 import com.example.h.data.Post
+import com.example.h.viewModel.UserViewModel
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +29,9 @@ import java.util.Locale
 
 class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.PostHolder>() {
 
-    private val userDAO = UserDAO()
+    private lateinit var userViewModel : UserViewModel
+    //private val userDAO = UserDAO()
+    private lateinit var storageRef : StorageReference
     object Constants {
         const val IMAGE_WIDTH_DP = 258
         const val IMAGE_HEIGHT_DP = 214
@@ -44,8 +50,16 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
 
     }
 
+    fun setViewModel(userViewModel : UserViewModel) {
+        this.userViewModel = userViewModel
+
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.post_holder, parent, false)
+
+        storageRef = FirebaseStorage.getInstance().getReference()
 
         return PostHolder(itemView)
     }
@@ -87,9 +101,20 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
 
         //fecth user get the username
         GlobalScope.launch(Dispatchers.Main) {
-            val user = userDAO.getUserByID(currentItem.userID)
+            val user = userViewModel.getUserByID(currentItem.userID)
             holder.tvName.text = user?.username ?: "Unknown"
+
+            user?.let {
+                val ref = storageRef.child("imageProfile").child("${user?.userID}.png")
+                ref.downloadUrl
+                    .addOnCompleteListener {
+                        Glide.with(holder.imgProfile).load(it.result.toString()).into(holder.imgProfile)
+                    }
+            }
         }
+
+
+
 
         // Set onClickListener for each item in the RecyclerView
         holder.itemView.setOnClickListener {

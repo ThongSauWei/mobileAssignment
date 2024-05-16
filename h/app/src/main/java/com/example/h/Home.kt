@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.h.dataAdapter.PostAdapter
 import com.example.h.repository.PostRepository
 import com.example.h.viewModel.PostViewModel
+import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,12 +24,15 @@ class Home : Fragment() {
 
     private lateinit var postAdapter: PostAdapter
     private lateinit var postViewModel: PostViewModel
+    private lateinit var userViewModel : UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         val tvCriteriaHome = view.findViewById<TextView>(R.id.tvCriteriaHome)
         val tvCriteria2Home = view.findViewById<TextView>(R.id.tvCriteria2Home)
@@ -92,6 +96,7 @@ class Home : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val posts = postViewModel.getAllPost()
+                postAdapter.setViewModel(userViewModel)
                 postAdapter.postList = posts
                 postAdapter.notifyDataSetChanged()
             } catch (e: Exception) {
@@ -104,6 +109,7 @@ class Home : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val posts = postViewModel.getPostByCategoryAndLearningStyle(category, learningStyle)
+                postAdapter.setViewModel(userViewModel)
                 postAdapter.postList = posts
                 postAdapter.notifyDataSetChanged()
             } catch (e: Exception) {
