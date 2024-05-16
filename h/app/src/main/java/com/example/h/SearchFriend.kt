@@ -44,6 +44,8 @@ class SearchFriend : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search_friend, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         currentUserID = SaveSharedPreference.getUserID(requireContext())
 
         tvSuggest = view.findViewById(R.id.tvSuggestFriendsSearchFriend)

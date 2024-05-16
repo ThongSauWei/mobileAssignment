@@ -2,11 +2,13 @@ package com.example.h
 
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -35,6 +37,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userViewModel : UserViewModel
     private lateinit var profileViewModel : ProfileViewModel
     private lateinit var friendViewModel : FriendViewModel
+
+    lateinit var toolbarContainer : FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         progressBar = findViewById(R.id.progressBar)
-
         drawerLayout = findViewById(R.id.main)
         navigationView = findViewById(R.id.navigationView)
         actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.menu_open, R.string.menu_close)
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         navigationView.setNavigationItemSelectedListener {
-            menuItem ->
+                menuItem ->
             when(menuItem.itemId) {
                 R.id.nav_home -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
@@ -129,6 +133,8 @@ class MainActivity : AppCompatActivity() {
             transaction.commit()
         }
 
+        toolbarContainer = findViewById(R.id.toolbarContainer)
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
@@ -171,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     userViewModel.addUser(user)
                     // Delay for a short period to ensure sequential addition
-                    delay(100)
+                    delay(1000)
                 } catch (e: Exception) {
                     // Handle exceptions if needed
                     Toast.makeText(this@MainActivity, "Error adding user", Toast.LENGTH_LONG).show()
@@ -182,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     profileViewModel.addProfile(profile)
                     // Delay for a short period to ensure sequential addition
-                    delay(100)
+                    delay(1000)
                 } catch (e: Exception) {
                     // Handle exceptions if needed
                     Toast.makeText(this@MainActivity, "Error adding profile", Toast.LENGTH_LONG).show()
@@ -193,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     friendViewModel.addFriend(friend)
                     // Delay for a short period to ensure sequential addition
-                    delay(100)
+                    delay(1000)
                 } catch (e: Exception) {
                     // Handle exceptions if needed
                     Toast.makeText(this@MainActivity, "Error adding friend", Toast.LENGTH_LONG).show()
@@ -212,5 +218,27 @@ class MainActivity : AppCompatActivity() {
 
     fun hideProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    fun setToolbar(toolbarLayoutResId : Int, bgColorResId : Int = R.color.background) {
+        toolbarContainer.visibility = View.VISIBLE
+
+        toolbarContainer.removeAllViews()
+        val toolbar : View = layoutInflater.inflate(toolbarLayoutResId, toolbarContainer, false)
+        toolbarContainer.addView(toolbar)
+        toolbarContainer.setBackgroundColor(this.getColor(bgColorResId))
+
+        setSupportActionBar(toolbar as Toolbar)
+
+        supportActionBar?.title = ""
+
+        toolbar.setNavigationOnClickListener {
+            openDrawer()
+        }
+    }
+
+    fun setToolbar() {
+        toolbarContainer.removeAllViews()
+        toolbarContainer.visibility = View.GONE
     }
 }

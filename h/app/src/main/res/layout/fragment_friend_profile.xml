@@ -22,16 +22,12 @@
             <LinearLayout
                 android:id="@+id/linearLayoutFriendProfile"
                 android:layout_width="match_parent"
-                android:layout_height="225dp"
-                android:background="#919A9898"
+                android:layout_height="155dp"
+                android:background="@color/profile_bg"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <include
-                    android:id="@+id/toolbarFriendProfile"
-                    layout="@layout/toolbar_with_profile" />
 
             </LinearLayout>
 
@@ -39,7 +35,7 @@
                 android:id="@+id/cardViewFriendProfile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="176dp"
+                android:layout_marginTop="106dp"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"

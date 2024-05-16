@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -63,6 +64,21 @@ class ChatLineDAO {
 
                 })
         }
+    }
+
+    suspend fun getLastChat(chatID : String) : ChatLine? {
+        var chatLine : ChatLine? = null
+
+        val snapshot = dbRef.orderByChild("chatID").equalTo(chatID).limitToLast(1).get().await()
+
+        if (snapshot.exists()) {
+            for (chatLineSnapshot in snapshot.children) {
+                chatLine = chatLineSnapshot.getValue(ChatLine::class.java)
+                break
+            }
+        }
+
+        return chatLine
     }
 
     fun deleteChatLine(chatLineID : String) {

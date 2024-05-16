@@ -8,13 +8,6 @@
     android:background="@color/background"
     tools:context=".CreatePost">
 
-    <include
-        android:id="@+id/toolbarCreatePost"
-        layout="@layout/toolbar_with_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewCreatePost"
         android:layout_width="80dp"
@@ -24,7 +17,7 @@
         app:cardBackgroundColor="@color/post"
         app:cardCornerRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarCreatePost" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2CreatePost"

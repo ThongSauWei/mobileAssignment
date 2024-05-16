@@ -20,13 +20,6 @@ class Groups : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
-        val toolbar : Toolbar = view.findViewById(R.id.toolbarGroups)
-
-        toolbar.setNavigationOnClickListener {
-            (requireActivity() as MainActivity).openDrawer()
-        }
-
-
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewGroupGroups)
         recyclerView.adapter = GroupAdapter()
         recyclerView.layoutManager = LinearLayoutManager(activity?.application)

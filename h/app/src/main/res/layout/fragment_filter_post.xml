@@ -7,13 +7,10 @@
     android:background="@color/background"
     tools:context=".FilterPost">
 
-    <include android:id="@+id/toolbarFilterPost"
-        layout="@layout/toolbar_with_profile" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarFilterPost"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

@@ -7,14 +7,10 @@
     android:background="@color/background"
     tools:context=".InviteFriend">
 
-    <include
-        android:id="@+id/toolbarInviteFriend"
-        layout="@layout/toolbar_with_profile" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarInviteFriend"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

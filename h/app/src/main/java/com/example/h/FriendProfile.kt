@@ -64,6 +64,8 @@ class FriendProfile : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friend_profile, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile, R.color.profile_bg)
+
         if (arguments?.getString("friendUserID").isNullOrEmpty()) {
 
             val transaction = activity?.supportFragmentManager?.beginTransaction()

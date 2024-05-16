@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +22,7 @@ import com.example.h.viewModel.UserViewModel
 class OuterChat : Fragment() {
 
     private lateinit var recyclerView : RecyclerView
-    private val adapter = FriendAdapter(FriendAdapter.Mode.INVITE)
+    private val adapter = FriendAdapter(FriendAdapter.Mode.CHAT)
 
     private lateinit var userViewModel : UserViewModel
     private lateinit var profileViewModel : ProfileViewModel
@@ -39,16 +41,35 @@ class OuterChat : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_outer_chat, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
         chatLineViewModel = ViewModelProvider(this).get(ChatLineViewModel::class.java)
 
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewFriendOuterChat)
-        recyclerView.adapter = FriendAdapter(FriendAdapter.Mode.CHAT)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
+        val btnSearch : AppCompatButton = view.findViewById(R.id.btnSearchOuterChat)
+        val txtSearch : EditText = view.findViewById(R.id.txtSearchOuterChat)
+
+        setupDefault()
+
+        btnSearch.setOnClickListener {
+            val inputText = txtSearch.text.toString()
+            searchChat(inputText)
+        }
+
         return view
+    }
+
+    private fun setupDefault() {
+
+    }
+
+    private fun searchChat(txtSearch : String) {
+
     }
 }

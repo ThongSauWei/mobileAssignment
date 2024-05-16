@@ -8,30 +8,12 @@
     android:background="@color/background"
     tools:context=".Home">
 
-    <include
-        android:id="@+id/toolbarHome"
-        layout="@layout/toolbar_with_profile" />
-
-    <TextView
-        android:id="@+id/tvTitleToolbarWithTitle"
-        android:layout_width="57dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/caveat"
-        android:text="FPF"
-        android:textColor="@color/link"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbarHome" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarHome">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -41,6 +41,8 @@ class Friends : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         tvTitle = view.findViewById(R.id.tvTitleFriends)
         tvCount = view.findViewById(R.id.tvFriendCountFriends)
         separator = view.findViewById(R.id.separatorFriends)
