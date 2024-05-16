@@ -9,15 +9,17 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.h.data.Profile
+import com.example.h.data.Chat
 import com.example.h.data.User
 import com.example.h.dataAdapter.FriendAdapter
 import com.example.h.viewModel.ChatLineViewModel
 import com.example.h.viewModel.ChatViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
+import kotlinx.coroutines.launch
 
 class OuterChat : Fragment() {
 
@@ -30,7 +32,7 @@ class OuterChat : Fragment() {
     private lateinit var chatLineViewModel : ChatLineViewModel
 
     private var userList : ArrayList<User> = arrayListOf()
-    private val profileList : ArrayList<Profile> = arrayListOf()
+    private lateinit var chatList : List<Chat>
 
     private lateinit var currentUserID : String
 
@@ -67,6 +69,17 @@ class OuterChat : Fragment() {
 
     private fun setupDefault() {
 
+        lifecycleScope.launch {
+            chatList = chatViewModel.getChatByUser(currentUserID)
+
+            chatList.forEach { chat ->
+                val userID = if (chat.initiatorUserID == currentUserID) chat.receiverUserID else chat.initiatorUserID
+                val user = userViewModel.getUserByID(userID)
+                userList.add(user!!)
+            }
+
+
+        }
     }
 
     private fun searchChat(txtSearch : String) {

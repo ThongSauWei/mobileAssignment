@@ -8,8 +8,12 @@ class ChatRepository(private val chatDao : ChatDAO) {
         chatDao.addChat(chat)
     }
 
-    suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? {
-        return chatDao.getChat(initiatorUserID, receiverUserID)
+    suspend fun getChat(userID_1 : String, userID_2 : String) : Chat? {
+        return chatDao.getChat(userID_1, userID_2)
+    }
+
+    suspend fun getChatByUser(userID : String) : List<Chat> {
+        return chatDao.getChatByUser(userID)
     }
 
     fun deleteChat(chatID : String) {

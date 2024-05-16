@@ -27,6 +27,10 @@ class ChatLineViewModel(application : Application) : AndroidViewModel(applicatio
         return chatLineRepository.getChatLine(chatID)
     }
 
+    suspend fun getLastChat(chatID : String) : ChatLine? {
+        return chatLineRepository.getLastChat(chatID)
+    }
+
     fun deleteChatLine(chatLineID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             chatLineRepository.deleteChatLine(chatLineID)

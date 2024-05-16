@@ -56,6 +56,8 @@ class SearchFriend : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewFriendSearchFriend)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
+        adapter.setViewModel(friendViewModel = ViewModelProvider(this@SearchFriend).get(FriendViewModel::class.java))
+        adapter.setFragmentManager(parentFragmentManager)
 
         val btnAdd : AppCompatButton = view.findViewById(R.id.btnSearchSearchFriend)
         val txtSearch : EditText = view.findViewById(R.id.txtSearchSearchFriend)
@@ -88,7 +90,8 @@ class SearchFriend : Fragment() {
                     profileList.add(profile!!)
                 }
 
-                adapter.setUserList(userList, profileList)
+                adapter.setUserList(userList)
+                adapter.setProfileList(profileList)
                 recyclerView.adapter = adapter
 
                 tvSuggest.text = "Search Result"
@@ -114,9 +117,8 @@ class SearchFriend : Fragment() {
                 profileList.add(profile!!)
             }
 
-            adapter.setUserList(userList, profileList)
-            adapter.setViewModel(friendViewModel = ViewModelProvider(this@SearchFriend).get(FriendViewModel::class.java))
-            adapter.setFragmentManager(parentFragmentManager)
+            adapter.setUserList(userList)
+            adapter.setProfileList(profileList)
             recyclerView.adapter = adapter
 
             tvSuggest.text = "Suggest Buddies"

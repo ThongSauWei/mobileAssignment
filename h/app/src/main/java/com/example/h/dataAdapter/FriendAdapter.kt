@@ -22,6 +22,8 @@ import com.example.h.FriendProfile
 import com.example.h.dialog.DeleteFriendDialog
 import com.example.h.R
 import com.example.h.SearchFriend
+import com.example.h.data.Chat
+import com.example.h.data.ChatLine
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
@@ -42,8 +44,10 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     private var friendList = emptyList<Friend>()
     private var userList = emptyList<User>()
     private var profileList = emptyList<Profile>()
+    private var chatList = emptyList<Chat>()
 
     private lateinit var currentUserID : String
+    private var lastChat : ChatLine? = null
 
     object Mode {
         const val ADD = 1
@@ -273,8 +277,13 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         }
     }
 
-    fun setUserList(userList : List<User>, profileList : List<Profile>) {
+    fun setUserList(userList : List<User>) {
         this.userList = userList
+
+        notifyDataSetChanged()
+    }
+
+    fun setProfileList(profileList : List<Profile>) {
         this.profileList = profileList
 
         notifyDataSetChanged()
@@ -296,6 +305,16 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         this.deleteFriendDialog = deleteFriendDialog
 
         notifyDataSetChanged()
+    }
+
+    fun setChatList(chatList : List<Chat>) {
+        this.chatList = chatList
+
+        notifyDataSetChanged()
+    }
+
+    fun setLastChatList() {
+        
     }
 
     fun setFragmentManager(fragmentManager : FragmentManager) {

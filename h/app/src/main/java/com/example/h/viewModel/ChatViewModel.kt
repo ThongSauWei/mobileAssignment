@@ -26,9 +26,12 @@ class ChatViewModel(application : Application) : AndroidViewModel(application) {
         }
     }
 
-    suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? {
+    suspend fun getChat(userID_1 : String, userID_2 : String) : Chat? {
+        return chatRepository.getChat(userID_1, userID_2)
+    }
 
-        return chatRepository.getChat(initiatorUserID, receiverUserID)
+    suspend fun getChatByUser(userID : String) : List<Chat> {
+        return chatRepository.getChatByUser(userID)
     }
 
     fun deleteChat(chatID : String) {

@@ -1,14 +1,17 @@
 package com.example.h.dao
 
 import com.example.h.data.Chat
+import com.example.h.data.Friend
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -37,29 +40,55 @@ class ChatDAO {
             }
     }
 
-    suspend fun getChat(initiatorUserID : String, receiverUserID : String) : Chat? = suspendCoroutine { continuation ->
+    suspend fun getChat(userID_1 : String, userID_2 : String) : Chat? {
+        var chat : Chat? = null
 
-        dbRef.orderByChild("initiatorUserID").equalTo(initiatorUserID)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+        val snapshot = dbRef.get().await()
+
+        if (snapshot.exists()) {
+            for (chatSnapshot in snapshot.children) {
+                val initiatorUserID = chatSnapshot.child("initiatorUserID").getValue(String::class.java)
+                val receiverUserID = chatSnapshot.child("receiverUserID").getValue(String::class.java)
+                if ((initiatorUserID == userID_1 && receiverUserID == userID_2) ||
+                    (initiatorUserID == userID_2 && receiverUserID == userID_1)) {
+                    chat = chatSnapshot.getValue(Chat::class.java)
+                    break
+                }
+            }
+        }
+
+        return chat
+    }
+
+    suspend fun getChatByUser(userID : String) : List<Chat> = withContext(Dispatchers.IO) {
+        return@withContext suspendCoroutine { continuation ->
+
+            dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    val chatList = ArrayList<Chat>()
                     if (snapshot.exists()) {
                         for (chatSnapshot in snapshot.children) {
-                            val userID = chatSnapshot.child("receiverUserID").getValue(String::class.java)
-                            if (userID == receiverUserID) {
-                                val chat = chatSnapshot.getValue(Chat::class.java)
-                                continuation.resume(chat)
-                                return
+                            val chat = chatSnapshot.getValue(Chat::class.java)
+                            chatList.add(chat!!)
+                        }
+
+                        val iterator = chatList.iterator()
+                        while (iterator.hasNext()) {
+                            val chat = iterator.next()
+                            if (chat.initiatorUserID != userID && chat.receiverUserID != userID) {
+                                iterator.remove()
                             }
                         }
-                    }
 
-                    continuation.resume(null)
+                        continuation.resume(chatList)
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     continuation.resumeWithException(error.toException())
                 }
             })
+        }
     }
 
     fun deleteChat(chatID : String) {
