@@ -29,7 +29,9 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
 
     fun addFriend(friend : Friend) {
         viewModelScope.launch(Dispatchers.IO) {
-            friendRepository.addFriend(friend)
+            if (friendRepository.getFriend(friend.requestUserID, friend.receiveUserID) == null) {
+                friendRepository.addFriend(friend)
+            }
         }
     }
 
@@ -37,10 +39,13 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
         return friendRepository.getFriendList(userID)
     }
 
-    private fun fetchFriendList() {
-        viewModelScope.launch {
-            val newList = friendRepository.getFriendList(userID)
-            _friendList.postValue(newList)
+    suspend fun getFriend(userID_1 : String, userID_2 : String) : Friend? {
+        return friendRepository.getFriend(userID_1, userID_2)
+    }
+
+    fun updateFriend(friend : Friend) {
+        viewModelScope.launch(Dispatchers.IO) {
+            friendRepository.updateFriend(friend)
         }
     }
 
@@ -48,6 +53,13 @@ class FriendViewModel(application : Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.IO) {
             friendRepository.deleteFriend(friendID)
             fetchFriendList()
+        }
+    }
+
+    private fun fetchFriendList() {
+        viewModelScope.launch {
+            val newList = friendRepository.getFriendList(userID)
+            _friendList.postValue(newList)
         }
     }
 }

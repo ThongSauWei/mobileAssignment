@@ -41,6 +41,8 @@ class Friends : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         tvTitle = view.findViewById(R.id.tvTitleFriends)
         tvCount = view.findViewById(R.id.tvFriendCountFriends)
         separator = view.findViewById(R.id.separatorFriends)
@@ -94,13 +96,15 @@ class Friends : Fragment() {
                         profileList.add(userProfile!!)
                     }
 
-                    val dialog = DeleteFriendDialog()
-                    dialog.viewModel = friendViewModel
-
                     val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
                     adapter.setUserList(userList, profileList)
                     adapter.setFriendList(friendList)
-                    adapter.setDeleteFriendDialog(dialog, childFragmentManager)
+                    adapter.setViewModel(friendViewModel)
+
+                    val dialog = DeleteFriendDialog()
+                    adapter.setDeleteFriendDialog(dialog)
+                    adapter.setFragmentManager(parentFragmentManager)
+
                     recyclerView.adapter = adapter
 
                     tvCount.text = userList.size.toString() + " Buddies"

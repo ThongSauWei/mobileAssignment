@@ -51,7 +51,7 @@ class ProfileDAO {
     suspend fun getUserListByCourse(course : String) : List<String> = withContext(Dispatchers.IO) {
         return@withContext suspendCoroutine { continuation ->
 
-            dbRef.orderByChild("userCourse").equalTo(course)
+            dbRef.orderByChild("userCourse").equalTo(course).limitToFirst(10)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         userIDList.clear()
@@ -62,9 +62,7 @@ class ProfileDAO {
                             }
                         }
 
-                        if (userIDList.size < 10) {
-                            getRemainingUsers(10 - userIDList.size)
-                        }
+                        continuation.resume(userIDList)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -75,25 +73,34 @@ class ProfileDAO {
         }
     }
 
-    private fun getRemainingUsers(number : Int) : List<String> {
-        dbRef.orderByKey().limitToFirst(number)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (profileSnapshot in snapshot.children) {
-                            val userID = profileSnapshot.child("userID").getValue(String::class.java)
-                            userIDList.add(userID!!)
+    suspend fun getRemainingUsers(list : List<String>) : List<String> = withContext(Dispatchers.IO) {
+        return@withContext suspendCoroutine { continuation ->
+            dbRef.orderByKey()
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val arrayList = ArrayList(list)
+                        if (snapshot.exists()) {
+                            for (profileSnapshot in snapshot.children) {
+                                val userID = profileSnapshot.child("userID").getValue(String::class.java)
+                                if (!arrayList.contains(userID)) {
+                                    arrayList.add(userID)
+
+                                    if (arrayList.size >= 10) {
+                                        break
+                                    }
+                                }
+                            }
                         }
+
+                        continuation.resume(arrayList)
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                    throw IllegalArgumentException("Database Error")
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                        continuation.resumeWithException(error.toException())
+                    }
 
-            })
-
-        return userIDList
+                })
+        }
     }
 
     fun updateProfilePicture(userID: String, newImageUrl: String) {

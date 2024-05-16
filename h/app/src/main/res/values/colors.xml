@@ -5,6 +5,7 @@
     <color name="background">#FEFEFE</color>
     <color name="separator">#E1DDDD</color>
     <color name="button">#F0D7B9</color>
+    <color name="disabled_button">#F4BE7D</color>
     <color name="link">#AC9B87</color>
     <color name="icon">#F4E4D1</color>
     <color name="sub_text">#827E7E</color>
@@ -14,4 +15,5 @@
     <color name="chat_bubble">#C6C2C2</color>
     <color name="dialog">#FFF2E2</color>
     <color name="dialog_stroke">#F0D7B9</color>
+    <color name="profile_bg">#919A9898</color>
 </resources>

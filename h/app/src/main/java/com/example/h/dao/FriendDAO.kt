@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,17 +25,20 @@ class FriendDAO {
         }
     }
 
-    fun addFriend(friend : Friend) {
-        friend.friendID = "F$nextID"
-        nextID++
+    suspend fun addFriend(friend : Friend) {
+        if (getFriend(friend.requestUserID, friend.receiveUserID) != null) {
 
-        dbRef.child(friend.friendID).setValue(friend)
-            .addOnCompleteListener{
+            friend.friendID = "F$nextID"
+            nextID++
 
-            }
-            .addOnFailureListener{
+            dbRef.child(friend.friendID).setValue(friend)
+                .addOnCompleteListener{
 
-            }
+                }
+                .addOnFailureListener{
+
+                }.await()
+        }
     }
 
     suspend fun getFriendList(userID : String) : List<Friend> = withContext(Dispatchers.IO) {
@@ -75,6 +79,16 @@ class FriendDAO {
         friendList
     }
 
+    fun updateFriend(friend : Friend) {
+        dbRef.child(friend.friendID).setValue(friend)
+            .addOnCompleteListener{
+
+            }
+            .addOnFailureListener{
+
+            }
+    }
+
     fun deleteFriend(friendID : String) {
         dbRef.child(friendID).removeValue()
             .addOnCompleteListener {
@@ -83,6 +97,26 @@ class FriendDAO {
             .addOnFailureListener {
 
             }
+    }
+
+    suspend fun getFriend(userID_1 : String, userID_2 : String) : Friend? {
+        var friend : Friend? = null
+
+        val snapshot = dbRef.get().await()
+
+        if (snapshot.exists()) {
+            for (friendSnapshot in snapshot.children) {
+                val requestUserID = friendSnapshot.child("requestUserID").getValue(String::class.java)
+                val receiveUserID = friendSnapshot.child("receiveUserID").getValue(String::class.java)
+                if ((requestUserID == userID_1 && receiveUserID == userID_2) ||
+                    (requestUserID == userID_2 && receiveUserID == userID_1)) {
+                    friend = friendSnapshot.getValue(Friend::class.java)
+                    break
+                }
+            }
+        }
+
+        return friend
     }
 
     private suspend fun getNextID() : Int {

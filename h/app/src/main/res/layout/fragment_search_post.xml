@@ -7,14 +7,10 @@
     android:background="@color/background"
     tools:context=".SearchPost">
 
-    <include
-        android:id="@+id/toolbarSearchPost"
-        layout="@layout/toolbar_with_profile" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarSearchPost"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -56,9 +52,9 @@
                 android:elevation="10dp"
                 android:ems="10"
                 android:fontFamily="@font/caveat"
+                android:hint="@string/type_something_to_search"
                 android:inputType="text"
                 android:paddingStart="15dp"
-                android:text="@string/type_something_to_search"
                 android:textColor="@color/search_text"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(application : Application) : AndroidViewModel(application) {
     private val profileRepository : ProfileRepository
 
+    private var userIDList = ArrayList<String>()
+
     init {
         val profileDao = ProfileDAO()
         profileRepository = ProfileRepository(profileDao)
@@ -28,7 +30,13 @@ class ProfileViewModel(application : Application) : AndroidViewModel(application
     }
 
     suspend fun getUserListByCourse(course : String) : List<String> {
-        return profileRepository.getUserListByCourse(course)
+        userIDList = ArrayList(profileRepository.getUserListByCourse(course))
+
+        return if (userIDList.size < 10) {
+            profileRepository.getRemainingUsers(userIDList)
+        } else {
+            userIDList
+        }
     }
 
 

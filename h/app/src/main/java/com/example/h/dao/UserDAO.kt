@@ -28,7 +28,7 @@ class UserDAO {
         }
     }
 
-    fun addUser(user : User) {
+    suspend fun addUser(user : User) {
         user.userID = "U$nextID"
         nextID++
 
@@ -38,7 +38,7 @@ class UserDAO {
             }
             .addOnFailureListener{
 
-            }
+            }.await()
     }
 
     suspend fun getUserByID(userID : String) : User? = suspendCoroutine { continuation ->
@@ -104,7 +104,7 @@ class UserDAO {
 
             val userList = ArrayList<User>()
 
-            dbRef.orderByChild("username").startAt(searchText)
+            dbRef.orderByChild("username")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {

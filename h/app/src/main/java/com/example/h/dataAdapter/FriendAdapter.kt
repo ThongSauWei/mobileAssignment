@@ -2,6 +2,7 @@ package com.example.h.dataAdapter
 
 import android.app.ActionBar
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,23 +18,32 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.h.FriendProfile
 import com.example.h.dialog.DeleteFriendDialog
 import com.example.h.R
+import com.example.h.SearchFriend
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
+import com.example.h.saveSharedPreference.SaveSharedPreference
+import com.example.h.viewModel.FriendViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
 
     private lateinit var storageRef : StorageReference
     private lateinit var fragmentManager : FragmentManager
     private lateinit var deleteFriendDialog : DeleteFriendDialog
+    private lateinit var friendViewModel : FriendViewModel
 
     private var friendList = emptyList<Friend>()
     private var userList = emptyList<User>()
     private var profileList = emptyList<Profile>()
+
+    private lateinit var currentUserID : String
 
     object Mode {
         const val ADD = 1
@@ -51,11 +61,8 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         val tvText : TextView = itemView.findViewById(R.id.tvTextFriendHolder)
         val dynamicContainer : CardView = itemView.findViewById(R.id.dynamicFriendHolder)
 
-        // for delete & invite
+        // for delete & invite & add
         val imgContent = ImageView(itemView.context)
-
-        // for add
-        val btnAdd = Button(itemView.context)
 
         // for chat
         val time = TextView(itemView.context)
@@ -66,6 +73,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.friend_holder, parent, false)
 
         storageRef = FirebaseStorage.getInstance().getReference()
+        currentUserID = SaveSharedPreference.getUserID(parent.context)
 
         return FriendHolder(itemView)
     }
@@ -96,31 +104,48 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
         when (mode) {
             Mode.ADD -> {
-                holder.dynamicContainer.radius = (10 * density)
+                // initialise cardview settings
+                layoutParamsCardView.width = (30 * density).toInt()
+                layoutParamsCardView.height = (30 * density).toInt()
+                holder.dynamicContainer.layoutParams = layoutParamsCardView
+                holder.dynamicContainer.setCardBackgroundColor(holder.dynamicContainer.context.getColor(R.color.button))
+                holder.dynamicContainer.cardElevation = (5 * density)
+                holder.dynamicContainer.radius = (15 * density)
 
-                // initialise the button settings
-                holder.btnAdd.text = "Add Buddies"
-                holder.btnAdd.typeface = ResourcesCompat.getFont(holder.btnAdd.context, R.font.caveat)
-                holder.btnAdd.textSize = 14f
-                holder.btnAdd.setTextColor(Color.BLACK)
-                holder.btnAdd.isAllCaps = false
+                // set the image inside the cardview
+                GlobalScope.launch {
+                    if (friendViewModel.getFriend(currentUserID, currentUser.userID) == null) {
+                        holder.imgContent.setImageResource(R.drawable.baseline_add_24)
 
-                // set the color of the icon and set the icon to the button
-                val iconAdd = ContextCompat.getDrawable(holder.btnAdd.context, R.drawable.baseline_person_add_alt_24)?.mutate()
-                DrawableCompat.setTint(iconAdd!!, Color.BLACK)
-                holder.btnAdd.setCompoundDrawablesRelativeWithIntrinsicBounds(iconAdd, null, null, null)
-                holder.btnAdd.compoundDrawablePadding = (8 * density).toInt()
-                holder.btnAdd.setPadding((10 * density).toInt(), 0, (10 * density).toInt(), 0)
+                        holder.imgContent.setOnClickListener {
 
-                // set the background of the button
-                holder.btnAdd.setBackgroundResource(R.drawable.button_bg)
+                            val newFriend = Friend("0", currentUserID, currentUser.userID, "Pending")
 
-                // add the button to the cardview
-                holder.dynamicContainer.removeAllViews()
-                holder.dynamicContainer.addView(holder.btnAdd)
+                            friendViewModel.addFriend(newFriend)
 
-                holder.btnAdd.setOnClickListener {
+                            holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                        }
 
+                    } else {
+                        holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                    }
+
+                    // add the image into the cardview
+                    holder.dynamicContainer.removeAllViews()
+                    holder.dynamicContainer.addView(holder.imgContent)
+                }
+
+                holder.constraintLayout.setOnClickListener {
+                    val transaction = fragmentManager.fragments.get(0).activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = FriendProfile()
+
+                    val bundle = Bundle()
+                    bundle.putString("friendUserID", currentUser.userID)
+                    fragment.arguments = bundle
+
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
                 }
             }
             Mode.DELETE -> {
@@ -142,8 +167,22 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                     deleteFriendDialog.friendID = friendID
                     val username = currentUser.username
                     deleteFriendDialog.username = username
+                    deleteFriendDialog.viewModel = friendViewModel
 
                     deleteFriendDialog.show(fragmentManager, "DeleteFriendDialog")
+                }
+
+                holder.constraintLayout.setOnClickListener {
+                    val transaction = fragmentManager.fragments.get(0).activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = FriendProfile()
+
+                    val bundle = Bundle()
+                    bundle.putString("friendUserID", currentUser.userID)
+                    fragment.arguments = bundle
+
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
                 }
             }
             Mode.CHAT -> {
@@ -220,6 +259,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
                 // set the image inside the cardview
                 holder.imgContent.setImageResource(R.drawable.baseline_add_24)
+                holder.imgContent.setOnClickListener {
+                    holder.imgContent.setImageResource(R.drawable.baseline_check_24)
+                }
 
                 // add the image into the cardview
                 holder.dynamicContainer.removeAllViews()
@@ -240,10 +282,23 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     fun setFriendList(friendList : List<Friend>) {
         this.friendList = friendList
+
+        notifyDataSetChanged()
     }
 
-    fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog, fragmentManager : FragmentManager) {
+    fun setViewModel(friendViewModel : FriendViewModel) {
+        this.friendViewModel = friendViewModel
+
+        notifyDataSetChanged()
+    }
+
+    fun setDeleteFriendDialog(deleteFriendDialog : DeleteFriendDialog) {
         this.deleteFriendDialog = deleteFriendDialog
+
+        notifyDataSetChanged()
+    }
+
+    fun setFragmentManager(fragmentManager : FragmentManager) {
         this.fragmentManager = fragmentManager
 
         notifyDataSetChanged()

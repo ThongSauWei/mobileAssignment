@@ -6,7 +6,7 @@ import java.security.MessageDigest
 
 class UserRepository(private val userDao : UserDAO) {
 
-    fun addUser(user: User) {
+    suspend fun addUser(user: User) {
         // hash password here
         val hashedPassword = hashPassword(user.userPassword) // Hash the password before saving
         user.userPassword = hashedPassword

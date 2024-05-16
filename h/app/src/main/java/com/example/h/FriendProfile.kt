@@ -1,13 +1,22 @@
 package com.example.h
 
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
+import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +47,11 @@ class FriendProfile : Fragment() {
     private lateinit var tvDOB : TextView
     private lateinit var tvCourse : TextView
     private lateinit var tvBio : TextView
+    private lateinit var separator : View
+    private lateinit var btnAdd : AppCompatButton
+    private lateinit var layout : ConstraintLayout
+
+    private lateinit var currentUserID : String
 
     private lateinit var postList : List<Post>
 
@@ -49,6 +63,8 @@ class FriendProfile : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friend_profile, container, false)
+
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile, R.color.profile_bg)
 
         if (arguments?.getString("friendUserID").isNullOrEmpty()) {
 
@@ -65,6 +81,17 @@ class FriendProfile : Fragment() {
 
         }
 
+        currentUserID = SaveSharedPreference.getUserID(requireContext())
+
+        imgProfile = view.findViewById(R.id.imgProfileFriendProfile)
+        tvName = view.findViewById(R.id.tvNameFriendProfile)
+        tvGroup = view.findViewById(R.id.tvGroupsFriendProfile)
+        tvFriend = view.findViewById(R.id.tvFriendsFriendProfile)
+        tvDOB = view.findViewById(R.id.tvDOBFriendProfile)
+        tvCourse = view.findViewById(R.id.tvCoursesFriendProfile)
+        tvBio = view.findViewById(R.id.tvBioFriendProfile)
+        separator = view.findViewById(R.id.separatorFriendProfile)
+
         val friendUserID = arguments?.getString("friendUserID")!!
 
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
@@ -74,18 +101,10 @@ class FriendProfile : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
-        val btnAdd : AppCompatButton = view.findViewById(R.id.btnAddFriendFriendProfile)
+        btnAdd = view.findViewById(R.id.btnAddFriendFriendProfile)
         val btnMessage : AppCompatButton = view.findViewById(R.id.btnMessageFriendProfile)
 
-        btnAdd.setOnClickListener {
-            val friendID = "0"
-            val userID = SaveSharedPreference.getUserID(requireContext())
-            val status = "Pending"
-
-            val friend = Friend(friendID, userID, friendUserID, status)
-
-            friendViewModel.addFriend(friend)
-        }
+        layout = view.findViewById(R.id.layoutFriendProfile)
 
         btnMessage.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -134,8 +153,102 @@ class FriendProfile : Fragment() {
             tvCourse.text = profile.userCourse
             tvBio.text = profile.userBio
 
-            val adapter = PostAdapter(postList)
-            recyclerView.adapter = adapter
+            buttonSetup(currentUserID, userID)
+
+            if (postList.size > 0) {
+                val adapter = PostAdapter(postList)
+                recyclerView.adapter = adapter
+
+            } else {
+                noPostSetup()
+            }
         }
+    }
+
+    private fun buttonSetup(userID : String, friendUserID : String) {
+        lifecycleScope.launch {
+            val friend = friendViewModel.getFriend(userID, friendUserID)
+
+            var onClickListener : (View) -> Unit = {}
+
+            if (friend != null) {
+                when (friend.status) {
+                    "Pending", "Blocked", "Friend" -> {
+                        if (friend.status == "Pending" && friend.receiveUserID == currentUserID) {
+                            btnAdd.text = "Accept"
+
+                            onClickListener = {
+                                val updatedFriend = Friend(friend.friendID, friend.requestUserID, friend.receiveUserID, "Friend")
+                                friendViewModel.updateFriend(updatedFriend)
+                            }
+
+                        } else {
+                            btnAdd.text = friend.status
+                            btnAdd.setBackgroundColor(requireContext().getColor(R.color.disabled_button))
+                            btnAdd.isClickable = false
+                        }
+                    }
+                    "Blocking" -> {
+                        btnAdd.text = "Unblock"
+
+                        onClickListener = {
+                            val updatedFriend = Friend(friend.friendID, friend.requestUserID, friend.receiveUserID, "Friend")
+                            friendViewModel.updateFriend(updatedFriend)
+                        }
+                    }
+                    else -> {
+
+                    }
+                }
+            } else {
+                onClickListener = {
+                    val newFriend = Friend("0", userID, friendUserID, "Pending")
+
+                    friendViewModel.addFriend(newFriend)
+                }
+            }
+
+            btnAdd.setOnClickListener(onClickListener)
+        }
+    }
+
+
+    private fun noPostSetup() {
+        val tvNoPost = TextView(requireContext())
+        tvNoPost.id = View.generateViewId()
+        tvNoPost.text = "User has No Post"
+        tvNoPost.typeface = ResourcesCompat.getFont(requireContext(), R.font.caveat)
+        tvNoPost.setTextColor(requireContext().getColor(R.color.sub_text))
+        tvNoPost.textSize = 30f
+
+        layout.addView(tvNoPost)
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(layout)
+
+        constraintSet.connect(
+            tvNoPost.id,
+            ConstraintSet.TOP,
+            separator.id,
+            ConstraintSet.BOTTOM,
+            150
+        )
+
+       constraintSet.connect(
+            tvNoPost.id,
+            ConstraintSet.START,
+            layout.id,
+            ConstraintSet.START
+        )
+
+        constraintSet.connect(
+            tvNoPost.id,
+            ConstraintSet.END,
+            layout.id,
+            ConstraintSet.END
+        )
+
+        // apply the constraints to the layout
+        constraintSet.applyTo(layout)
     }
 }

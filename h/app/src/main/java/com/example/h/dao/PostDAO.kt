@@ -5,9 +5,12 @@ import com.example.h.data.Post
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class PostDAO {
     private val dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Post")
@@ -149,4 +152,60 @@ class PostDAO {
             // Handle failure
         }
     }
+
+    suspend fun getPostByID(postID: String): Post? = suspendCancellableCoroutine { continuation ->
+        dbRef.child(postID).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val post = snapshot.getValue(Post::class.java)
+                continuation.resume(post)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resumeWithException(error.toException())
+            }
+        })
+    }
+
+    suspend fun getPostByCategoryAndLearningStyle(category: String, learningStyle: String): List<Post> {
+        val postsByCategory = getPostByCategory(category)
+        val postsByLearningStyle = getPostByLearningStyle(learningStyle)
+
+        // Filter posts by both category and learning style
+        return postsByCategory.filter { post ->
+            postsByLearningStyle.any { it.postID == post.postID }
+        }
+    }
+
+    suspend fun searchPost(searchText : String) : List<Post> = withContext(Dispatchers.IO) {
+        return@withContext suspendCoroutine { continuation ->
+
+            val postList = ArrayList<Post>()
+
+            dbRef.orderByChild("postTitle")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (postSnapshot in snapshot.children) {
+                                val postTitle = postSnapshot.child("postTitle").getValue(String::class.java)!!
+                                if (postTitle.startsWith(searchText, true)) {
+                                    val post = postSnapshot.getValue(Post::class.java)
+                                    postList.add(post!!)
+                                }
+                            }
+                        }
+
+                        continuation.resume(postList)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        continuation.resumeWithException(error.toException())
+                    }
+
+                })
+        }
+    }
+
+
+
+
 }

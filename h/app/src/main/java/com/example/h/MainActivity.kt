@@ -2,7 +2,9 @@ package com.example.h
 
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
@@ -20,6 +23,8 @@ import com.example.h.viewModel.FriendViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +37,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userViewModel : UserViewModel
     private lateinit var profileViewModel : ProfileViewModel
     private lateinit var friendViewModel : FriendViewModel
+
+    lateinit var toolbarContainer : FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         progressBar = findViewById(R.id.progressBar)
-
         drawerLayout = findViewById(R.id.main)
         navigationView = findViewById(R.id.navigationView)
         actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.menu_open, R.string.menu_close)
@@ -52,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         navigationView.setNavigationItemSelectedListener {
-            menuItem ->
+                menuItem ->
             when(menuItem.itemId) {
                 R.id.nav_home -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
@@ -126,11 +133,13 @@ class MainActivity : AppCompatActivity() {
             transaction.commit()
         }
 
+        toolbarContainer = findViewById(R.id.toolbarContainer)
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
-        initForTesting()
+        // initForTesting()
     }
 
     fun initForTesting() {
@@ -162,16 +171,40 @@ class MainActivity : AppCompatActivity() {
             Friend("0", "U101", "U102", "Friend"),
         )
 
-        for (user in userList) {
-            userViewModel.addUser(user)
-        }
 
-        for (profile in profileList) {
-            profileViewModel.addProfile(profile)
-        }
+        lifecycleScope.launch {
+            userList.forEach { user ->
+                try {
+                    userViewModel.addUser(user)
+                    // Delay for a short period to ensure sequential addition
+                    delay(1000)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding user", Toast.LENGTH_LONG).show()
+                }
+            }
 
-        for (friend in friendList) {
-            friendViewModel.addFriend(friend)
+            profileList.forEach { profile ->
+                try {
+                    profileViewModel.addProfile(profile)
+                    // Delay for a short period to ensure sequential addition
+                    delay(1000)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding profile", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            friendList.forEach { friend ->
+                try {
+                    friendViewModel.addFriend(friend)
+                    // Delay for a short period to ensure sequential addition
+                    delay(1000)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding friend", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
@@ -185,5 +218,27 @@ class MainActivity : AppCompatActivity() {
 
     fun hideProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    fun setToolbar(toolbarLayoutResId : Int, bgColorResId : Int = R.color.background) {
+        toolbarContainer.visibility = View.VISIBLE
+
+        toolbarContainer.removeAllViews()
+        val toolbar : View = layoutInflater.inflate(toolbarLayoutResId, toolbarContainer, false)
+        toolbarContainer.addView(toolbar)
+        toolbarContainer.setBackgroundColor(this.getColor(bgColorResId))
+
+        setSupportActionBar(toolbar as Toolbar)
+
+        supportActionBar?.title = ""
+
+        toolbar.setNavigationOnClickListener {
+            openDrawer()
+        }
+    }
+
+    fun setToolbar() {
+        toolbarContainer.removeAllViews()
+        toolbarContainer.visibility = View.GONE
     }
 }

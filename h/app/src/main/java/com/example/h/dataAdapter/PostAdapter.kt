@@ -9,10 +9,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.h.JoinGroup
 import com.example.h.R
 import com.example.h.dao.UserDAO
 import com.example.h.data.Post
+import com.example.h.viewModel.UserViewModel
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -23,22 +29,15 @@ import java.util.Locale
 
 class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.PostHolder>() {
 
-    private val userDAO = UserDAO()
+    private lateinit var userViewModel : UserViewModel
+    //private val userDAO = UserDAO()
+    private lateinit var storageRef : StorageReference
     object Constants {
         const val IMAGE_WIDTH_DP = 258
         const val IMAGE_HEIGHT_DP = 214
     }
 
     class PostHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
-
-//        val imgProfile: ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
-//        val tvName: TextView = itemView.findViewById(R.id.tvNamePostHolder)
-//        val tvDateTime: TextView = itemView.findViewById(R.id.tvDateTimePostHolder)
-//        val imgPost: ImageView = itemView.findViewById(R.id.imgPostPostHolder)
-//        val tvTitle: TextView = itemView.findViewById(R.id.tvPostTitlePostHolder)
-//        val tvPostContent: TextView = itemView.findViewById(R.id.tvPostContentPostHolder)
-//        val tvCategory1: TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
-//        val tvCategory2: TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
 
         val imgProfile: ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
         val tvName: TextView = itemView.findViewById(R.id.tvNamePostHolder)
@@ -49,21 +48,18 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
         val tvCategory: TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
         val tvCategory2: TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
 
-        /* initialise all the views that is needed to change
+    }
 
-        val imgProfile : ImageView = itemView.findViewById(R.id.imgProfilePostHolder)
-        val tvName : TextView = itemView.findViewById(R.id.tvNamePostHolder)
-        val tvDateTime : TextView = itemView.findViewById(R.id.tvDateTimePostHolder)
-        val imgPost : ImageView = itemView.findViewById(R.id.imgPostPostHolder)
-        val tvTitle : TextView = itemView.findViewById(R.id.tvPostTitlePostHolder)
-        val tvPostContent : TextView = itemView.findViewById(R.id.tvPostContentPostHolder)
-        val tvCategory1 : TextView = itemView.findViewById(R.id.tvCategoryPostHolder)
-        val tvCategory2 : TextView = itemView.findViewById(R.id.tvCategory2PostHolder)
-        */
+    fun setViewModel(userViewModel : UserViewModel) {
+        this.userViewModel = userViewModel
+
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.post_holder, parent, false)
+
+        storageRef = FirebaseStorage.getInstance().getReference()
 
         return PostHolder(itemView)
     }
@@ -105,8 +101,29 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
 
         //fecth user get the username
         GlobalScope.launch(Dispatchers.Main) {
-            val user = userDAO.getUserByID(currentItem.userID)
+            val user = userViewModel.getUserByID(currentItem.userID)
             holder.tvName.text = user?.username ?: "Unknown"
+
+            user?.let {
+                val ref = storageRef.child("imageProfile").child("${user?.userID}.png")
+                ref.downloadUrl
+                    .addOnCompleteListener {
+                        Glide.with(holder.imgProfile).load(it.result.toString()).into(holder.imgProfile)
+                    }
+            }
+        }
+
+
+
+
+        // Set onClickListener for each item in the RecyclerView
+        holder.itemView.setOnClickListener {
+            val postID = currentItem.postID
+            val fragment = JoinGroup.newInstance(postID)
+            val transaction = (holder.itemView.context as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 
         /* bind the views with the correct information
@@ -133,5 +150,15 @@ class PostAdapter(var postList: List<Post>) : RecyclerView.Adapter <PostAdapter.
         Log.d("PostAdapter", "Converted ${dp}dp to ${px}px")
         return px
     }
+
+    //go to JoinGroup page
+    private fun joinGroup(context: Context) {
+        val fragment = JoinGroup()
+        val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainerView, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
 
 }
