@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.dao.PostDAO
@@ -29,6 +30,7 @@ class Home : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
 //        // Inflate the layout for this fragment
 //        val view = inflater.inflate(R.layout.fragment_home, container, false)
 //

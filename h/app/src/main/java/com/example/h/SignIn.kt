@@ -85,8 +85,8 @@ class SignIn : Fragment() {
                     // Save user ID to shared preferences
                     SaveSharedPreference.setUserID(requireContext(), user.userID)
 
-                    val transaction = activity?.supportFragmentManager?.beginTransaction()
-                    val fragment = Home()
+                    val transaction = activity?.supportFragmentManager?.beginTransaction()//after success go to home
+                    val fragment = Profile()
                     transaction?.replace(R.id.fragmentContainerView, fragment)
                     transaction?.addToBackStack(null)
                     transaction?.commit()

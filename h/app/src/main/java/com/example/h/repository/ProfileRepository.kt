@@ -17,6 +17,7 @@ class ProfileRepository(private val profileDao : ProfileDAO) {
         return profileDao.getUserListByCourse(course)
     }
 
+
     fun deleteProfile(userID : String) {
         profileDao.deleteProfile(userID)
     }

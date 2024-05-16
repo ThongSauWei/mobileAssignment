@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ class InviteFriend : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_invite_friend, container, false)
+
+
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
