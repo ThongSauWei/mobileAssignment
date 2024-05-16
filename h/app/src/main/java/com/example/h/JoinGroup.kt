@@ -51,7 +51,7 @@ class JoinGroup : Fragment() {
     private lateinit var postID: String
     private lateinit var postViewModel: PostViewModel
     private lateinit var userViewModel : UserViewModel
-    private val userDAO = UserDAO()
+    //private val userDAO = UserDAO()
     private lateinit var storageRef : StorageReference
 
     companion object {
@@ -72,6 +72,8 @@ class JoinGroup : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_join_group, container, false)
+
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         storageRef = FirebaseStorage.getInstance().getReference()
         // Get the postID from arguments
@@ -153,7 +155,7 @@ class JoinGroup : Fragment() {
 
                     // Set name if available
                     val tvNameJoinGroup = view?.findViewById<TextView>(R.id.tvNameJoinGroup)
-                    val user = userDAO.getUserByID(post.userID)
+                    val user = userViewModel.getUserByID(post.userID)
                     tvNameJoinGroup?.text = user?.username ?: "Unknown"
 
                     // Set profile image if available
