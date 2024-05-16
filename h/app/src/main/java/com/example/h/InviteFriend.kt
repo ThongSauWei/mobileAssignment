@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -24,8 +26,11 @@ import kotlinx.coroutines.launch
 class InviteFriend : Fragment() {
     private lateinit var recyclerView : RecyclerView
 
-    private val userList : ArrayList<User> = arrayListOf()
+    private var userList : ArrayList<User> = arrayListOf()
     private val profileList : ArrayList<Profile> = arrayListOf()
+
+    private lateinit var userViewModel : UserViewModel
+    private lateinit var profileViewModel : ProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +43,10 @@ class InviteFriend : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+
+
         (activity as MainActivity).showProgressBar()
 
         fetchData().observe(viewLifecycleOwner, Observer { isDataFetched ->
@@ -46,7 +55,38 @@ class InviteFriend : Fragment() {
             }
         })
 
+        val btnSearchInvite = view.findViewById<ImageView>(R.id.btnSearchInvite)
+        val txtSearchInviteFriend: EditText = view.findViewById(R.id.txtSearchInviteFriend)
+
+        btnSearchInvite.setOnClickListener {
+            val inputText = txtSearchInviteFriend.text.toString()
+            searchUser(inputText)
+        }
+
         return view
+    }
+
+    private fun searchUser(inputText : String) {
+        if (inputText.isEmpty()) {
+            fetchData()
+        } else {
+            userList.clear()
+            profileList.clear()
+
+            lifecycleScope.launch {
+                userList = ArrayList(userViewModel.searchUser(inputText))
+                userList.removeIf { it.userID == getCurrentUserID() }
+
+                for (user in userList) {
+                    val profile = profileViewModel.getProfile(user.userID)
+                    profileList.add(profile!!)
+                }
+
+                val adapter = FriendAdapter(FriendAdapter.Mode.INVITE)
+                adapter.setUserList(userList, profileList)
+                recyclerView.adapter = adapter
+            }
+        }
     }
 
     private fun fetchData() : LiveData<Boolean> {
