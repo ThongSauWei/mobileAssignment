@@ -27,7 +27,6 @@ class NewPassword : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_new_password, container, false)
         (activity as MainActivity).setToolbar()
 
@@ -49,16 +48,22 @@ class NewPassword : Fragment() {
             if (newPass.isNotEmpty() && confirmPass.isNotEmpty()) {
                 if (newPass == confirmPass) {
                     if (isValidPassword(newPass)) {
-                        val email = SaveSharedPreference.getUserID(requireContext())
+                        val userID = SaveSharedPreference.getUserID(requireContext())
                         userViewModel.viewModelScope.launch {
+                            // Hash the password using UserRepository's hashPassword function
+                            val hashedPassword = userViewModel.hashPassword(newPass)
                             // Update the password
-                            val user = userViewModel.getUserByEmail(email)
+                            val user = userViewModel.getUserByID(userID)
                             if (user != null) {
-                                user.userPassword = newPass
+                                user.userPassword = hashedPassword
                                 userViewModel.updateUser(user)
                                 Toast.makeText(requireContext(), "Password updated successfully!", Toast.LENGTH_SHORT).show()
-                                // Navigate back to the previous fragment
-                                activity?.supportFragmentManager?.popBackStack()
+                                // Navigate back to the sign-in fragment
+                                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                                val fragment = SignIn()
+                                transaction?.replace(R.id.fragmentContainerView, fragment)
+                                transaction?.addToBackStack(null)
+                                transaction?.commit()
                             } else {
                                 Toast.makeText(requireContext(), "Failed to update password!", Toast.LENGTH_SHORT).show()
                             }

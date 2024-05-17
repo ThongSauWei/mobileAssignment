@@ -56,6 +56,10 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
         return userRepository.searchUser(searchText)
     }
 
+    fun hashPassword(password: String): String {
+        return userRepository.hashPassword(password)
+    }
+
     suspend fun isEmailRegistered(email: String): Boolean {
         return userRepository.isEmailRegistered(email)
     }
