@@ -26,7 +26,7 @@ class Settings : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-
+        (activity as MainActivity).setToolbar()
         btnAboutUs = view.findViewById(R.id.btnAboutUsSettings)
         btnContactUs = view.findViewById(R.id.btnContactUsSettings)
         ddlLanguage = view.findViewById(R.id.ddlLanguageSettings)

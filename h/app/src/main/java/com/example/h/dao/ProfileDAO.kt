@@ -26,6 +26,16 @@ class ProfileDAO {
             }
     }
 
+    fun updateProfile(profile: Profile) {
+        dbRef.child(profile.userID).setValue(profile)
+            .addOnCompleteListener {
+                // Handle completion if needed
+            }
+            .addOnFailureListener {
+                // Handle failure if needed
+            }
+    }
+
     suspend fun getProfile(userID : String) : Profile? = suspendCoroutine { continuation ->
 
         dbRef.orderByChild("userID").equalTo(userID)

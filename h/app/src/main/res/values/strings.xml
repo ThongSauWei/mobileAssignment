@@ -125,6 +125,7 @@
         <item>Can\'t Add Friends</item>
         <item>Can\'t Join Group</item>
         <item>Can\'t Upload Post</item>
+        <item>Can\'t Login</item>
         <item>Others</item>
     </array>
     <array name="category">

@@ -1,59 +1,86 @@
 package com.example.h
 
+import android.content.Intent
+import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.Fragment
+import com.example.h.R
+import com.example.h.saveSharedPreference.SaveSharedPreference
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactUs.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactUs : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var txtName: EditText
+    private lateinit var txtEmail: EditText
+    private lateinit var ddlProblemType: Spinner
+    private lateinit var txtDescription: EditText
+    private lateinit var btnSubmit: AppCompatButton
+    private lateinit var exitContactUs: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact_us, container, false)
+        val view = inflater.inflate(R.layout.fragment_contact_us, container, false)
+
+        (activity as MainActivity).setToolbar()
+        txtName = view.findViewById(R.id.txtNameContactUs)
+        txtEmail = view.findViewById(R.id.txtEmailContactUs)
+        ddlProblemType = view.findViewById(R.id.ddlProblemTypeContactUs)
+        txtDescription = view.findViewById(R.id.txtDescriptionContactUs)
+        btnSubmit = view.findViewById(R.id.btnSubmitContactUs)
+        exitContactUs = view.findViewById(R.id.btnExitContactUs)
+
+        // Populate spinner with problem types
+        val problemTypes = resources.getStringArray(R.array.problem_type)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, problemTypes)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        ddlProblemType.adapter = adapter
+
+        btnSubmit.setOnClickListener{
+            activity?.supportFragmentManager?.popBackStack()
+        }
+
+        btnSubmit.setOnClickListener {
+            val name = txtName.text.toString().trim()
+            val email = txtEmail.text.toString().trim()
+            val problemType = ddlProblemType.selectedItem.toString()
+            val description = txtDescription.text.toString().trim()
+
+            if (name.isNotEmpty() && email.isNotEmpty() && description.isNotEmpty()) {
+                sendEmail(name, email, problemType, description)
+            } else {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactUs.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ContactUs().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun sendEmail(name: String, email: String, problemType: String, description: String) {
+        val subject = "Contact Form Submission from $name - $problemType"
+        val body = "Name: $name\nEmail: $email\nProblem Type: $problemType\n\n$description"
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "message/rfc822"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("erikafung26@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, body)
+        }
+
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(requireContext(), "No email app found", Toast.LENGTH_SHORT).show()
+        }
     }
 }
