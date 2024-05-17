@@ -38,7 +38,7 @@ class Register : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_register, container, false)
-
+        (activity as MainActivity).setToolbar()
         txtNameRegister = view.findViewById(R.id.txtNameRegister)
         txtEmailRegister = view.findViewById(R.id.txtEmailRegister)
         txtPhoneNoRegister = view.findViewById(R.id.txtPhoneNoRegister)

@@ -24,4 +24,8 @@ class ProfileRepository(private val profileDao : ProfileDAO) {
     fun deleteProfile(userID : String) {
         profileDao.deleteProfile(userID)
     }
+
+    fun updateProfile(profile: Profile) {
+        profileDao.updateProfile(profile)
+    }
 }

@@ -54,6 +54,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     private lateinit var currentUserID : String
 
+    // for invite friend's item click
+    private var onItemClickListener: ((User, String, ImageView) -> Unit)? = null
+
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     object Mode {
@@ -95,6 +98,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
         val currentUser = userList[position]
+        val currentProfile = profileList[position]
 
         // get the image of the friend
         val ref = storageRef.child("imageProfile").child(currentUser.userID + ".png")
@@ -104,6 +108,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
             }
         
         holder.tvName.text = currentUser.username
+        holder.tvText.text = currentProfile.userCourse
 
         // convert dp to px
         val density = holder.dynamicContainer.context.resources.displayMetrics.density
@@ -315,6 +320,11 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 // add the image into the cardview
                 holder.dynamicContainer.removeAllViews()
                 holder.dynamicContainer.addView(holder.imgContent)
+
+                // for invite friend's item click
+                holder.imgContent.setOnClickListener {
+                    onItemClickListener?.invoke(currentUser, currentUser.userID, holder.imgContent)
+                }
             }
             else -> {
 
@@ -367,5 +377,10 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         this.fragmentManager = fragmentManager
 
         notifyDataSetChanged()
+    }
+
+    // for invite friend's item click
+    fun setOnItemClickListener(listener: (User, String, ImageView) -> Unit) {
+        onItemClickListener = listener
     }
 }

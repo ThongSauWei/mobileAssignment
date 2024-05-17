@@ -41,6 +41,16 @@ class UserDAO {
             }.await()
     }
 
+    suspend fun updateUser(user : User) {
+        dbRef.child(user.userID).setValue(user)
+            .addOnCompleteListener{
+
+            }
+            .addOnFailureListener{
+
+            }.await()
+    }
+
     suspend fun getUserByID(userID : String) : User? = suspendCoroutine { continuation ->
 
         dbRef.orderByChild("userID").equalTo(userID)
@@ -88,6 +98,8 @@ class UserDAO {
 
             })
     }
+
+
 
     fun deleteUser(userID : String) {
         dbRef.child(userID).removeValue()
@@ -162,4 +174,5 @@ class UserDAO {
 
         return userID
     }
+
 }

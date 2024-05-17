@@ -33,6 +33,8 @@ class SearchPost : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search_post, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewPostSearchPost)

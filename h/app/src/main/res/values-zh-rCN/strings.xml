@@ -31,6 +31,7 @@
         <item>不可添加好友</item>
         <item>不可加入群组</item>
         <item>不可上传帖子</item>
+        <item>无法登录</item>
         <item>其他</item>
     </array>
     <array name="category">

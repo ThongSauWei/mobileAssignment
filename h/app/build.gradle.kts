@@ -8,6 +8,9 @@ android {
     namespace = "com.example.h"
     compileSdk = 34
 
+    packaging {
+    }
+
     defaultConfig {
         applicationId = "com.example.h"
         minSdk = 26
@@ -55,6 +58,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.2.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.androidx.tools.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,12 +1,14 @@
 package com.example.h
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -39,6 +41,8 @@ class InviteFriend : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_invite_friend, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         recyclerView = view.findViewById(R.id.recyclerViewFriendInviteFriend)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
@@ -56,11 +60,20 @@ class InviteFriend : Fragment() {
         })
 
         val btnSearchInvite = view.findViewById<ImageView>(R.id.btnSearchInvite)
+        val btnDoneInviteFriend = view.findViewById<AppCompatButton>(R.id.btnDoneInviteFriend)
         val txtSearchInviteFriend: EditText = view.findViewById(R.id.txtSearchInviteFriend)
 
         btnSearchInvite.setOnClickListener {
             val inputText = txtSearchInviteFriend.text.toString()
             searchUser(inputText)
+        }
+
+        btnDoneInviteFriend.setOnClickListener {
+            val fragment = CreatePost()
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
         }
 
         return view
@@ -124,6 +137,11 @@ class InviteFriend : Fragment() {
                     adapter.setUserList(userList)
                     adapter.setProfileList(profileList)
                     adapter.setFriendList(friendList)
+                    //change to check icon
+                    adapter.setOnItemClickListener { user, friendID, imageView ->
+                        imageView.setImageResource(R.drawable.baseline_check_24)
+                        Log.d("InviteFriend", "Clicked friendID: $friendID")
+                    }
                     recyclerView.adapter = adapter
 
                     isDataFetched.value = true

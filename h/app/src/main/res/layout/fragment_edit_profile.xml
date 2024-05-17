@@ -53,7 +53,7 @@
                     android:id="@+id/imgProfileEditProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:src="@drawable/profile_pic" />
+                    tools:src="@drawable/nullprofile" />
 
             </androidx.cardview.widget.CardView>
 

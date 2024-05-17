@@ -35,7 +35,7 @@ class SignIn : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_in, container, false)
-
+        (activity as MainActivity).setToolbar()
         txtEmailSignIn = view.findViewById(R.id.txtEmailSignIn)
         txtPasswordSignIn = view.findViewById(R.id.txtPasswordSignIn)
         btnSignInSignIn = view.findViewById(R.id.btnSignInSignIn)

@@ -13,6 +13,10 @@ class UserRepository(private val userDao : UserDAO) {
         userDao.addUser(user)
     }
 
+    suspend fun updateUser(user: User){
+        userDao.updateUser(user)
+    }
+
     suspend fun getUserByID(userID: String): User? {
         return userDao.getUserByID(userID)
     }
@@ -22,6 +26,8 @@ class UserRepository(private val userDao : UserDAO) {
         val hashedPassword = hashPassword(userPassword)
         return userDao.getUserByLogin(userEmail, hashedPassword)
     }
+
+
 
     fun deleteUser(userID: String) {
         userDao.deleteUser(userID)
@@ -41,4 +47,5 @@ class UserRepository(private val userDao : UserDAO) {
     suspend fun searchUser(searchText : String) : List<User> {
         return userDao.searchUser(searchText)
     }
+
 }
