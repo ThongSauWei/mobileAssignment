@@ -13,6 +13,10 @@ class ChatLineRepository (private val chatLineDao : ChatLineDAO) {
         return chatLineDao.getChatLine(chatID)
     }
 
+    suspend fun getLastChat(chatID : String) : ChatLine? {
+        return chatLineDao.getLastChat(chatID)
+    }
+
     fun deleteChatLine(chatLineID : String) {
         chatLineDao.deleteChatLine(chatLineID)
     }

@@ -87,6 +87,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnBackGroupChat" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewBtnLeaveGroupGroupChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-16dp"
+            android:layout_marginEnd="-8dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnMoreGroupChat"
+            app:layout_constraintTop_toBottomOf="@+id/btnMoreGroupChat"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLeaveGroupGroupChat"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/caveat"
+                android:paddingStart="30dp"
+                android:paddingTop="0dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="0dp"
+                android:text="Leave Group"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -96,7 +126,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerGroupChat">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewChatGroupChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/send_group_chat_holder" />
+
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -315,7 +351,7 @@
                     android:layout_gravity="bottom|end" />
 
             </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </ScrollView>
 

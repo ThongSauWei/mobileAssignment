@@ -97,7 +97,8 @@ class Friends : Fragment() {
                     }
 
                     val adapter = FriendAdapter(FriendAdapter.Mode.DELETE)
-                    adapter.setUserList(userList, profileList)
+                    adapter.setUserList(userList)
+                    adapter.setProfileList(profileList)
                     adapter.setFriendList(friendList)
                     adapter.setViewModel(friendViewModel)
 
