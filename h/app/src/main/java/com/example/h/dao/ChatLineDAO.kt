@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class ChatLineDAO {
     private val dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("ChatLine")
-    private var chatLineList = ArrayList<ChatLine>()
+    private var chatLineList = mutableListOf<ChatLine>()
 
     private var nextID = 100
     init {
@@ -42,28 +43,32 @@ class ChatLineDAO {
     }
 
     suspend fun getChatLine(chatID : String) : List<ChatLine> = withContext(Dispatchers.IO) {
-        return@withContext suspendCoroutine { continuation ->
 
-            dbRef.orderByChild("chatID").equalTo(chatID)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        chatLineList.clear()
-                        if (snapshot.exists()) {
-                            for (chatLineSnapshot in snapshot.children) {
-                                val chatLine = chatLineSnapshot.getValue(ChatLine::class.java)
-                                chatLineList.add(chatLine!!)
-                            }
+        val deferred = CompletableDeferred<List<ChatLine>>()
+
+        dbRef.orderByChild("chatID").equalTo(chatID)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val chatList = ArrayList<ChatLine>()
+                    if (snapshot.exists()) {
+                        for (chatLineSnapshot in snapshot.children) {
+                            val chatLine = chatLineSnapshot.getValue(ChatLine::class.java)
+                            chatList.add(chatLine!!)
                         }
-
-                        continuation.resume(chatLineList)
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resumeWithException(error.toException())
-                    }
+                    deferred.complete(chatList)
+                }
 
-                })
-        }
+                override fun onCancelled(error: DatabaseError) {
+                    deferred.completeExceptionally(error.toException())
+                }
+
+            })
+
+        val chatList = deferred.await()
+
+        chatList
     }
 
     suspend fun getLastChat(chatID : String) : ChatLine? {

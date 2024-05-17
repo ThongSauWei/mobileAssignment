@@ -83,7 +83,8 @@ class InviteFriend : Fragment() {
                 }
 
                 val adapter = FriendAdapter(FriendAdapter.Mode.INVITE)
-                adapter.setUserList(userList, profileList)
+                adapter.setUserList(userList)
+                adapter.setProfileList(profileList)
                 recyclerView.adapter = adapter
             }
         }
@@ -120,7 +121,8 @@ class InviteFriend : Fragment() {
                     }
 
                     val adapter = FriendAdapter(FriendAdapter.Mode.INVITE)
-                    adapter.setUserList(userList, profileList)
+                    adapter.setUserList(userList)
+                    adapter.setProfileList(profileList)
                     adapter.setFriendList(friendList)
                     recyclerView.adapter = adapter
 

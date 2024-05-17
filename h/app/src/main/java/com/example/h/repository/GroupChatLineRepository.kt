@@ -13,6 +13,10 @@ class GroupChatLineRepository(private val groupChatLineDao : GroupChatLineDAO) {
         return groupChatLineDao.getGroupChatLine(groupID)
     }
 
+    suspend fun getLastGroupChat(groupID : String) : GroupChatLine? {
+        return groupChatLineDao.getLastGroupChat(groupID)
+    }
+
     fun deleteGroupChatLine(groupChatLineID : String) {
         groupChatLineDao.deleteGroupChatLine(groupChatLineID)
     }

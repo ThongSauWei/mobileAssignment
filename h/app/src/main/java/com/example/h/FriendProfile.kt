@@ -101,10 +101,10 @@ class FriendProfile : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
+        layout = view.findViewById(R.id.layoutFriendProfile)
+
         btnAdd = view.findViewById(R.id.btnAddFriendFriendProfile)
         val btnMessage : AppCompatButton = view.findViewById(R.id.btnMessageFriendProfile)
-
-        layout = view.findViewById(R.id.layoutFriendProfile)
 
         btnMessage.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -157,6 +157,7 @@ class FriendProfile : Fragment() {
 
             if (postList.size > 0) {
                 val adapter = PostAdapter(postList)
+                adapter.setViewModel(userViewModel)
                 recyclerView.adapter = adapter
 
             } else {

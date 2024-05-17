@@ -7,6 +7,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,28 +44,46 @@ class GroupChatLineDAO {
     }
 
     suspend fun getGroupChatLine(groupID : String) : List<GroupChatLine> = withContext(Dispatchers.IO) {
-        return@withContext suspendCoroutine { continuation ->
+        val deferred = CompletableDeferred<List<GroupChatLine>>()
 
-            dbRef.orderByChild("groupID").equalTo(groupID)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        groupChatLineList.clear()
-                        if (snapshot.exists()) {
-                            for (groupChatLineSnapshot in snapshot.children) {
-                                val groupChatLine = groupChatLineSnapshot.getValue(GroupChatLine::class.java)
-                                groupChatLineList.add(groupChatLine!!)
-                            }
+        dbRef.orderByChild("groupID").equalTo(groupID)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val groupChatList = ArrayList<GroupChatLine>()
+                    if (snapshot.exists()) {
+                        for (groupChatLineSnapshot in snapshot.children) {
+                            val groupChatLine = groupChatLineSnapshot.getValue(GroupChatLine::class.java)
+                            groupChatList.add(groupChatLine!!)
                         }
-
-                        continuation.resume(groupChatLineList)
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resumeWithException(error.toException())
-                    }
+                    deferred.complete(groupChatList)
+                }
 
-                })
+                override fun onCancelled(error: DatabaseError) {
+                    deferred.completeExceptionally(error.toException())
+                }
+
+            })
+
+        val groupChatList = deferred.await()
+
+        groupChatList
+    }
+
+    suspend fun getLastGroupChat(groupID : String) : GroupChatLine? {
+        var groupChatLine : GroupChatLine? = null
+
+        val snapshot = dbRef.orderByChild("groupID").equalTo(groupID).limitToLast(1).get().await()
+
+        if (snapshot.exists()) {
+            for (groupChatLineSnapshot in snapshot.children) {
+                groupChatLine = groupChatLineSnapshot.getValue(GroupChatLine::class.java)
+                break
+            }
         }
+
+        return groupChatLine
     }
 
     fun deleteGroupChatLine(groupChatLineID : String) {

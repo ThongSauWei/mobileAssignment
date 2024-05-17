@@ -6,20 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.data.Chat
+import com.example.h.data.ChatLine
 import com.example.h.data.User
 import com.example.h.dataAdapter.FriendAdapter
+import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.ChatLineViewModel
 import com.example.h.viewModel.ChatViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class OuterChat : Fragment() {
 
@@ -27,14 +31,16 @@ class OuterChat : Fragment() {
     private val adapter = FriendAdapter(FriendAdapter.Mode.CHAT)
 
     private lateinit var userViewModel : UserViewModel
-    private lateinit var profileViewModel : ProfileViewModel
     private lateinit var chatViewModel : ChatViewModel
     private lateinit var chatLineViewModel : ChatLineViewModel
 
     private var userList : ArrayList<User> = arrayListOf()
-    private lateinit var chatList : List<Chat>
+    private var lastChatList = mutableListOf<ChatLine>()
+    private var unseenMsgList : ArrayList<Int> = arrayListOf()
 
     private lateinit var currentUserID : String
+
+    private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,13 +52,15 @@ class OuterChat : Fragment() {
         (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
         chatLineViewModel = ViewModelProvider(this).get(ChatLineViewModel::class.java)
 
-        val recyclerView : RecyclerView = view.findViewById(R.id.recyclerViewFriendOuterChat)
+        recyclerView = view.findViewById(R.id.recyclerViewFriendOuterChat)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
+        adapter.setFragmentManager(parentFragmentManager)
+
+        currentUserID = SaveSharedPreference.getUserID(requireContext())
 
         val btnSearch : AppCompatButton = view.findViewById(R.id.btnSearchOuterChat)
         val txtSearch : EditText = view.findViewById(R.id.txtSearchOuterChat)
@@ -70,19 +78,156 @@ class OuterChat : Fragment() {
     private fun setupDefault() {
 
         lifecycleScope.launch {
-            chatList = chatViewModel.getChatByUser(currentUserID)
+            val tempChatList = chatViewModel.getChatByUser(currentUserID)
 
-            chatList.forEach { chat ->
-                val userID = if (chat.initiatorUserID == currentUserID) chat.receiverUserID else chat.initiatorUserID
-                val user = userViewModel.getUserByID(userID)
-                userList.add(user!!)
+            val chatIDList = ArrayList<String>()
+            tempChatList.forEach {
+                chatIDList.add(it.chatID)
             }
 
+            chatLineViewModel.fetchLastChatList(chatIDList)
 
+            chatLineViewModel.lastChatLineList.observe(viewLifecycleOwner, Observer { lastChat ->
+                lifecycleScope.launch {
+                    if (lastChat != null) {
+                        lastChatList.clear()
+                        unseenMsgList.clear()
+                        userList.clear()
+
+                        lastChatList = lastChat.sortedByDescending { it.dateTime }.toMutableList()
+
+                        lastChatList.forEach {  chatLine ->
+                            val chat = chatViewModel.getChatByID(chatLine.chatID)!!
+
+                            val userID : String
+                            val lastSeen : LocalDateTime
+
+                            if (chat.initiatorUserID == currentUserID) {
+                                userID = chat.receiverUserID
+                                lastSeen = LocalDateTime.parse(chat.initiatorLastSeen, dateTimeFormat)
+                            } else {
+                                userID = chat.initiatorUserID
+                                lastSeen = LocalDateTime.parse(chat.receiverLastSeen, dateTimeFormat)
+                            }
+
+                            val user = userViewModel.getUserByID(userID)
+                            userList.add(user!!)
+
+                            chatLineViewModel.chatLineList.observe(viewLifecycleOwner, Observer { chatLines ->
+                                val chatLineList = mutableListOf<ChatLine>()
+                                chatLineList.addAll(chatLines)
+                                chatLineList.sortByDescending { it.dateTime }
+
+                                var counter = 0
+                                for (eachChatLine in chatLineList) {
+                                    val dateTime = LocalDateTime.parse(eachChatLine.dateTime, dateTimeFormat)
+
+                                    if (dateTime > lastSeen) {
+                                        counter++
+                                    } else {
+                                        unseenMsgList.add(counter)
+                                        break
+                                    }
+                                }
+                            })
+                        }
+
+                        adapter.setUserList(userList)
+                        adapter.setLastChatList(lastChatList, unseenMsgList)
+                        recyclerView.adapter = adapter
+                    }
+                }
+            })
         }
     }
 
     private fun searchChat(txtSearch : String) {
+        if (txtSearch.isEmpty()) {
+            setupDefault()
 
+        } else {
+
+            userList.clear()
+
+            lifecycleScope.launch {
+                userList = ArrayList(userViewModel.searchUser(txtSearch))
+                userList.removeIf { it.userID == currentUserID }
+
+                val chatIDList = ArrayList<String>()
+
+                for (user in userList) {
+                    val chat = chatViewModel.getChat(currentUserID, user.userID)
+                    if (chat != null) {
+                        chatIDList.add(chat.chatID)
+                    }
+                }
+
+                chatLineViewModel.fetchLastChatList(chatIDList)
+
+                chatLineViewModel.lastChatLineList.observe(viewLifecycleOwner, Observer { lastChat ->
+                    lifecycleScope.launch {
+                        if (lastChat != null) {
+                            lastChatList.clear()
+                            unseenMsgList.clear()
+                            userList.clear()
+
+                            lastChatList =
+                                lastChat.sortedByDescending { it.dateTime }.toMutableList()
+
+
+
+                            lastChatList.forEach { chatLine ->
+                                val chat = chatViewModel.getChatByID(chatLine.chatID)!!
+
+                                val userID: String
+                                val lastSeen: LocalDateTime
+
+                                if (chat.initiatorUserID == currentUserID) {
+                                    userID = chat.receiverUserID
+                                    lastSeen =
+                                        LocalDateTime.parse(chat.initiatorLastSeen, dateTimeFormat)
+                                } else {
+                                    userID = chat.initiatorUserID
+                                    lastSeen =
+                                        LocalDateTime.parse(chat.receiverLastSeen, dateTimeFormat)
+                                }
+
+                                val user = userViewModel.getUserByID(userID)
+                                userList.add(user!!)
+
+                                chatLineViewModel.chatLineList.observe(
+                                    viewLifecycleOwner,
+                                    Observer { chatLines ->
+                                        val chatLineList = mutableListOf<ChatLine>()
+                                        chatLineList.addAll(chatLines)
+                                        chatLineList.sortByDescending { it.dateTime }
+
+                                        var counter = 0
+                                        for (eachChatLine in chatLineList) {
+                                            val dateTime = LocalDateTime.parse(
+                                                eachChatLine.dateTime,
+                                                dateTimeFormat
+                                            )
+
+                                            if (dateTime > lastSeen) {
+                                                counter++
+                                            } else {
+                                                unseenMsgList.add(counter)
+                                                break
+                                            }
+                                        }
+                                    })
+                            }
+
+                            adapter.setUserList(userList)
+                            adapter.setLastChatList(lastChatList, unseenMsgList)
+                            recyclerView.adapter = adapter
+
+                            // can add a "No such friend" if no record
+                        }
+                    }
+                })
+            }
+        }
     }
 }

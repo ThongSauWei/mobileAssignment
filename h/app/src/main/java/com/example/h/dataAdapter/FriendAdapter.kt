@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.h.FriendProfile
+import com.example.h.InnerChat
 import com.example.h.dialog.DeleteFriendDialog
 import com.example.h.R
 import com.example.h.SearchFriend
@@ -33,6 +34,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.FriendHolder>() {
 
@@ -45,9 +49,12 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     private var userList = emptyList<User>()
     private var profileList = emptyList<Profile>()
     private var chatList = emptyList<Chat>()
+    private var lastChatList = emptyList<ChatLine>()
+    private var unseenMsgList = emptyList<Int>()
 
     private lateinit var currentUserID : String
-    private var lastChat : ChatLine? = null
+
+    private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     object Mode {
         const val ADD = 1
@@ -88,7 +95,6 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
         val currentUser = userList[position]
-        val currentProfile = profileList[position]
 
         // get the image of the friend
         val ref = storageRef.child("imageProfile").child(currentUser.userID + ".png")
@@ -98,7 +104,6 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
             }
         
         holder.tvName.text = currentUser.username
-        holder.tvText.text = currentProfile.userCourse
 
         // convert dp to px
         val density = holder.dynamicContainer.context.resources.displayMetrics.density
@@ -108,6 +113,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
         when (mode) {
             Mode.ADD -> {
+                val currentProfile = profileList[position]
+                holder.tvText.text = currentProfile.userCourse
+
                 // initialise cardview settings
                 layoutParamsCardView.width = (30 * density).toInt()
                 layoutParamsCardView.height = (30 * density).toInt()
@@ -153,6 +161,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 }
             }
             Mode.DELETE -> {
+                val currentProfile = profileList[position]
+                holder.tvText.text = currentProfile.userCourse
+
                 // initialise cardview settings
                 layoutParamsCardView.width = (30 * density).toInt()
                 layoutParamsCardView.height = (30 * density).toInt()
@@ -190,9 +201,24 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 }
             }
             Mode.CHAT -> {
+                val lastChat = lastChatList[position]
+                holder.tvText.text = lastChat.content
+
+                val dateTime = LocalDateTime.parse(lastChat.dateTime, dateTimeFormat)
+                val duration = Duration.between(LocalDateTime.now(), dateTime)
+                var timeText : String
+
+                if (Math.abs(duration.toDays()) >= 2) {
+                    timeText = Math.abs(duration.toDays()).toString() + " days ago"
+                } else if (Math.abs(duration.toDays()) >= 1) {
+                    timeText = "Yesterday"
+                } else {
+                    timeText = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString()
+                }
+
                 // initialise the textview for time
                 holder.time.id = View.generateViewId()
-                holder.time.text = "11:50 PM" // dynamic
+                holder.time.text = timeText
                 holder.time.typeface = ResourcesCompat.getFont(holder.time.context, R.font.caveat)
                 holder.time.textSize = 14f
 
@@ -228,6 +254,8 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 // apply the constraints to the layout
                 holder.constraintSet.applyTo(holder.constraintLayout)
 
+                val unseenMsg = unseenMsgList[position]
+
                 // initialise the notification textview
                 val layoutParamsTextView = ActionBar.LayoutParams(
                     ActionBar.LayoutParams.MATCH_PARENT,
@@ -235,7 +263,7 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 )
                 layoutParamsTextView.marginStart = (5 * density).toInt()
                 holder.notification.layoutParams = layoutParamsTextView
-                holder.notification.text = "2" // dynamic
+                holder.notification.text = unseenMsg.toString()
                 holder.notification.typeface = ResourcesCompat.getFont(holder.notification.context, R.font.caveat)
                 holder.notification.textSize = 14f
                 holder.notification.setTextColor(Color.WHITE)
@@ -251,8 +279,25 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
                 // add the notification into the cardview
                 holder.dynamicContainer.removeAllViews()
                 holder.dynamicContainer.addView(holder.notification)
+
+                holder.constraintLayout.setOnClickListener {
+                    val transaction = fragmentManager.fragments.get(0).activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = InnerChat()
+
+                    val bundle = Bundle()
+                    bundle.putString("chatID", lastChat.chatID)
+                    bundle.putString("friendUserID", currentUser.userID)
+                    fragment.arguments = bundle
+
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
+                }
             }
             Mode.INVITE -> {
+                val currentProfile = profileList[position]
+                holder.tvText.text = currentProfile.userCourse
+
                 // initialise cardview settings
                 layoutParamsCardView.width = (30 * density).toInt()
                 layoutParamsCardView.height = (30 * density).toInt()
@@ -313,8 +358,9 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
         notifyDataSetChanged()
     }
 
-    fun setLastChatList() {
-        
+    fun setLastChatList(lastChatList : List<ChatLine>, unseenMsgList : List<Int>) {
+        this.lastChatList = lastChatList
+        this.unseenMsgList = unseenMsgList
     }
 
     fun setFragmentManager(fragmentManager : FragmentManager) {

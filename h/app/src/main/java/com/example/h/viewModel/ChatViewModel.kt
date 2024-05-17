@@ -30,6 +30,10 @@ class ChatViewModel(application : Application) : AndroidViewModel(application) {
         return chatRepository.getChat(userID_1, userID_2)
     }
 
+    suspend fun getChatByID(chatID : String) : Chat? {
+        return chatRepository.getChatByID(chatID)
+    }
+
     suspend fun getChatByUser(userID : String) : List<Chat> {
         return chatRepository.getChatByUser(userID)
     }

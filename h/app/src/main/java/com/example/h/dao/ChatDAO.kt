@@ -60,6 +60,29 @@ class ChatDAO {
         return chat
     }
 
+    suspend fun getChatByID(chatID : String) : Chat? = suspendCoroutine { continuation ->
+
+        dbRef.orderByChild("chatID").equalTo(chatID)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (chatSnapshot in snapshot.children) {
+                            val chat = chatSnapshot.getValue(Chat::class.java)
+                            continuation.resume(chat)
+                            return
+                        }
+                    }
+
+                    continuation.resume(null)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resumeWithException(error.toException())
+                }
+
+            })
+    }
+
     suspend fun getChatByUser(userID : String) : List<Chat> = withContext(Dispatchers.IO) {
         return@withContext suspendCoroutine { continuation ->
 

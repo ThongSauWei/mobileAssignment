@@ -12,6 +12,10 @@ class ChatRepository(private val chatDao : ChatDAO) {
         return chatDao.getChat(userID_1, userID_2)
     }
 
+    suspend fun getChatByID(chatID : String) : Chat? {
+        return chatDao.getChatByID(chatID)
+    }
+
     suspend fun getChatByUser(userID : String) : List<Chat> {
         return chatDao.getChatByUser(userID)
     }
