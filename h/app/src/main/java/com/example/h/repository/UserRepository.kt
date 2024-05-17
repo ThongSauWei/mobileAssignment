@@ -37,11 +37,15 @@ class UserRepository(private val userDao : UserDAO) {
         return userDao.isEmailRegistered(email)
     }
 
-    private fun hashPassword(password: String): String {
+    fun hashPassword(password: String): String {
         val bytes = password.toByteArray()
         val md = MessageDigest.getInstance("SHA-256")
         val digest = md.digest(bytes)
         return digest.fold("", { str, it -> str + "%02x".format(it) })
+    }
+
+    suspend fun getUserByEmail(userEmail: String): User? {
+        return userDao.getUserByEmail(userEmail)
     }
 
     suspend fun searchUser(searchText : String) : List<User> {

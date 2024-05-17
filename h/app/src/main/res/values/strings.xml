@@ -117,6 +117,7 @@
     <string name="menu_open" translatable="false">Open</string>
     <string name="menu_close" translatable="false">Close</string>
     <string name="course_profile">Course</string>
+
     <array name="language_array">
         <item>English</item>
         <item>中文</item>
@@ -157,3 +158,4 @@
         <item>Solitary / Individual Learning</item>
     </array>
 </resources>
+

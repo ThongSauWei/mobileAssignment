@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -53,8 +54,11 @@ class PasswordRecovery : Fragment() {
         btnSubmitPassRecover.setOnClickListener {
             val email = inputEmail.text.toString().trim()
             userViewModel.viewModelScope.launch {
-                val user = userViewModel.getUserByLogin(email, "")
+                val user = userViewModel.getUserByEmail(email)
                 if (user != null) {
+                    val userID = user.userID
+                    SaveSharedPreference.setUserID(requireContext(), userID)
+
                     val userSecurityQuestion = user.userSecurityQuestion
                     val enteredSecurityQuestion = securityQuestion.text.toString().trim()
 
@@ -78,4 +82,3 @@ class PasswordRecovery : Fragment() {
         return view
     }
 }
-

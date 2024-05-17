@@ -116,6 +116,7 @@ class SignIn : Fragment() {
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(requireContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+            txtEmailSignIn.error = "Please enter a valid email address (abc@gmail.com)"
             return false
         }
 

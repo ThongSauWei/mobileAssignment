@@ -137,16 +137,19 @@ class Register : Fragment() {
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(requireContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+            txtEmailRegister.error = "Please enter a valid email address (abc@gamil.com)"
             return false
         }
 
         if (!isValidPhoneNumber(phoneNo)) {
             Toast.makeText(requireContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show()
+            txtPhoneNoRegister.error = "Please enter a valid phone number (0112345678)"
             return false
         }
 
         if (!isValidPassword(password)) {
             Toast.makeText(requireContext(), "Please enter a valid password", Toast.LENGTH_SHORT).show()
+            txtPasswordRegister.error = "Password must be at least 8 characters long, contain 1 special character, 1 uppercase letter, and 1 lowercase letter"
             return false
         }
 
@@ -154,7 +157,8 @@ class Register : Fragment() {
     }
 
     private fun isValidPhoneNumber(phoneNo: String): Boolean {
-        return phoneNo.matches("[0-9]+".toRegex())
+        val malaysiaMobilePattern = Regex("(\\+?6?01)[0-9]-*([0-9]{7}|[0-9]{8})")
+        return phoneNo.matches(malaysiaMobilePattern)
     }
 
     private fun isValidPassword(password: String): Boolean {

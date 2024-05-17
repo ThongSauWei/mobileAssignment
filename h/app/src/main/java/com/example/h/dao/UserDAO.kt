@@ -162,6 +162,28 @@ class UserDAO {
             })
     }
 
+    suspend fun getUserByEmail(userEmail: String): User? = suspendCoroutine { continuation ->
+        dbRef.orderByChild("userEmail").equalTo(userEmail)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (userSnapshot in snapshot.children) {
+                            val user = userSnapshot.getValue(User::class.java)
+                            continuation.resume(user)
+                            return
+                        }
+                    }
+
+                    continuation.resume(null)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resumeWithException(error.toException())
+                }
+
+            })
+    }
+
     private suspend fun getNextID() : Int {
         var userID = 100
         val snapshot = dbRef.orderByKey().limitToLast(1).get().await()
