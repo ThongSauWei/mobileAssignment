@@ -18,17 +18,21 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.h.dao.ProfileDAO
 import com.example.h.data.User
 import com.example.h.data.Profile
 import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.UserViewModel
 import com.example.h.viewModel.ProfileViewModel
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class EditProfile : Fragment() {
+
     private lateinit var txtNameEditProfile: EditText
     private lateinit var txtLanguageEditProfile: EditText
     private lateinit var txtPhoneNoEditProfile: EditText
@@ -41,11 +45,14 @@ class EditProfile : Fragment() {
     private lateinit var courseArray: Array<String>
     private lateinit var userViewModel: UserViewModel
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var profileDao: ProfileDAO
     private lateinit var currentUser: User
     private lateinit var currentProfile: Profile
     private lateinit var imgClick: ImageView
-    private lateinit var  tickImage: ImageView
+    private lateinit var tickImage: ImageView
     private lateinit var backButton: ImageView
+    private lateinit var storageRef: StorageReference
+    private val imagePickRequestCode = 1000
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,9 +71,14 @@ class EditProfile : Fragment() {
         imgClick = view.findViewById(R.id.imageView)
         tickImage = view.findViewById(R.id.btnTickEditProfile)
         backButton = view.findViewById(R.id.btnExitEditProfile)
+        profileDao = ProfileDAO()
+
+        // Initialize storage reference
+        storageRef = FirebaseStorage.getInstance().reference
 
         courseArray = resources.getStringArray(R.array.course)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, courseArray)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, courseArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCourseEditProfile.adapter = adapter
 
@@ -80,11 +92,11 @@ class EditProfile : Fragment() {
             populateFields(currentUser, currentProfile)
         }
 
-        backButton.setOnClickListener{
+        backButton.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
 
-        tickImage.setOnClickListener{
+        tickImage.setOnClickListener {
             updateUser()
         }
 
@@ -117,33 +129,55 @@ class EditProfile : Fragment() {
         val courseIndex = courseArray.indexOf(profile.userCourse)
         spinnerCourseEditProfile.setSelection(courseIndex)
 
-        // Set profile image if available
-        if (profile.userImage.isNotEmpty()) {
-            Picasso.get().load(profile.userImage).into(imgProfile)
+        // Load profile image from Firebase Storage
+        val userID = SaveSharedPreference.getUserID(requireContext())
+        val ref = storageRef.child("imageProfile").child("$userID.png")
+
+        ref.downloadUrl.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val imageUrl = it.result.toString()
+                Picasso.get().load(imageUrl).into(imgProfile)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to load profile picture",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_IMAGE_PICK)
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, imagePickRequestCode)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_PERMISSION_READ_EXTERNAL_STORAGE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openGallery()
             } else {
-                Toast.makeText(requireContext(), "Permission denied to read your External storage", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Permission denied to read your External storage",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data
-            Picasso.get().load(selectedImageUri).into(imgProfile)
+        if (requestCode == imagePickRequestCode && resultCode == Activity.RESULT_OK && data != null) {
+            data.data?.let { imageUri ->
+                updateProfilePicture(imageUri)
+            }
         }
     }
 
@@ -155,6 +189,17 @@ class EditProfile : Fragment() {
             userDOB = txtBirthdayEditProfile.text.toString()
         )
 
+        // Check if a new image is selected
+        if (selectedImageUri != null) {
+            // If a new image is selected, update the profile picture
+            updateProfilePicture(selectedImageUri!!)
+        } else {
+            // If no new image is selected, update the profile with the existing image
+            updateProfile(updatedUser)
+        }
+    }
+
+    private fun updateProfile(updatedUser: User) {
         // Update profile fields
         val userImage = selectedImageUri?.toString() ?: currentProfile.userImage
         val updatedProfile = Profile(
@@ -176,12 +221,28 @@ class EditProfile : Fragment() {
                 navProfile()
 
                 // Display "Edit Successful" toast message
-                Toast.makeText(requireContext(), "Edit Successful !", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Edit Successful!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun navProfile(){
+    private fun updateProfilePicture(imageUri: Uri) {
+        val imageRef = storageRef.child("imageProfile").child("${currentUser.userID}.png")
+        imageRef.putFile(imageUri)
+            .addOnSuccessListener {
+                imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    val newImageUrl = downloadUri.toString()
+                    profileDao.updateProfilePicture(currentUser.userID, newImageUrl)
+                    populateFields(currentUser, currentProfile)
+                    Toast.makeText(requireContext(), "Image change successful!", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Failed to upload image: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun navProfile() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         val fragment = com.example.h.Profile()
         transaction?.replace(R.id.fragmentContainerView, fragment)
@@ -195,16 +256,16 @@ class EditProfile : Fragment() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-            txtBirthdayEditProfile.setText(selectedDate)
-        }, year, month, day)
+        val datePickerDialog =
+            DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                txtBirthdayEditProfile.setText(selectedDate)
+            }, year, month, day)
 
         datePickerDialog.show()
     }
 
     companion object {
-        private const val REQUEST_IMAGE_PICK = 100
         private const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 101
     }
 }
