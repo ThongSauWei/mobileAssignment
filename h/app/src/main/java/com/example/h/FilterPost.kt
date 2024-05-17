@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.Home
+import com.example.h.MainActivity
 import com.example.h.R
 
 class FilterPost : Fragment() {
@@ -25,6 +26,8 @@ class FilterPost : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_filter_post, container, false)
+
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
 
         val recyclerViewCategory: RecyclerView = view.findViewById(R.id.recyclerViewCategoryFilterPost)
         val recyclerViewLearningStyle: RecyclerView = view.findViewById(R.id.recyclerViewLearningStyleFilterPost)

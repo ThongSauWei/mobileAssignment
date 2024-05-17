@@ -31,7 +31,9 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
         (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile_and_title)
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         val tvCriteriaHome = view.findViewById<TextView>(R.id.tvCriteriaHome)
