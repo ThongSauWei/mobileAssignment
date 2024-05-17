@@ -73,6 +73,8 @@ class JoinGroup : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_join_group, container, false)
 
+        (activity as MainActivity).setToolbar()
+
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         storageRef = FirebaseStorage.getInstance().getReference()

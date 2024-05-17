@@ -51,6 +51,8 @@ class CreatePost : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_create_post, container, false)
 
+        (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile)
+
         txtTitleCreatePost = view.findViewById(R.id.txtTitleCreatePost)
         txtDescriptionCreatePost = view.findViewById(R.id.txtDescriptionCreatePost)
         txtLinkCreatePost = view.findViewById(R.id.txtLinkCreatePost)
