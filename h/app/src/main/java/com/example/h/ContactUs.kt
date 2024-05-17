@@ -46,7 +46,7 @@ class ContactUs : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         ddlProblemType.adapter = adapter
 
-        btnSubmit.setOnClickListener{
+        exitContactUs.setOnClickListener{
             activity?.supportFragmentManager?.popBackStack()
         }
 

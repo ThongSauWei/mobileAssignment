@@ -53,7 +53,7 @@ class PasswordRecovery : Fragment() {
         btnSubmitPassRecover.setOnClickListener {
             val email = inputEmail.text.toString().trim()
             userViewModel.viewModelScope.launch {
-                val user = userViewModel.getUserByLogin(email, "")
+                val user = userViewModel.getUserByEmail(email)
                 if (user != null) {
                     val userSecurityQuestion = user.userSecurityQuestion
                     val enteredSecurityQuestion = securityQuestion.text.toString().trim()

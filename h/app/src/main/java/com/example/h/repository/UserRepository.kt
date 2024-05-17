@@ -44,6 +44,10 @@ class UserRepository(private val userDao : UserDAO) {
         return digest.fold("", { str, it -> str + "%02x".format(it) })
     }
 
+    suspend fun getUserByEmail(userEmail: String): User? {
+        return userDao.getUserByEmail(userEmail)
+    }
+
     suspend fun searchUser(searchText : String) : List<User> {
         return userDao.searchUser(searchText)
     }

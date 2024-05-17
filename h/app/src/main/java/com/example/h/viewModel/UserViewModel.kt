@@ -48,6 +48,10 @@ class UserViewModel(application : Application) : AndroidViewModel(application) {
         }
     }
 
+    suspend fun getUserByEmail(userEmail: String): User? {
+        return userRepository.getUserByEmail(userEmail)
+    }
+
     suspend fun searchUser(searchText : String) : List<User> {
         return userRepository.searchUser(searchText)
     }

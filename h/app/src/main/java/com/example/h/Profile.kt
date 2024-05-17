@@ -66,6 +66,8 @@ class Profile : Fragment() {
     private lateinit var ttlGroupProfile: TextView
     private lateinit var ttlFriendProfile: TextView
     private lateinit var languageProfile: TextView
+    private lateinit var lblGroupClick: TextView
+    private lateinit var lblFriendClick: TextView
 
     private val imagePickRequestCode = 1000
 
@@ -87,6 +89,8 @@ class Profile : Fragment() {
         ttlGroupProfile = view.findViewById(R.id.tvGroupsProfile)
         ttlFriendProfile = view.findViewById(R.id.tvFriendsProfile)
         languageProfile = view.findViewById(R.id.tvLanguages)
+        lblGroupClick = view.findViewById(R.id.lblGroupsProfile)
+        lblFriendClick = view.findViewById(R.id.lblFriendsProfile)
 
         btnSettingProfile = view.findViewById(R.id.imgSettingsProfile)
         changeImageClick = view.findViewById(R.id.changeImage)
@@ -125,6 +129,38 @@ class Profile : Fragment() {
 
         changeImageClick.setOnClickListener {
             pickImageFromGallery()
+        }
+
+        ttlFriendProfile.setOnClickListener{
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val fragment = Friends()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
+
+        lblFriendClick.setOnClickListener{
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val fragment = Friends()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
+
+        lblGroupClick.setOnClickListener{
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val fragment = Groups()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
+
+        ttlGroupProfile.setOnClickListener{
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val fragment = Groups()
+            transaction?.replace(R.id.fragmentContainerView, fragment)
+            transaction?.addToBackStack(null)
+            transaction?.commit()
         }
 
         btnEditProfile.setOnClickListener {
