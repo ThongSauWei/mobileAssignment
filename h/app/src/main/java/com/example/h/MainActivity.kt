@@ -3,6 +3,7 @@ package com.example.h
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -225,6 +226,17 @@ class MainActivity : AppCompatActivity() {
 
         toolbarContainer.removeAllViews()
         val toolbar : View = layoutInflater.inflate(toolbarLayoutResId, toolbarContainer, false)
+
+        val btnSearchToolbarWithProfile = toolbar.findViewById<ImageView>(R.id.btnSearchToolbarWithProfile)
+
+        btnSearchToolbarWithProfile.setOnClickListener {
+            val fragment = SearchPost()
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
         toolbarContainer.addView(toolbar)
         toolbarContainer.setBackgroundColor(this.getColor(bgColorResId))
 
@@ -235,6 +247,9 @@ class MainActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             openDrawer()
         }
+
+
+
     }
 
     fun setToolbar() {
