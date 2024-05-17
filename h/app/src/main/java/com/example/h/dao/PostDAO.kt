@@ -43,7 +43,7 @@ class PostDAO {
         }
     }
 
-    private suspend fun getLastPostID(userID: String): String? = suspendCancellableCoroutine { continuation ->
+     suspend fun getLastPostID(userID: String): String? = suspendCancellableCoroutine { continuation ->
         dbRef.orderByChild("userID").equalTo(userID).limitToLast(1)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {

@@ -14,6 +14,10 @@ class PostRepository(private val postDao : PostDAO) {
         postDao.addPost(post, imageUri, userID, onComplete)
     }
 
+    suspend fun getLastPostID(userID: String): String? {
+        return postDao.getLastPostID(userID)
+    }
+
 
     suspend fun getPostByUser(userID : String) : List<Post> {
         return postDao.getPostByUser(userID)

@@ -24,15 +24,12 @@ class PostViewModel(application : Application) : AndroidViewModel(application) {
         postRepository = PostRepository(postDao)
     }
 
-    val postLiveData = MutableLiveData<Post>()
+    //val postLiveData = MutableLiveData<Post>()
 
-    fun setPost(post: Post) {
-        postLiveData.value = post
+    suspend fun getLastPostID(userID: String): String? {
+        return postRepository.getLastPostID(userID)
     }
 
-    fun getPost(): Post? {
-        return postLiveData.value
-    }
 
 //    fun addPost(post : Post) {
 //        viewModelScope.launch(Dispatchers.IO) {
