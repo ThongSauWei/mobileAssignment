@@ -110,10 +110,10 @@ class Groups : Fragment() {
                     if (dateTime > lastSeen) {
                         counter++
                     } else {
-                        unseenMsgList.add(counter)
                         break
                     }
                 }
+                unseenMsgList.add(counter)
             }
             adapter.setGroupList(groupList)
             adapter.setLastChatList(lastChatList, unseenMsgList)
