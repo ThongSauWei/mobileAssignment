@@ -2,14 +2,17 @@ package com.example.h.dao
 
 import android.app.Application
 import com.example.h.data.Group
+import com.example.h.data.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -59,6 +62,35 @@ class GroupDAO {
                 }
 
             })
+    }
+
+    suspend fun searchGroup(searchText : String) : List<Group> = withContext(Dispatchers.IO) {
+        return@withContext suspendCoroutine { continuation ->
+
+            val groupList = ArrayList<Group>()
+
+            dbRef.orderByChild("groupName")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            for (groupSnapshot in snapshot.children) {
+                                val groupName =
+                                    groupSnapshot.child("groupName").getValue(String::class.java)!!
+                                if (groupName.startsWith(searchText, true)) {
+                                    val group = groupSnapshot.getValue(Group::class.java)
+                                    groupList.add(group!!)
+                                }
+                            }
+                        }
+
+                        continuation.resume(groupList)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        continuation.resumeWithException(error.toException())
+                    }
+                })
+        }
     }
 
     fun deleteGroup(groupID : String) {

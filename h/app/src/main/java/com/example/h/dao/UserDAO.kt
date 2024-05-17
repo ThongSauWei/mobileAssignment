@@ -29,9 +29,10 @@ class UserDAO {
     }
 
     suspend fun addUser(user : User) {
-        user.userID = "U$nextID"
-        nextID++
-
+        /*if (getUserByID(user.userID) == null) {
+            user.userID = "U$nextID"
+            nextID++
+        }*/
         dbRef.child(user.userID).setValue(user)
             .addOnCompleteListener{
 

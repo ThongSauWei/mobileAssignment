@@ -1,5 +1,6 @@
 package com.example.h.dao
 
+import com.example.h.data.Chat
 import com.example.h.data.UserGroup
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +32,42 @@ class UserGroupDAO {
         userGroup.userGroupID = "UG$nextID"
         nextID++
 
+        dbRef.child(userGroup.userGroupID).setValue(userGroup)
+            .addOnCompleteListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    suspend fun getUserGroup(userID : String, groupID : String) : UserGroup? = suspendCoroutine { continuation ->
+
+        dbRef.addListenerForSingleValueEvent(object  : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (userGroupSnapshot in snapshot.children) {
+                        val getUserID = userGroupSnapshot.child("userID").getValue(String::class.java)
+                        val getGroupID = userGroupSnapshot.child("groupID").getValue(String::class.java)
+                        if (userID == getUserID && groupID == getGroupID) {
+                            val userGroup = userGroupSnapshot.getValue(UserGroup::class.java)
+                            continuation.resume(userGroup!!)
+                            return
+                        }
+
+                        continuation.resume(null)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resumeWithException(error.toException())
+            }
+
+        })
+    }
+
+    fun updateLastSeen(userGroup : UserGroup) {
         dbRef.child(userGroup.userGroupID).setValue(userGroup)
             .addOnCompleteListener {
 

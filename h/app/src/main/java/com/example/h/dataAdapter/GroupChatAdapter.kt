@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.h.R
-import com.example.h.data.ChatLine
+import com.example.h.data.GroupChatLine
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var chatLineList = emptyList<ChatLine>()
+class GroupChatAdapter(val currentUserID : String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var groupChatLineList = emptyList<GroupChatLine>()
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     companion object {
@@ -23,7 +22,7 @@ class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<Recycl
     }
 
     override fun getItemViewType(position: Int): Int {
-        val chatLine = chatLineList[position]
+        val chatLine = groupChatLineList[position]
 
         return if (chatLine.senderID == currentUserID) {
             SEND_VIEW
@@ -31,35 +30,28 @@ class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<Recycl
             RECEIVE_VIEW
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
         return if (viewType == SEND_VIEW) {
-            val view = inflater.inflate(R.layout.send_chat_holder, parent, false)
+            val view = inflater.inflate(R.layout.send_group_chat_holder, parent, false)
             SendViewHolder(view)
         } else {
-            val view = inflater.inflate(R.layout.receive_chat_holder, parent, false)
+            val view = inflater.inflate(R.layout.receive_group_chat_holder, parent, false)
             ReceiveViewHolder(view)
         }
     }
 
     override fun getItemCount(): Int {
-        return chatLineList.size
+        return groupChatLineList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val chatLine = chatLineList[position]
+        val chatLine = groupChatLineList[position]
 
         if (holder is SendViewHolder) {
-            val stringList = chatLine.content.split('$')
-
-            if (stringList.size > 1) {
-                holder.tvMessage.text = stringList[0]
-                holder.containerBtn.visibility = View.VISIBLE
-            } else {
-                holder.tvMessage.text = chatLine.content
-                holder.containerBtn.visibility = View.GONE
-            }
+            holder.tvMessage.text = chatLine.content
 
             val dateTime = LocalDateTime.parse(chatLine.dateTime, dateTimeFormat)
             val txtTime = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString()
@@ -67,15 +59,7 @@ class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<Recycl
             holder.tvTime.text = txtTime
 
         } else if (holder is ReceiveViewHolder){
-            val stringList = chatLine.content.split('$')
-
-            if (stringList.size > 1) {
-                holder.tvMessage.text = stringList[0]
-                holder.cardViewBtn.visibility = View.VISIBLE
-            } else {
-                holder.tvMessage.text = chatLine.content
-                holder.cardViewBtn.visibility = View.GONE
-            }
+            holder.tvMessage.text = chatLine.content
 
             val dateTime = LocalDateTime.parse(chatLine.dateTime, dateTimeFormat)
             val txtTime = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString()
@@ -96,8 +80,8 @@ class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<Recycl
         val cardViewBtn : CardView = itemView.findViewById(R.id.cardViewBtnViewPostReceiveChatHolder)
     }
 
-    fun setChatLineList(chatLineList : List<ChatLine>) {
-        this.chatLineList = chatLineList
+    fun setGroupChatLineList(groupChatLineList : List<GroupChatLine>) {
+        this.groupChatLineList = groupChatLineList
 
         notifyDataSetChanged()
     }

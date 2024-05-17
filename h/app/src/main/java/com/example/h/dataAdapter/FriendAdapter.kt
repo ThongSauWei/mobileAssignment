@@ -2,6 +2,7 @@ package com.example.h.dataAdapter
 
 import android.app.ActionBar
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -98,7 +99,6 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
     override fun onBindViewHolder(holder: FriendHolder, position: Int) {
         val currentUser = userList[position]
-        val currentProfile = profileList[position]
 
         // get the image of the friend
         val ref = storageRef.child("imageProfile").child(currentUser.userID + ".png")
@@ -108,7 +108,6 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
             }
         
         holder.tvName.text = currentUser.username
-        holder.tvText.text = currentProfile.userCourse
 
         // convert dp to px
         val density = holder.dynamicContainer.context.resources.displayMetrics.density
@@ -261,29 +260,37 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
 
                 val unseenMsg = unseenMsgList[position]
 
-                // initialise the notification textview
-                val layoutParamsTextView = ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.WRAP_CONTENT
-                )
-                layoutParamsTextView.marginStart = (5 * density).toInt()
-                holder.notification.layoutParams = layoutParamsTextView
-                holder.notification.text = unseenMsg.toString()
-                holder.notification.typeface = ResourcesCompat.getFont(holder.notification.context, R.font.caveat)
-                holder.notification.textSize = 14f
-                holder.notification.setTextColor(Color.WHITE)
-
-                // initialise the cardview for notification
-                layoutParamsCardView.width = (20 * density).toInt()
-                layoutParamsCardView.height = (20 * density).toInt()
-                holder.dynamicContainer.layoutParams = layoutParamsCardView
-                holder.dynamicContainer.setCardBackgroundColor(Color.rgb(229, 75, 35))
-                holder.dynamicContainer.cardElevation = (5 * density)
-                holder.dynamicContainer.radius = (10 * density)
-
-                // add the notification into the cardview
                 holder.dynamicContainer.removeAllViews()
-                holder.dynamicContainer.addView(holder.notification)
+
+                if (unseenMsg > 0) {
+                    holder.tvText.setTypeface(ResourcesCompat.getFont(holder.tvText.context, R.font.caveat), Typeface.BOLD)
+                    holder.tvText.setTextColor(Color.BLACK)
+
+                    val layoutParamsTextView = ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.MATCH_PARENT,
+                        ActionBar.LayoutParams.WRAP_CONTENT
+                    )
+                    layoutParamsTextView.marginStart = (5 * density).toInt()
+                    holder.notification.layoutParams = layoutParamsTextView
+                    holder.notification.text = unseenMsg.toString()
+                    holder.notification.typeface = ResourcesCompat.getFont(holder.notification.context, R.font.caveat)
+                    holder.notification.textSize = 14f
+                    holder.notification.setTextColor(Color.WHITE)
+
+                    // initialise the cardview for notification
+                    layoutParamsCardView.width = (20 * density).toInt()
+                    layoutParamsCardView.height = (20 * density).toInt()
+                    holder.dynamicContainer.layoutParams = layoutParamsCardView
+                    holder.dynamicContainer.setCardBackgroundColor(Color.rgb(229, 75, 35))
+                    holder.dynamicContainer.cardElevation = (5 * density)
+                    holder.dynamicContainer.radius = (10 * density)
+
+                    // add the notification into the cardview
+                    holder.dynamicContainer.addView(holder.notification)
+                }
+
+                // initialise the notification textview
+
 
                 holder.constraintLayout.setOnClickListener {
                     val transaction = fragmentManager.fragments.get(0).activity?.supportFragmentManager?.beginTransaction()
@@ -371,6 +378,8 @@ class FriendAdapter (val mode : Int) : RecyclerView.Adapter <FriendAdapter.Frien
     fun setLastChatList(lastChatList : List<ChatLine>, unseenMsgList : List<Int>) {
         this.lastChatList = lastChatList
         this.unseenMsgList = unseenMsgList
+
+        notifyDataSetChanged()
     }
 
     fun setFragmentManager(fragmentManager : FragmentManager) {

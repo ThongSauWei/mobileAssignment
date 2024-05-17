@@ -25,15 +25,19 @@ class GroupChatLineViewModel(application : Application) : AndroidViewModel(appli
     fun addGroupChatLine(groupChatLine : GroupChatLine) {
         viewModelScope.launch(Dispatchers.IO) {
             groupChatLineRepository.addGroupChatLine(groupChatLine)
-            getGroupChatLine(groupChatLine.groupID)
+            fetchGroupChatLine(groupChatLine.groupID)
         }
     }
 
-    suspend fun getGroupChatLine(groupID : String) {
+    suspend fun fetchGroupChatLine(groupID : String) {
         viewModelScope.launch {
             val newList = groupChatLineRepository.getGroupChatLine(groupID)
             _groupChatLineList.postValue(newList)
         }
+    }
+
+    suspend fun getGroupChatLine(groupID : String) : List<GroupChatLine> {
+        return groupChatLineRepository.getGroupChatLine(groupID)
     }
 
     suspend fun getLastGroupChat(groupID : String) : GroupChatLine? {
@@ -43,7 +47,7 @@ class GroupChatLineViewModel(application : Application) : AndroidViewModel(appli
     fun deleteGroupChatLine(groupChatLineID : String, groupID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             groupChatLineRepository.deleteGroupChatLine(groupChatLineID)
-            getGroupChatLine(groupID)
+            fetchGroupChatLine(groupID)
         }
     }
 }

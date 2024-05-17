@@ -38,6 +38,12 @@ class ChatViewModel(application : Application) : AndroidViewModel(application) {
         return chatRepository.getChatByUser(userID)
     }
 
+    fun updateLastSeen(chatID : String, userID : String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            chatRepository.updateLastSeen(chatID, userID)
+        }
+    }
+
     fun deleteChat(chatID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             chatRepository.deleteChat(chatID)

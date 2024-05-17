@@ -26,6 +26,7 @@ import com.example.h.viewModel.GroupViewModel
 import com.example.h.viewModel.UserGroupViewModel
 import com.example.h.viewModel.UserViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class Groups : Fragment() {
@@ -62,7 +63,7 @@ class Groups : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewGroupGroups)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
-        // adapter.setFragmentManager(parentFragmentManager)
+        adapter.setFragmentManager(parentFragmentManager)
 
         val btnSearch : AppCompatButton = view.findViewById(R.id.btnSearchGroups)
         val txtSearch : EditText = view.findViewById(R.id.txtSearchGroups)
@@ -71,7 +72,7 @@ class Groups : Fragment() {
 
         btnSearch.setOnClickListener {
             val inputText = txtSearch.text.toString()
-            // searchChat(inputText)
+            searchGroup(inputText)
         }
 
         return view
@@ -89,7 +90,38 @@ class Groups : Fragment() {
 
             lastChatList.sortByDescending { it.dateTime }
 
+            lastChatList.forEach { chatLine ->
+                val group = groupViewModel.getGroup(chatLine.groupID)
+                groupList.add(group!!)
+                val userGroup = userGroupList.filter { it.groupID == chatLine.groupID }.get(0)
 
+                val lastSeen = LocalDateTime.parse(userGroup.lastSeen, dateTimeFormat)
+
+                val groupChatLineList = groupChatViewModel.getGroupChatLine(chatLine.groupID).toMutableList()
+                groupChatLineList.sortByDescending { it.dateTime }
+
+                var counter = 0
+                for (eachChatLine in groupChatLineList) {
+                    val dateTime = LocalDateTime.parse(
+                        eachChatLine.dateTime,
+                        dateTimeFormat
+                    )
+
+                    if (dateTime > lastSeen) {
+                        counter++
+                    } else {
+                        break
+                    }
+                }
+                unseenMsgList.add(counter)
+            }
+            adapter.setGroupList(groupList)
+            adapter.setLastChatList(lastChatList, unseenMsgList)
+            recyclerView.adapter = adapter
         }
+    }
+
+    private fun searchGroup(txtSearch : String) {
+
     }
 }

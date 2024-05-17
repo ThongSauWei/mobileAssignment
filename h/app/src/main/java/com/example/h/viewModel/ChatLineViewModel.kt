@@ -28,15 +28,19 @@ class ChatLineViewModel(application : Application) : AndroidViewModel(applicatio
     fun addChatLine(chatLine : ChatLine) {
         viewModelScope.launch(Dispatchers.IO) {
             chatLineRepository.addChatLine(chatLine)
-            getChatLine(chatLine.chatID)
+            fetchChatLine(chatLine.chatID)
         }
     }
 
-    fun getChatLine(chatID : String) {
+    fun fetchChatLine(chatID : String) {
         viewModelScope.launch {
             val newList = chatLineRepository.getChatLine(chatID)
             _chatLineList.postValue(newList)
         }
+    }
+
+    suspend fun getChatLine(chatID : String) : List<ChatLine> {
+        return chatLineRepository.getChatLine(chatID)
     }
 
     suspend fun getLastChat(chatID : String) : ChatLine? {
@@ -58,7 +62,7 @@ class ChatLineViewModel(application : Application) : AndroidViewModel(applicatio
     fun deleteChatLine(chatLineID : String, chatID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             chatLineRepository.deleteChatLine(chatLineID)
-            getChatLine(chatID)
+            fetchChatLine(chatID)
         }
     }
 }

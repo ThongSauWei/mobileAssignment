@@ -27,6 +27,10 @@ class GroupViewModel(application : Application) : AndroidViewModel(application) 
         return groupRepository.getGroup(groupID)
     }
 
+    suspend fun searchGroup(searchText : String) : List<Group> {
+        return groupRepository.searchGroup(searchText)
+    }
+
     fun deleteGroup(groupID : String) {
         viewModelScope.launch(Dispatchers.IO) {
             groupRepository.deleteGroup(groupID)

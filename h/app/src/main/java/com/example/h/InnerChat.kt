@@ -5,25 +5,44 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.h.data.ChatLine
 import com.example.h.dataAdapter.InnerChatAdapter
 import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.ChatLineViewModel
+import com.example.h.viewModel.ChatViewModel
+import com.example.h.viewModel.UserViewModel
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class InnerChat : Fragment() {
 
     private var chatLineList = mutableListOf<ChatLine>()
 
     private lateinit var currentUserID : String
+    private lateinit var friendUserID : String
+    private lateinit var imgProfile : ImageView
+    private lateinit var tvName : TextView
 
     private lateinit var recyclerView : RecyclerView
+    private lateinit var adapter: InnerChatAdapter
+
+    private val storageRef : StorageReference = FirebaseStorage.getInstance().getReference()
+
+    private lateinit var chatLineViewModel : ChatLineViewModel
+
+    private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,19 +69,28 @@ class InnerChat : Fragment() {
         }
 
         val chatID = arguments?.getString("chatID")!!
-        val friendUserID = arguments?.getString("friendUserID")!!
+        friendUserID = arguments?.getString("friendUserID")!!
 
         currentUserID = SaveSharedPreference.getUserID(requireContext())
 
+        val chatViewModel : ChatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+        chatLineViewModel = ViewModelProvider(this).get(ChatLineViewModel::class.java)
+
         recyclerView = view.findViewById(R.id.recyclerViewChatInnerChat)
+        adapter = InnerChatAdapter(currentUserID)
         fetchData(chatID)
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
         val btnBack : ImageView = view.findViewById(R.id.btnBackInnerChat)
-        val imgProfile : ImageView = view.findViewById(R.id.imgProfileInnerChat)
+        val txtChat : EditText = view.findViewById(R.id.txtChatInnerChat)
+        val btnSend : ImageView = view.findViewById(R.id.btnSendInnerChat)
+        imgProfile = view.findViewById(R.id.imgProfileInnerChat)
+        tvName = view.findViewById(R.id.tvNameInnerChat)
 
         btnBack.setOnClickListener {
+            chatViewModel.updateLastSeen(chatID, currentUserID)
             activity?.supportFragmentManager?.popBackStack()
         }
 
@@ -80,12 +108,27 @@ class InnerChat : Fragment() {
             transaction?.commit()
         }
 
+        btnSend.setOnClickListener {
+            val inputText = txtChat.text.toString()
+
+            if (inputText.trim().isNotEmpty()) {
+                val currentTime = LocalDateTime.now().format(dateTimeFormat)
+
+                val chatLine = ChatLine("CL103", currentUserID, currentTime, chatID, inputText)
+                chatLineViewModel.addChatLine(chatLine)
+
+                txtChat.text.clear()
+            }
+        }
+
         return view
     }
 
     private fun fetchData(chatID : String) {
-        val chatLineViewModel : ChatLineViewModel =
-            ViewModelProvider(this).get(ChatLineViewModel::class.java)
+        val userViewModel : UserViewModel =
+            ViewModelProvider(this).get(UserViewModel::class.java)
+
+        chatLineViewModel.fetchChatLine(chatID)
 
         chatLineViewModel.chatLineList.observe(viewLifecycleOwner, Observer { chatLines ->
             chatLineList.clear()
@@ -93,11 +136,21 @@ class InnerChat : Fragment() {
             chatLineList.addAll(chatLines)
             chatLineList.sortBy { it.dateTime }
 
-            val adapter = InnerChatAdapter(currentUserID)
+
             adapter.setChatLineList(chatLineList)
-            recyclerView.adapter = adapter
         })
 
-        chatLineViewModel.getChatLine(chatID)
+        lifecycleScope.launch {
+            val ref = storageRef.child("imageProfile").child(friendUserID + ".png")
+
+            ref.downloadUrl
+                .addOnCompleteListener {
+                    Glide.with(imgProfile).load(it.result.toString()).into(imgProfile)
+                }
+
+            val user = userViewModel.getUserByID(friendUserID)
+
+            tvName.text = user!!.username
+        }
     }
 }

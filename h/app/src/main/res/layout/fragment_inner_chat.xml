@@ -237,24 +237,14 @@
                 app:layout_constraintStart_toEndOf="@id/btnAddAttachmentInnerChat" />
 
             <ImageView
-                android:id="@+id/btnVoiceInnerChat"
+                android:id="@+id/btnSendInnerChat"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/baseline_keyboard_voice_24"
+                android:src="@drawable/baseline_send_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/txtChatInnerChat" />
-
-            <ImageView
-                android:id="@+id/btnCameraInnerChat"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="7dp"
-                android:src="@drawable/baseline_photo_camera_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnVoiceInnerChat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
