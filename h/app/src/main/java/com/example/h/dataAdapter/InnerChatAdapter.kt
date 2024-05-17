@@ -51,9 +51,15 @@ class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<Recycl
         val chatLine = chatLineList[position]
 
         if (holder is SendViewHolder) {
+            val stringList = chatLine.content.split('$')
 
-
-            holder.tvMessage.text = chatLine.content
+            if (stringList.size > 1) {
+                holder.tvMessage.text = stringList[0]
+                holder.containerBtn.visibility = View.VISIBLE
+            } else {
+                holder.tvMessage.text = chatLine.content
+                holder.containerBtn.visibility = View.GONE
+            }
 
             val dateTime = LocalDateTime.parse(chatLine.dateTime, dateTimeFormat)
             val txtTime = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString()
@@ -61,7 +67,15 @@ class InnerChatAdapter(val currentUserID : String) : RecyclerView.Adapter<Recycl
             holder.tvTime.text = txtTime
 
         } else if (holder is ReceiveViewHolder){
-            holder.tvMessage.text = chatLine.content
+            val stringList = chatLine.content.split('$')
+
+            if (stringList.size > 1) {
+                holder.tvMessage.text = stringList[0]
+                holder.cardViewBtn.visibility = View.VISIBLE
+            } else {
+                holder.tvMessage.text = chatLine.content
+                holder.cardViewBtn.visibility = View.GONE
+            }
 
             val dateTime = LocalDateTime.parse(chatLine.dateTime, dateTimeFormat)
             val txtTime = dateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString()

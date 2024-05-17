@@ -127,10 +127,10 @@ class OuterChat : Fragment() {
                                 if (dateTime > lastSeen) {
                                     counter++
                                 } else {
-                                    unseenMsgList.add(counter)
                                     break
                                 }
                             }
+                            unseenMsgList.add(counter)
                         }
 
                         adapter.setUserList(userList)
@@ -175,52 +175,52 @@ class OuterChat : Fragment() {
                             userList.clear()
 
                             lastChatList =
-                                lastChat.sortedByDescending { it.dateTime }.toMutableList()
+                                lastChat.sortedByDescending {it.dateTime }.toMutableList()
+                        }
 
-                            lastChatList.forEach { chatLine ->
-                                val chat = chatViewModel.getChatByID(chatLine.chatID)!!
+                        lastChatList.forEach { chatLine ->
+                            val chat = chatViewModel.getChatByID(chatLine.chatID)!!
 
-                                val userID: String
-                                val lastSeen: LocalDateTime
+                            val userID: String
+                            val lastSeen: LocalDateTime
 
-                                if (chat.initiatorUserID == currentUserID) {
-                                    userID = chat.receiverUserID
-                                    lastSeen =
-                                        LocalDateTime.parse(chat.initiatorLastSeen, dateTimeFormat)
-                                } else {
-                                    userID = chat.initiatorUserID
-                                    lastSeen =
-                                        LocalDateTime.parse(chat.receiverLastSeen, dateTimeFormat)
-                                }
-
-                                val user = userViewModel.getUserByID(userID)
-                                userList.add(user!!)
-
-                                val chatLineList = chatLineViewModel.getChatLine(chat.chatID).toMutableList()
-                                chatLineList.sortByDescending { it.dateTime }
-
-                                var counter = 0
-                                for (eachChatLine in chatLineList) {
-                                    val dateTime = LocalDateTime.parse(
-                                        eachChatLine.dateTime,
-                                        dateTimeFormat
-                                    )
-
-                                    if (dateTime > lastSeen) {
-                                        counter++
-                                    } else {
-                                        unseenMsgList.add(counter)
-                                        break
-                                    }
-                                }
+                            if (chat.initiatorUserID == currentUserID) {
+                                userID = chat.receiverUserID
+                                lastSeen =
+                                    LocalDateTime.parse(chat.initiatorLastSeen, dateTimeFormat)
+                            } else {
+                                userID = chat.initiatorUserID
+                                lastSeen =
+                                    LocalDateTime.parse(chat.receiverLastSeen, dateTimeFormat)
                             }
 
-                            adapter.setUserList(userList)
-                            adapter.setLastChatList(lastChatList, unseenMsgList)
-                            recyclerView.adapter = adapter
+                            val user = userViewModel.getUserByID(userID)
+                            userList.add(user!!)
 
-                            // can add a "No such friend" if no record
+                            val chatLineList = chatLineViewModel.getChatLine(chat.chatID).toMutableList()
+                            chatLineList.sortByDescending { it.dateTime }
+
+                            var counter = 0
+                            for (eachChatLine in chatLineList) {
+                                val dateTime = LocalDateTime.parse(
+                                    eachChatLine.dateTime,
+                                    dateTimeFormat
+                                )
+
+                                if (dateTime > lastSeen) {
+                                    counter++
+                                } else {
+                                    unseenMsgList.add(counter)
+                                    break
+                                }
+                            }
                         }
+
+                        adapter.setUserList(userList)
+                        adapter.setLastChatList(lastChatList, unseenMsgList)
+                        recyclerView.adapter = adapter
+
+                        // can add a "No such friend" if no record
                     }
                 })
 
