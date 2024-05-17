@@ -34,7 +34,7 @@ class OuterChat : Fragment() {
     private lateinit var chatViewModel : ChatViewModel
     private lateinit var chatLineViewModel : ChatLineViewModel
 
-    private var userList : ArrayList<User> = arrayListOf()
+    private var userList = mutableListOf<User>()
     private var lastChatList = mutableListOf<ChatLine>()
     private var unseenMsgList : ArrayList<Int> = arrayListOf()
 
@@ -85,8 +85,6 @@ class OuterChat : Fragment() {
                 chatIDList.add(it.chatID)
             }
 
-            chatLineViewModel.fetchLastChatList(chatIDList)
-
             chatLineViewModel.lastChatLineList.observe(viewLifecycleOwner, Observer { lastChat ->
                 lifecycleScope.launch {
                     if (lastChat != null) {
@@ -94,50 +92,57 @@ class OuterChat : Fragment() {
                         unseenMsgList.clear()
                         userList.clear()
 
-                        lastChatList = lastChat.sortedByDescending { it.dateTime }.toMutableList()
+                        lastChatList =
+                            lastChat.sortedByDescending { it.dateTime }.toMutableList()
 
-                        lastChatList.forEach {  chatLine ->
+                        lastChatList.forEach { chatLine ->
                             val chat = chatViewModel.getChatByID(chatLine.chatID)!!
 
-                            val userID : String
-                            val lastSeen : LocalDateTime
+                            val userID: String
+                            val lastSeen: LocalDateTime
 
                             if (chat.initiatorUserID == currentUserID) {
                                 userID = chat.receiverUserID
-                                lastSeen = LocalDateTime.parse(chat.initiatorLastSeen, dateTimeFormat)
+                                lastSeen =
+                                    LocalDateTime.parse(chat.initiatorLastSeen, dateTimeFormat)
                             } else {
                                 userID = chat.initiatorUserID
-                                lastSeen = LocalDateTime.parse(chat.receiverLastSeen, dateTimeFormat)
+                                lastSeen =
+                                    LocalDateTime.parse(chat.receiverLastSeen, dateTimeFormat)
                             }
 
                             val user = userViewModel.getUserByID(userID)
                             userList.add(user!!)
 
-                            chatLineViewModel.chatLineList.observe(viewLifecycleOwner, Observer { chatLines ->
-                                val chatLineList = mutableListOf<ChatLine>()
-                                chatLineList.addAll(chatLines)
-                                chatLineList.sortByDescending { it.dateTime }
+                            val chatLineList = chatLineViewModel.getChatLine(chat.chatID).toMutableList()
+                            chatLineList.sortByDescending { it.dateTime }
 
-                                var counter = 0
-                                for (eachChatLine in chatLineList) {
-                                    val dateTime = LocalDateTime.parse(eachChatLine.dateTime, dateTimeFormat)
+                            var counter = 0
+                            for (eachChatLine in chatLineList) {
+                                val dateTime = LocalDateTime.parse(
+                                    eachChatLine.dateTime,
+                                    dateTimeFormat
+                                )
 
-                                    if (dateTime > lastSeen) {
-                                        counter++
-                                    } else {
-                                        unseenMsgList.add(counter)
-                                        break
-                                    }
+                                if (dateTime > lastSeen) {
+                                    counter++
+                                } else {
+                                    unseenMsgList.add(counter)
+                                    break
                                 }
-                            })
+                            }
                         }
 
                         adapter.setUserList(userList)
                         adapter.setLastChatList(lastChatList, unseenMsgList)
                         recyclerView.adapter = adapter
+
+                        // can add a "No such friend" if no record
                     }
                 }
             })
+
+            chatLineViewModel.fetchLastChatList(chatIDList)
         }
     }
 
@@ -162,8 +167,6 @@ class OuterChat : Fragment() {
                     }
                 }
 
-                chatLineViewModel.fetchLastChatList(chatIDList)
-
                 chatLineViewModel.lastChatLineList.observe(viewLifecycleOwner, Observer { lastChat ->
                     lifecycleScope.launch {
                         if (lastChat != null) {
@@ -173,8 +176,6 @@ class OuterChat : Fragment() {
 
                             lastChatList =
                                 lastChat.sortedByDescending { it.dateTime }.toMutableList()
-
-
 
                             lastChatList.forEach { chatLine ->
                                 val chat = chatViewModel.getChatByID(chatLine.chatID)!!
@@ -195,28 +196,23 @@ class OuterChat : Fragment() {
                                 val user = userViewModel.getUserByID(userID)
                                 userList.add(user!!)
 
-                                chatLineViewModel.chatLineList.observe(
-                                    viewLifecycleOwner,
-                                    Observer { chatLines ->
-                                        val chatLineList = mutableListOf<ChatLine>()
-                                        chatLineList.addAll(chatLines)
-                                        chatLineList.sortByDescending { it.dateTime }
+                                val chatLineList = chatLineViewModel.getChatLine(chat.chatID).toMutableList()
+                                chatLineList.sortByDescending { it.dateTime }
 
-                                        var counter = 0
-                                        for (eachChatLine in chatLineList) {
-                                            val dateTime = LocalDateTime.parse(
-                                                eachChatLine.dateTime,
-                                                dateTimeFormat
-                                            )
+                                var counter = 0
+                                for (eachChatLine in chatLineList) {
+                                    val dateTime = LocalDateTime.parse(
+                                        eachChatLine.dateTime,
+                                        dateTimeFormat
+                                    )
 
-                                            if (dateTime > lastSeen) {
-                                                counter++
-                                            } else {
-                                                unseenMsgList.add(counter)
-                                                break
-                                            }
-                                        }
-                                    })
+                                    if (dateTime > lastSeen) {
+                                        counter++
+                                    } else {
+                                        unseenMsgList.add(counter)
+                                        break
+                                    }
+                                }
                             }
 
                             adapter.setUserList(userList)
@@ -227,6 +223,8 @@ class OuterChat : Fragment() {
                         }
                     }
                 })
+
+                chatLineViewModel.fetchLastChatList(chatIDList)
             }
         }
     }

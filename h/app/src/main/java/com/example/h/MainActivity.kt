@@ -15,10 +15,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.h.data.Chat
+import com.example.h.data.ChatLine
 import com.example.h.data.Friend
 import com.example.h.data.Profile
 import com.example.h.data.User
 import com.example.h.saveSharedPreference.SaveSharedPreference
+import com.example.h.viewModel.ChatLineViewModel
+import com.example.h.viewModel.ChatViewModel
 import com.example.h.viewModel.FriendViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
@@ -37,8 +41,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userViewModel : UserViewModel
     private lateinit var profileViewModel : ProfileViewModel
     private lateinit var friendViewModel : FriendViewModel
+    private lateinit var chatViewModel : ChatViewModel
+    private lateinit var chatLineViewModel : ChatLineViewModel
 
-    lateinit var toolbarContainer : FrameLayout
+    private lateinit var toolbarContainer : FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,6 +144,8 @@ class MainActivity : AppCompatActivity() {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
+        chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+        chatLineViewModel = ViewModelProvider(this).get(ChatLineViewModel::class.java)
 
         // initForTesting()
     }
@@ -145,12 +153,12 @@ class MainActivity : AppCompatActivity() {
     fun initForTesting() {
 
         val userList : List<User> = listOf(
-            User("0", "Ali", "Ali@gmail.com", "0123456789", "01-01-2003", "AliPsw", "What is your favourite movie?"),
-            User("0", "Bali", "Bali@gmail.com", "0198765432", "01-02-2003", "BaliPsw", "What is your favourite pet?"),
-            User("0", "Cali", "Cali@gmail.com", "0135792468", "01-03-2003", "CaliPsw", "What is your favourite month?"),
-            User("0", "Dali", "Dali@gmail.com", "0124683579", "01-04-2003", "DaliPsw", "What is your favourite subject?"),
-            User("0", "Eali", "Eali@gmail.com", "0192348765", "01-05-2003", "EaliPsw", "What is your favourite fruit?"),
-            User("0", "Fali", "Fali@gmail.com", "0127893456", "01-06-2003", "FaliPsw", "What is your favourite food?"),
+            User("U100", "Ali", "Ali@gmail.com", "0123456789", "01-01-2003", "AliPsw", "What is your favourite movie?"),
+            User("U101", "Bali", "Bali@gmail.com", "0198765432", "01-02-2003", "BaliPsw", "What is your favourite pet?"),
+            User("U102", "Cali", "Cali@gmail.com", "0135792468", "01-03-2003", "CaliPsw", "What is your favourite month?"),
+            User("U103", "Dali", "Dali@gmail.com", "0124683579", "01-04-2003", "DaliPsw", "What is your favourite subject?"),
+            User("U104", "Eali", "Eali@gmail.com", "0192348765", "01-05-2003", "EaliPsw", "What is your favourite fruit?"),
+            User("U105", "Fali", "Fali@gmail.com", "0127893456", "01-06-2003", "FaliPsw", "What is your favourite food?"),
         )
 
         val profileList : List<Profile> = listOf(
@@ -163,12 +171,21 @@ class MainActivity : AppCompatActivity() {
         )
 
         val friendList : List<Friend> = listOf(
-            Friend("0", "U100", "U101", "Friend"),
-            Friend("0", "U102", "U100", "Friend"),
-            Friend("0", "U103", "U100", "Friend"),
-            Friend("0", "U100", "U104", "Friend"),
-            Friend("0", "U105", "U101", "Friend"),
-            Friend("0", "U101", "U102", "Friend"),
+            Friend("F100", "U100", "U101", "Friend"),
+            Friend("F101", "U102", "U100", "Friend"),
+            Friend("F102", "U103", "U100", "Friend"),
+            Friend("F103", "U100", "U104", "Friend"),
+            Friend("F104", "U105", "U101", "Friend"),
+            Friend("F105", "U101", "U102", "Friend"),
+        )
+
+        val chatList : List<Chat> = listOf(
+            Chat("C100", "U100", "U101", "2024-05-17 16:00:00", "2024-05-17 16:00:00")
+        )
+
+        val chatLineList : List<ChatLine> = listOf(
+            ChatLine("CL100", "U100", "2024-05-17 15:58:00", "C100", "Hello I am Ali"),
+            ChatLine("CL101", "U101", "2024-05-17 15:58:20", "C100", "Hello Ali"),
         )
 
 
@@ -203,6 +220,30 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     // Handle exceptions if needed
                     Toast.makeText(this@MainActivity, "Error adding friend", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            chatList.forEach { chat ->
+                chatViewModel.addChat(chat)
+                try {
+
+                    // Delay for a short period to ensure sequential addition
+                    delay(1000)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding chat", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            chatLineList.forEach { chatLine ->
+                chatLineViewModel.addChatLine(chatLine)
+                try {
+
+                    // Delay for a short period to ensure sequential addition
+                    delay(1000)
+                } catch (e: Exception) {
+                    // Handle exceptions if needed
+                    Toast.makeText(this@MainActivity, "Error adding chatLine", Toast.LENGTH_LONG).show()
                 }
             }
         }

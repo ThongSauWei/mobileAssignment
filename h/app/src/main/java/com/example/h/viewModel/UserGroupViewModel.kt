@@ -23,12 +23,22 @@ class UserGroupViewModel(application : Application) : AndroidViewModel(applicati
         }
     }
 
+    suspend fun getUserGroup(userID : String, groupID : String) : UserGroup? {
+        return userGroupRepository.getUserGroup(userID, groupID)
+    }
+
     suspend fun getUserGroupByGroup(groupID : String) : List<UserGroup> {
         return userGroupRepository.getUserGroupByGroup(groupID)
     }
 
     suspend fun  getUserGroupByUser(userID : String) : List<UserGroup> {
         return userGroupRepository.getUserGroupByUser(userID)
+    }
+
+    fun updateLastSeen(userGroup : UserGroup) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userGroupRepository.updateLastSeen(userGroup)
+        }
     }
 
     fun deleteUserGroup(userGroupID : String) {

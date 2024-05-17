@@ -13,6 +13,10 @@ class GroupRepository(private val groupDao : GroupDAO) {
         return groupDao.getGroup(groupID)
     }
 
+    suspend fun searchGroup(searchText : String) : List<Group> {
+        return groupDao.searchGroup(searchText)
+    }
+
     fun deleteGroup(groupID : String) {
         groupDao.deleteGroup(groupID)
     }

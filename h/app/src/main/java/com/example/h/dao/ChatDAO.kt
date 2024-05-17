@@ -114,6 +114,15 @@ class ChatDAO {
         }
     }
 
+    fun updateLastSeen(chat : Chat) {
+        dbRef.child(chat.chatID).setValue(chat)
+            .addOnCompleteListener {
+
+            }.addOnFailureListener {
+
+            }
+    }
+
     fun deleteChat(chatID : String) {
         dbRef.child(chatID).removeValue()
             .addOnCompleteListener {
