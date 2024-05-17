@@ -6,9 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +24,7 @@ import com.example.h.data.GroupChatLine
 import com.example.h.data.User
 import com.example.h.data.UserGroup
 import com.example.h.dataAdapter.GroupAdapter
+import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.ChatLineViewModel
 import com.example.h.viewModel.ChatViewModel
 import com.example.h.viewModel.GroupChatLineViewModel
@@ -45,6 +51,10 @@ class Groups : Fragment() {
 
     private lateinit var currentUserID : String
 
+    private lateinit var btnSearch : AppCompatButton
+    private lateinit var cardViewBtnSearch : CardView
+    private lateinit var layout : ConstraintLayout
+
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     override fun onCreateView(
@@ -59,13 +69,19 @@ class Groups : Fragment() {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
         groupChatViewModel = ViewModelProvider(this).get(GroupChatLineViewModel::class.java)
+        userGroupViewModel = ViewModelProvider(this).get(UserGroupViewModel::class.java)
+
+        currentUserID = SaveSharedPreference.getUserID(requireContext())
 
         recyclerView = view.findViewById(R.id.recyclerViewGroupGroups)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
         adapter.setFragmentManager(parentFragmentManager)
 
-        val btnSearch : AppCompatButton = view.findViewById(R.id.btnSearchGroups)
+        layout = view.findViewById(R.id.scrollViewLayout)
+
+        cardViewBtnSearch = view.findViewById(R.id.cardViewBtnSearchGroups)
+        btnSearch = view.findViewById(R.id.btnSearchGroups)
         val txtSearch : EditText = view.findViewById(R.id.txtSearchGroups)
 
         setupDefault()
@@ -79,6 +95,9 @@ class Groups : Fragment() {
     }
 
     private fun setupDefault() {
+        lastChatList.clear()
+        groupList.clear()
+        unseenMsgList.clear()
 
         lifecycleScope.launch {
             val userGroupList = userGroupViewModel.getUserGroupByUser(currentUserID).toMutableList()
@@ -115,13 +134,57 @@ class Groups : Fragment() {
                 }
                 unseenMsgList.add(counter)
             }
-            adapter.setGroupList(groupList)
-            adapter.setLastChatList(lastChatList, unseenMsgList)
-            recyclerView.adapter = adapter
+            
+            if (groupList.size > 0) {
+                adapter.setGroupList(groupList)
+                adapter.setLastChatList(lastChatList, unseenMsgList)
+                recyclerView.adapter = adapter
+            } else {
+                noGroupSetup()
+            }
         }
     }
 
     private fun searchGroup(txtSearch : String) {
 
+    }
+    
+    private fun noGroupSetup() {
+        val tvNoGroup = TextView(requireContext())
+        tvNoGroup.id = View.generateViewId()
+        tvNoGroup.text = "You have No Group"
+        tvNoGroup.typeface = ResourcesCompat.getFont(requireContext(), R.font.caveat)
+        tvNoGroup.setTextColor(requireContext().getColor(R.color.sub_text))
+        tvNoGroup.textSize = 30f
+
+        layout.addView(tvNoGroup)
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(layout)
+
+        constraintSet.connect(
+            tvNoGroup.id,
+            ConstraintSet.TOP,
+            cardViewBtnSearch.id,
+            ConstraintSet.BOTTOM,
+            150
+        )
+
+        constraintSet.connect(
+            tvNoGroup.id,
+            ConstraintSet.START,
+            layout.id,
+            ConstraintSet.START
+        )
+
+        constraintSet.connect(
+            tvNoGroup.id,
+            ConstraintSet.END,
+            layout.id,
+            ConstraintSet.END
+        )
+
+        // apply the constraints to the layout
+        constraintSet.applyTo(layout)
     }
 }

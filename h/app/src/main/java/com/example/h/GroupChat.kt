@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +24,7 @@ import com.example.h.dataAdapter.InnerChatAdapter
 import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.GroupChatLineViewModel
 import com.example.h.viewModel.GroupViewModel
+import com.example.h.viewModel.UserGroupViewModel
 import com.example.h.viewModel.UserViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -42,6 +46,7 @@ class GroupChat : Fragment() {
     private val storageRef : StorageReference = FirebaseStorage.getInstance().getReference()
 
     private lateinit var groupChatLineViewModel : GroupChatLineViewModel
+    private lateinit var userGroupViewModel : UserGroupViewModel
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -74,6 +79,7 @@ class GroupChat : Fragment() {
         currentUserID = SaveSharedPreference.getUserID(requireContext())
 
         groupChatLineViewModel = ViewModelProvider(this).get(GroupChatLineViewModel::class.java)
+        userGroupViewModel = ViewModelProvider(this).get(UserGroupViewModel::class.java)
 
         recyclerView = view.findViewById(R.id.recyclerViewChatGroupChat)
         adapter = GroupChatAdapter(currentUserID)
@@ -82,15 +88,42 @@ class GroupChat : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
+        val layout : ConstraintLayout = view.findViewById(R.id.layoutGroupChat)
+        val btnMore : ImageView = view.findViewById(R.id.btnMoreGroupChat)
         val btnBack : ImageView = view.findViewById(R.id.btnBackGroupChat)
         val txtChat : EditText = view.findViewById(R.id.txtChatGroupChat)
         val btnSend : ImageView = view.findViewById(R.id.btnSendGroupChat)
+        val btnCardViewBtnLeaveGroup : CardView = view.findViewById(R.id.cardViewBtnLeaveGroupGroupChat)
         imgProfile = view.findViewById(R.id.imgGroupGroupChat)
         tvName = view.findViewById(R.id.tvNameGroupChat)
 
         btnBack.setOnClickListener {
             // chatViewModel.updateLastSeen(chatID, currentUserID)
             activity?.supportFragmentManager?.popBackStack()
+        }
+
+        layout.setOnClickListener {
+            btnCardViewBtnLeaveGroup.visibility = View.GONE
+        }
+
+        btnMore.setOnClickListener {
+            val btnLeaveGroup : AppCompatButton = view.findViewById(R.id.btnLeaveGroupGroupChat)
+
+            btnCardViewBtnLeaveGroup.visibility = View.VISIBLE
+
+            btnLeaveGroup.setOnClickListener {
+                lifecycleScope.launch {
+                    val userGroup = userGroupViewModel.getUserGroup(currentUserID, groupID)
+                    userGroupViewModel.deleteUserGroup(userGroup!!.userGroupID)
+
+                    val transaction = activity?.supportFragmentManager?.beginTransaction()
+                    val fragment = Groups()
+
+                    transaction?.replace(R.id.fragmentContainerView, fragment)
+                    transaction?.addToBackStack(null)
+                    transaction?.commit()
+                }
+            }
         }
 
         btnSend.setOnClickListener {
@@ -127,7 +160,7 @@ class GroupChat : Fragment() {
 
             val group = groupViewModel.getGroup(groupID)!!
 
-            val ref = storageRef.child("imageProfile").child(group.groupID + ".png")
+            val ref = storageRef.child("imgGroup").child(group.groupID + ".png")
 
             ref.downloadUrl
                 .addOnCompleteListener {

@@ -18,11 +18,15 @@ import androidx.core.view.marginStart
 import androidx.core.view.setMargins
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.h.GroupChat
 import com.example.h.InnerChat
 import com.example.h.R
 import com.example.h.data.Group
 import com.example.h.data.GroupChatLine
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.FirebaseStorage.*
+import com.google.firebase.storage.StorageReference
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -34,6 +38,7 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
     private var unseenMsgList = emptyList<Int>()
 
     private lateinit var fragmentManager : FragmentManager
+    private lateinit var storageRef : StorageReference
 
     private val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -54,6 +59,8 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.friend_holder, parent, false)
 
+        storageRef = getInstance().getReference()
+
         return GroupHolder(itemView)
     }
 
@@ -67,6 +74,13 @@ class GroupAdapter : RecyclerView.Adapter <GroupAdapter.GroupHolder>() {
 
         holder.tvName.text = currentGroup.groupName
         holder.tvText.text = lastChat.content
+
+        val ref = storageRef.child("imgGroup").child(currentGroup.groupID + ".png")
+
+        ref.downloadUrl
+            .addOnCompleteListener {
+                Glide.with(holder.imgProfile).load(it.result.toString()).into(holder.imgProfile)
+            }
 
         val dateTime = LocalDateTime.parse(lastChat.dateTime, dateTimeFormat)
         val duration = Duration.between(LocalDateTime.now(), dateTime)

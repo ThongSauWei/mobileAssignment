@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.h.data.Chat
 import com.example.h.data.ChatLine
 import com.example.h.data.Friend
@@ -28,6 +29,8 @@ import com.example.h.viewModel.FriendViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserViewModel
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -47,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbarContainer : FrameLayout
 
+    private lateinit var storageRef : StorageReference
+
+    private lateinit var userID : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,6 +71,10 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        userID = SaveSharedPreference.getUserID(this)
+
+        storageRef = FirebaseStorage.getInstance().getReference()
 
         navigationView.setNavigationItemSelectedListener {
                 menuItem ->
@@ -269,6 +280,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar : View = layoutInflater.inflate(toolbarLayoutResId, toolbarContainer, false)
 
         val btnSearchToolbarWithProfile = toolbar.findViewById<ImageView>(R.id.btnSearchToolbarWithProfile)
+        val imgProfile = toolbar.findViewById<ImageView>(R.id.imgProfileToolbarWithProfile)
 
         btnSearchToolbarWithProfile.setOnClickListener {
             val fragment = SearchPost()
@@ -277,6 +289,22 @@ class MainActivity : AppCompatActivity() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
+        imgProfile.setOnClickListener {
+            val fragment = com.example.h.Profile()
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainerView, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        val ref = storageRef.child("imageProfile").child(userID + ".png")
+
+        ref.downloadUrl
+            .addOnCompleteListener {
+                Glide.with(imgProfile).load(it.result.toString()).into(imgProfile)
+            }
+
 
         toolbarContainer.addView(toolbar)
         toolbarContainer.setBackgroundColor(this.getColor(bgColorResId))
@@ -288,9 +316,6 @@ class MainActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             openDrawer()
         }
-
-
-
     }
 
     fun setToolbar() {

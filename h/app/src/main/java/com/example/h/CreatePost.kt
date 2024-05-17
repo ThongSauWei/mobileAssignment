@@ -177,18 +177,6 @@ class CreatePost : Fragment() {
             isValid = false
         }
 
-        val category = ddlCategoryCreatePost.selectedItemPosition
-        if (category == 0) {
-            Toast.makeText(requireContext(), "Please select a category", Toast.LENGTH_SHORT).show()
-            isValid = false
-        }
-
-        val learningStyle = ddlLearningStyleCreatePost.selectedItemPosition
-        if (learningStyle == 0) {
-            Toast.makeText(requireContext(), "Please select a learning style", Toast.LENGTH_SHORT).show()
-            isValid = false
-        }
-
         return isValid
     }
 

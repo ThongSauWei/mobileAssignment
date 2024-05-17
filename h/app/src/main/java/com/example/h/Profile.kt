@@ -61,8 +61,6 @@ class Profile : Fragment() {
 
     private val imagePickRequestCode = 1000
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,7 +69,6 @@ class Profile : Fragment() {
         (activity as MainActivity).setToolbar(R.layout.toolbar_with_profile, R.color.profile_bg)
         profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
-        loadProfilePicture()
         nameProfile = view.findViewById(R.id.tvNameProfile)
         DOBProfile = view.findViewById(R.id.tvDOBProfile)
         courseProfile = view.findViewById(R.id.tvCoursesProfile)
@@ -90,7 +87,7 @@ class Profile : Fragment() {
         scCreatePost = view.findViewById(R.id.btnCreatePostProfile)
         currentUserID = SaveSharedPreference.getUserID(requireContext())
         profileDao = ProfileDAO()
-        storageRef = FirebaseStorage.getInstance().reference.child("profile_images")
+        storageRef = FirebaseStorage.getInstance().getReference()
 
         friendViewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
@@ -101,7 +98,7 @@ class Profile : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
-        scCreatePost.setOnClickListener{
+        scCreatePost.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val fragment = CreatePost()
             transaction?.replace(R.id.fragmentContainerView, fragment)
@@ -121,7 +118,7 @@ class Profile : Fragment() {
             pickImageFromGallery()
         }
 
-        ttlFriendProfile.setOnClickListener{
+        ttlFriendProfile.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val fragment = Friends()
             transaction?.replace(R.id.fragmentContainerView, fragment)
@@ -129,7 +126,7 @@ class Profile : Fragment() {
             transaction?.commit()
         }
 
-        lblFriendClick.setOnClickListener{
+        lblFriendClick.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val fragment = Friends()
             transaction?.replace(R.id.fragmentContainerView, fragment)
@@ -137,7 +134,7 @@ class Profile : Fragment() {
             transaction?.commit()
         }
 
-        lblGroupClick.setOnClickListener{
+        lblGroupClick.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val fragment = Groups()
             transaction?.replace(R.id.fragmentContainerView, fragment)
@@ -145,7 +142,7 @@ class Profile : Fragment() {
             transaction?.commit()
         }
 
-        ttlGroupProfile.setOnClickListener{
+        ttlGroupProfile.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             val fragment = Groups()
             transaction?.replace(R.id.fragmentContainerView, fragment)
@@ -161,20 +158,17 @@ class Profile : Fragment() {
             transaction?.commit()
         }
 
-        // Display user's posts
-        //displayUserPosts()
-
         return view
     }
 
-    private fun setupProfileInfo(userID : String){
-        val userViewModel : UserViewModel =
+    private fun setupProfileInfo(userID: String) {
+        val userViewModel: UserViewModel =
             ViewModelProvider(this).get(UserViewModel::class.java)
-        val profileViewModel : ProfileViewModel =
+        val profileViewModel: ProfileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val userGroupViewModel : UserGroupViewModel =
+        val userGroupViewModel: UserGroupViewModel =
             ViewModelProvider(this).get(UserGroupViewModel::class.java)
-        val postViewModel : PostViewModel =
+        val postViewModel: PostViewModel =
             ViewModelProvider(this).get(PostViewModel::class.java)
 
         lifecycleScope.launch {
@@ -186,38 +180,31 @@ class Profile : Fragment() {
 
             nameProfile.text = user.username
             DOBProfile.text = user.userDOB
-            if (profile != null) {
-                courseProfile.text = profile.userCourse
-            }
-            if (profile != null) {
-                userBIOProfile.text = profile.userBio
-            }
-            if (profile != null) {
-                languageProfile.text = profile.userChosenLanguage
-            }
+            courseProfile.text = profile?.userCourse ?: ""
+            userBIOProfile.text = profile?.userBio ?: ""
+            languageProfile.text = profile?.userChosenLanguage ?: ""
             ttlGroupProfile.text = totalGroup.toString()
             ttlFriendProfile.text = totalFriend.toString()
 
-            if (postList.size > 0) {
+            if (postList.isNotEmpty()) {
                 val adapter = PostAdapter(postList)
                 adapter.setViewModel(userViewModel)
                 recyclerView.adapter = adapter
             }
-
         }
     }
 
     private fun loadProfilePicture() {
         val userID = SaveSharedPreference.getUserID(requireContext())
-        lifecycleScope.launch {
-            val profile = profileViewModel.getProfile(userID)
-            profile?.let {
-                val imageUrl = it.userImage
-                // Load image using Picasso
+        val ref = storageRef.child("imageProfile").child("$userID.png")
+
+        ref.downloadUrl.addOnCompleteListener {
+            if (it.isSuccessful) {
+                val imageUrl = it.result.toString()
                 val imageView = view?.findViewById<ImageView>(R.id.imgProfileProfile)
-                if (imageUrl.isNotEmpty()) {
-                    Picasso.get().load(imageUrl).into(imageView)
-                }
+                Picasso.get().load(imageUrl).into(imageView)
+            } else {
+                Toast.makeText(requireContext(), "Failed to load profile picture", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -238,20 +225,14 @@ class Profile : Fragment() {
     }
 
     private fun updateProfilePicture(imageUri: Uri) {
-        // Upload the image to Firebase Storage
-        val imageRef = storageRef.child("$currentUserID.jpg")
+        val imageRef = storageRef.child("imageProfile").child("$currentUserID.png")
         imageRef.putFile(imageUri)
-            .addOnSuccessListener { taskSnapshot ->
-                // Get the download URL of the uploaded image
+            .addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
                     val newImageUrl = downloadUri.toString()
-                    // Update the user's profile picture URL in Firebase Database
                     profileDao.updateProfilePicture(currentUserID, newImageUrl)
-                    // Load the updated profile picture
                     loadProfilePicture()
-
                     navigateToProfile()
-
                     Toast.makeText(requireContext(), "Image change successful!", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -262,10 +243,9 @@ class Profile : Fragment() {
 
     private fun navigateToProfile() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        val fragment = com.example.h.Profile()
+        val fragment = Profile()
         transaction?.replace(R.id.fragmentContainerView, fragment)
         transaction?.addToBackStack(null)
         transaction?.commit()
     }
-
 }

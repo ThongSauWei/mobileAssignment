@@ -17,9 +17,6 @@ class ChatLineViewModel(application : Application) : AndroidViewModel(applicatio
     private val _chatLineList = MutableLiveData<List<ChatLine>>()
     val chatLineList : LiveData<List<ChatLine>> get() = _chatLineList
 
-    private val _lastChatLineList = MutableLiveData<List<ChatLine>>()
-    val lastChatLineList : LiveData<List<ChatLine>> get() = _lastChatLineList
-
     init {
         val chatLineDao = ChatLineDAO()
         chatLineRepository = ChatLineRepository(chatLineDao)
@@ -47,16 +44,14 @@ class ChatLineViewModel(application : Application) : AndroidViewModel(applicatio
         return chatLineRepository.getLastChat(chatID)
     }
 
-    fun fetchLastChatList(chatIDList : List<String>) {
-        viewModelScope.launch {
-            val newList = mutableListOf<ChatLine>()
-            chatIDList.forEach {
-                val chatLine = getLastChat(it)
-                newList.add(chatLine!!)
-            }
-            _lastChatLineList.postValue(newList)
-
+    suspend fun getLastChatList(chatIDList : List<String>) : List<ChatLine> {
+        val newList = mutableListOf<ChatLine>()
+        chatIDList.forEach {
+            val chatLine = getLastChat(it)
+            newList.add(chatLine!!)
         }
+
+        return newList
     }
 
     fun deleteChatLine(chatLineID : String, chatID : String) {

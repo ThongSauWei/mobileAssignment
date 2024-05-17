@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutGroupChat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -11,9 +12,9 @@
         android:id="@+id/headerGroupChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btnBackGroupChat"
@@ -93,11 +94,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-16dp"
             android:layout_marginEnd="-8dp"
+            android:visibility="gone"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toStartOf="@+id/btnMoreGroupChat"
-            app:layout_constraintTop_toBottomOf="@+id/btnMoreGroupChat"
-            android:visibility="gone">
+            app:layout_constraintTop_toBottomOf="@+id/btnMoreGroupChat">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLeaveGroupGroupChat"
