@@ -4,28 +4,22 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.GridLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import com.example.h.dao.ProfileDAO
 import com.example.h.data.Post
-import com.example.h.data.Profile
 import com.example.h.dataAdapter.PostAdapter
 import com.example.h.saveSharedPreference.SaveSharedPreference
 import com.example.h.viewModel.FriendViewModel
@@ -33,10 +27,6 @@ import com.example.h.viewModel.PostViewModel
 import com.example.h.viewModel.ProfileViewModel
 import com.example.h.viewModel.UserGroupViewModel
 import com.example.h.viewModel.UserViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
@@ -277,28 +267,5 @@ class Profile : Fragment() {
         transaction?.addToBackStack(null)
         transaction?.commit()
     }
-
-    /*private fun displayUserPosts() {
-        val database = FirebaseDatabase.getInstance()
-        val ref = database.getReference("Posts").child(userID) // Assuming Posts are stored under each user's ID
-
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val container = view?.findViewById<LinearLayout>(R.id.containerForPosts)
-                dataSnapshot.children.forEach { postSnapshot ->
-                    val post = postSnapshot.getValue(String::class.java)
-                    if (post != null) {
-                        val cardView = layoutInflater.inflate(R.layout.cardview_post, null) as CardView
-                        val textViewPost = cardView.findViewById<TextView>(R.id.textViewPost)
-                        textViewPost.text = post
-                        container?.addView(cardView)
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("ProfileFragment", "Failed to read value.", databaseError.toException())
-            }
-        })*/
 
 }

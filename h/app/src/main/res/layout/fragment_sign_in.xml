@@ -98,7 +98,7 @@
         android:id="@+id/cardViewBtnSignInSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,59 +118,25 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/tvOptionSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/caveat"
-        android:text="@string/sign_in_with"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewBtnSignInSignIn" />
-
-    <ImageButton
-        android:id="@+id/imgBtnGoogleSignIn"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/google"
-        app:layout_constraintStart_toStartOf="@+id/cardViewBtnSignInSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/tvOptionSignIn" />
-
-    <Button
-        android:id="@+id/btnFacebookSignIn"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#2D5FDF"
-        android:text="FaceBook"
-        android:textSize="16sp"
-        app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/cardViewBtnSignInSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/tvOptionSignIn" />
-
     <Button
         android:id="@+id/btnRegisterSignIn"
         android:layout_width="122dp"
         android:layout_height="42dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="60dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/caveat"
         android:text="@string/underlined_sign_up"
         android:textColor="@color/link"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtnGoogleSignIn" />
+        app:layout_constraintTop_toBottomOf="@+id/cardViewBtnSignInSignIn" />
 
     <Button
         android:id="@+id/btnForgetSignIn"
         android:layout_width="168dp"
         android:layout_height="42dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="44dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/caveat"
         android:text="@string/underlined_forget_password"
